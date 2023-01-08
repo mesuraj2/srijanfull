@@ -24,7 +24,6 @@ import {
   Text,
   Stack,
   Avatar,
-  useColorModeValue,
   Flex,
   Spacer,
 } from "@chakra-ui/react";
@@ -48,7 +47,7 @@ export default function alloffer({ totaloffer }) {
           <div className="carddesign" key={offer._id}>
             <Box
               maxW={"445px"}
-              bg={useColorModeValue("white", "gray.900")}
+              bg={[("white", "gray.900")]}
               boxShadow={"xl"}
               rounded={"md"}
               p={6}
@@ -83,7 +82,7 @@ export default function alloffer({ totaloffer }) {
                   Offer
                 </Text>
                 <Heading
-                  color={useColorModeValue("gray.700", "white")}
+                  color={[("gray.700", "white")]}
                   fontSize={"2xl"}
                   fontFamily={"body"}
                 >
@@ -142,7 +141,7 @@ export default function alloffer({ totaloffer }) {
               Offer
             </Text>
             <Heading
-              color={useColorModeValue("gray.700", "white")}
+              color={[("gray.700", "white")]}
               fontSize={"2xl"}
               fontFamily={"body"}
             >
@@ -164,7 +163,7 @@ export default function alloffer({ totaloffer }) {
             w="49%"
             mx='1px'
             h="49%"
-            bg={useColorModeValue("white", "gray.900")}
+            bg={[("white", "gray.900")]}
             boxShadow={"xl"}
             rounded={"md"}
             p={6}
@@ -199,7 +198,7 @@ export default function alloffer({ totaloffer }) {
                 Offer
               </Text>
               <Heading
-                color={useColorModeValue("gray.700", "white")}
+                color={[("gray.700", "white")]}
                 fontSize={"2xl"}
                 fontFamily={"body"}
               >
@@ -211,7 +210,7 @@ export default function alloffer({ totaloffer }) {
             w="49%"
             h="49%"
             mx='1px'
-            bg={useColorModeValue("white", "gray.900")}
+            bg={[("white", "gray.900")]}
             boxShadow={"xl"}
             rounded={"md"}
             p={6}
@@ -246,7 +245,7 @@ export default function alloffer({ totaloffer }) {
                 Offer
               </Text>
               <Heading
-                color={useColorModeValue("gray.700", "white")}
+                color={[("gray.700", "white")]}
                 fontSize={"2xl"}
                 fontFamily={"body"}
               >
@@ -258,7 +257,7 @@ export default function alloffer({ totaloffer }) {
             w="49%"
             h="49%"
             mx='1px'
-            bg={useColorModeValue("white", "gray.900")}
+            bg={[("white", "gray.900")]}
             boxShadow={"xl"}
             rounded={"md"}
             p={6}
@@ -293,7 +292,7 @@ export default function alloffer({ totaloffer }) {
                 Offer
               </Text>
               <Heading
-                color={useColorModeValue("gray.700", "white")}
+                color={[("gray.700", "white")]}
                 fontSize={"2xl"}
                 fontFamily={"body"}
               >
@@ -305,7 +304,7 @@ export default function alloffer({ totaloffer }) {
             w="49%"
             h="49%"
             mx='1px'
-            bg={useColorModeValue("white", "gray.900")}
+            bg={[("white", "gray.900")]}
             boxShadow={"xl"}
             rounded={"md"}
             p={6}
@@ -340,7 +339,7 @@ export default function alloffer({ totaloffer }) {
                 Offer
               </Text>
               <Heading
-                color={useColorModeValue("gray.700", "white")}
+                color={[("gray.700", "white")]}
                 fontSize={"2xl"}
                 fontFamily={"body"}
               >
