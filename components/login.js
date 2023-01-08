@@ -81,6 +81,7 @@ const CFaLock = chakra(FaLock);
       let data2=await res.json()
       secureLocalStorage.setItem("user", JSON.stringify(data2))
       setsess(true)
+      setUser(data2);
       onClose()
       }
   }
