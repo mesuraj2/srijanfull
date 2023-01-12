@@ -48,6 +48,41 @@ router.get("/offernearyou",async (req,res)=>{
     }
 })
 
+router.get("/frontpageOffer",async (req,res)=>{
+    try {
+          const cloth = await offer.find(
+   {
+     Location:
+       { $near :
+          {
+            $geometry: { type: "Point",  coordinates: [ 17.6043852, 78.1222225 ] },
+            $maxDistance: 100000
+          }
+       },
+       Category:"cloth"
+    }
+    ).select('-Location').limit(5)
+
+    const book = await offer.find(
+        {
+          Location:
+            { $near :
+               {
+                 $geometry: { type: "Point",  coordinates: [ 17.6043852, 78.1222225 ] },
+                 $maxDistance: 100000
+               }
+            },
+            Category:"book"
+         }
+         ).select('-Location').limit(5)
+
+    const fullGroupChat=cloth.concat(book)
+          res.status(200).json(fullGroupChat);
+    } catch (error) {
+        res.send(error)
+    }
+})
+
 router.get("/topChatnearYou",async (req,res)=>{
     try {
           const fullGroupChat = await Chat.find(
