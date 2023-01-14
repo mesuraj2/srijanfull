@@ -76,6 +76,17 @@ flex-direction:column;
   padding: 1px 1px 7px 7px;
   width: 285px;
 }
+.carddesign2{
+  padding: 1px 1px 7px 7px;
+  width: 232px;
+}
+
+@media only screen and (max-width: 630px) {
+  .carddesign2{
+    padding: 1px 1px 7px 7px;
+    width: 99%;
+  }
+}
 @media only screen and (max-width: 630px) {
   .carddesign{
     padding: 1px 1px 7px 7px;

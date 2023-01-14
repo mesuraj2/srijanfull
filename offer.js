@@ -30,13 +30,15 @@ router.post("/",fetchuser,async (req,res)=>{
     }
 })
 router.get("/offernearyou",async (req,res)=>{
+  const {coordinate}=req.body;
+  let location=JSON.parse(coordinate);
     try {
           const fullGroupChat = await offer.find(
    {
      Location:
        { $near :
           {
-            $geometry: { type: "Point",  coordinates: [ 17.6043852, 78.1222225 ] },
+            $geometry: { type: "Point",  coordinates: location },
             $maxDistance: 100000
           }
        }
@@ -48,27 +50,29 @@ router.get("/offernearyou",async (req,res)=>{
     }
 })
 
-router.get("/frontpageOffer",async (req,res)=>{
+router.post("/frontpageOffer",async (req,res)=>{
+  const {coordinate}=req.body;
+  let location=JSON.parse(coordinate);
     try {
           const cloth = await offer.find(
    {
      Location:
        { $near :
           {
-            $geometry: { type: "Point",  coordinates: [ 17.6043852, 78.1222225 ] },
+            $geometry: { type: "Point",  coordinates: location },
             $maxDistance: 100000
           }
        },
        Category:"cloth"
     }
-    ).select('-Location').limit(5)
+    ).select('-Location').limit(4)
 
     const book = await offer.find(
         {
           Location:
             { $near :
                {
-                 $geometry: { type: "Point",  coordinates: [ 17.6043852, 78.1222225 ] },
+                 $geometry: { type: "Point",  coordinates: location },
                  $maxDistance: 100000
                }
             },

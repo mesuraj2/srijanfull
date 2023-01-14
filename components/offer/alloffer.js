@@ -16,6 +16,7 @@ import Link from "next/link";
 //   )
 // }
 import Offerdesign1 from "./offerdesign1";
+import Offerdesign2 from "./offerdesign2";
 import Carausal from "./carausal";
 import Image from "next/image";
 import {
@@ -41,13 +42,21 @@ export default function alloffer({ totaloffer }) {
     <>
     <div className="Offerdesign">
       <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
+        OfferDesign2
+      </Text>
+      <Offerdesign2/>
+      </div>
+    <div className="Offerdesign">
+      <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
         Category
       </Text>
       <div className="mflex">
         {totaloffer.map((offer) => (
           // <div className='card-design' key={offer._id}> <Link href={`/offer/${offer._id}`}>{offer.offername}</Link></div>
           <div className="carddesign" key={offer._id}>
-            <Box
+            {
+              offer.Category=='cloth' && 
+              <Box
               // maxW={['0px',"445px"]}
               bg={"whiteAlpha.200"}
               boxShadow={"xl"}
@@ -91,6 +100,7 @@ export default function alloffer({ totaloffer }) {
                 </Heading>
               </Stack>
             </Box>
+            }
           </div>
         ))}
       </div>

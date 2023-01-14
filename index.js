@@ -5,7 +5,9 @@ const cors=require('cors')
 const Chat=require('./chat')
 const Message=require('./message')
 const Offer=require('./offer')
+let fileupload=require('express-fileupload')
 const next = require("next");
+const {v4} =require('uuid')
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -24,6 +26,21 @@ connectDB();
 // server.use(cors({origin:'http://localhost:3000'}))
 
 server.use(Express.json());
+server.use(fileupload())
+
+server.post('/upload',(req,res)=>{
+  // console.log(req.files)
+  const file=req.files.pic
+  // console.log(file.name)
+  const string=v4()
+  const url=string+file.name
+  console.log(url)
+  file.mv("./public/img/"+url,function(err){
+    if(!err){
+      res.send(url)
+    }
+  })
+})
 
 server.use("/api/auth",User);
 server.use("/api/chat",Chat)
