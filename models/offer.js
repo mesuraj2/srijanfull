@@ -11,6 +11,10 @@ const Offerschema=mongoose.Schema({
       type:String,
       required:true
     },
+    pic:{
+      type:String,
+      default:"https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+  },
     Desc:{
       type:String,
       required:true

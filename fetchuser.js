@@ -13,7 +13,6 @@ const fetchuser = (req,res,next)=>{
     const data =jwt.verify(token,SECRET_KEY);
     // console.log(data.user)
     req.user=data.user;
-
     next();
 } catch (error) {
     res.send({error:'please authenticate first'})

@@ -18,7 +18,8 @@ var transporter = nodemailer.createTransport({
   });
 
   
-router.post('/',async (req,res)=>{
+router.post('/', async (req,res)=>{
+    console.log(req.imgurl)
     const user=await User.findOne({email:req.body.email})
     if(user){
         return res.json({message:"email already exits",emailExits:true})
@@ -46,7 +47,8 @@ router.post('/',async (req,res)=>{
     result= await  User.create({
     name:req.body.name,
     email:req.body.email,
-    password:pass
+    password:pass,
+    pic:req.body.url
    })
    const data={
     user:{

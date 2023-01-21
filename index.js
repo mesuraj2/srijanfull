@@ -9,6 +9,15 @@ let fileupload=require('express-fileupload')
 const next = require("next");
 const {v4} =require('uuid')
 
+var Spaces = require('digitalocean-spaces')
+global.fetch = require('node-fetch')
+
+var spaces = new Spaces({
+    accessKey: 'DO00HZCQ2HNXHYC82T2N',
+    secretKey: 'QRGv9sAWo1/RiANRbIC3t8ZHPEGeahwQjDzV1YcqZrE',
+    region: 'nyc3'
+});
+
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -28,19 +37,30 @@ connectDB();
 server.use(Express.json());
 server.use(fileupload())
 
-server.post('/upload',(req,res)=>{
+server.post('/upload', async (req,res)=>{
   // console.log(req.files)
   const file=req.files.pic
-  // console.log(file.name)
-  const string=v4()
-  const url=string+file.name
-  console.log(url)
-  file.mv("./public/img/"+url,function(err){
-    if(!err){
-      res.send(url)
-    }
-  })
+
+  let bucket = 'poolandsave';
+        let key = 'suraj kumar.jpg';
+        let body = req.files.pic;
+
+        let putResponse = await spaces.putObject({bucket, key, body})
+
+        console.log(`put status: ${putResponse.status}`)
+        console.log(`put response body: '${await putResponse.text()}'`)
+  // // console.log(file.name)
+  // const string=v4()
+  // const url=string+file.name.replace(/\s+/g, '-');
+  // // console.log(url)
+  // file.mv("./public/img/"+url,function(err){
+  //   if(!err){
+  //     res.send("/img/"+url)
+  //   }
+  // })
 })
+
+
 
 server.use("/api/auth",User);
 server.use("/api/chat",Chat)

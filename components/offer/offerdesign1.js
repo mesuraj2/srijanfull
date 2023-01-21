@@ -48,8 +48,8 @@ export default function Offerdesign1() {
          pos={"relative"}
        >
          <Image
-         src="/img/1.jpeg"
-           layout={"fill"}
+         src='/img/4b614640-2784-4574-b74f-db78343dc582Picsart_22-07-14_22-44-44-615.jpg'
+          layout={"fill"}
          />
        </Box>
        <Stack>

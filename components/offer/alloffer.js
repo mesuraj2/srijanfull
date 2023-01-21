@@ -1,20 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ChatState } from "../../Context/ChatProvider";
 
-// export default function alloffer({totaloffer}) {
-
-//   return (
-//     <>
-//     <div >{
-//          totaloffer.map((offer)=>(
-//             <div className='card-design' key={offer._id}> <Link href={`/offer/${offer._id}`}>{offer.offername}</Link></div>
-//         ))
-//         }
-//     </div>
-//     </>
-//   )
-// }
 import Offerdesign1 from "./offerdesign1";
 import Offerdesign2 from "./offerdesign2";
 import Carausal from "./carausal";
@@ -38,17 +26,28 @@ import { Grid, GridItem } from "@chakra-ui/react";
 // }
 
 export default function alloffer({ totaloffer }) {
+  const { city,latitude,longitude,setlatitude,setlongitude,setcity } =
+  ChatState();
+  useEffect(() => {
+    setlatitude(JSON.parse(localStorage.getItem('coordinates'))[0])
+    setlongitude(JSON.parse(localStorage.getItem('coordinates'))[1])
+  }, [])
+  
+
+  
   return (
     <>
     <div className="Offerdesign">
       <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
         OfferDesign2
+        <Link href={`/categoryOfferDetail?category=cloth&lat=${latitude}&long=${longitude}`}>more</Link>
       </Text>
       <Offerdesign2/>
       </div>
     <div className="Offerdesign">
       <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
         Category
+        
       </Text>
       <div className="mflex">
         {totaloffer.map((offer) => (

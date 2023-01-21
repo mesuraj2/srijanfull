@@ -8,15 +8,16 @@ const fetchuser=require('./fetchuser')
 
 
 router.post("/",fetchuser,async (req,res)=>{
-    const {Offername,coordinate,offer_chat_id,desc,category}=req.body;
+    const {Offername,coordinate,offer_chat_id,desc,category,url}=req.body;
     console.log(desc)
     let location=JSON.parse(coordinate);
     // var locat= location.map(String)
     try {
         const offer1 = await offer.create({
             offername:Offername,
-	    Category:category,
+	          Category:category,
             Desc:desc,
+            pic:url,
             Location:{
                 type: "Point",
                 coordinates: location
@@ -32,6 +33,7 @@ router.post("/",fetchuser,async (req,res)=>{
 router.get("/offernearyou",async (req,res)=>{
   const {coordinate}=req.body;
   let location=JSON.parse(coordinate);
+  console.log(typeof(location))
     try {
           const fullGroupChat = await offer.find(
    {
@@ -53,6 +55,7 @@ router.get("/offernearyou",async (req,res)=>{
 router.post("/frontpageOffer",async (req,res)=>{
   const {coordinate}=req.body;
   let location=JSON.parse(coordinate);
+
     try {
           const cloth = await offer.find(
    {
@@ -101,6 +104,30 @@ router.get("/topChatnearYou",async (req,res)=>{
    }
 )
           res.status(200).json(fullGroupChat);
+    } catch (error) {
+        res.send(error)
+    }
+})
+
+
+// specific product detail
+router.get("/allOffer/",async (req,res)=>{
+   let coordinte=[parseFloat(req.query.lat),parseFloat(req.query.long)]
+  console.log(typeof(coordinte))
+    try {
+          const fullResult = await offer.find(
+   {
+     Location:
+       { $near :
+          {
+            $geometry: { type: "Point",  coordinates:coordinte},
+            $maxDistance: 100000
+          }
+       },
+       Category:req.query.category
+    }
+    ).select('-Location')
+         res.status(200).json(fullResult);
     } catch (error) {
         res.send(error)
     }
