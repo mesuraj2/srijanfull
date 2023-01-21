@@ -25,7 +25,7 @@ import {
             mr={['0px','13px']}
             maxW={'330px'}
             w={'full'}
-            bg={useColorModeValue('white', 'gray.800')}
+            // bg={useColorModeValue('white', 'gray.800')}
             boxShadow={'xl'}
             rounded={'lg'}
             pos={'relative'}

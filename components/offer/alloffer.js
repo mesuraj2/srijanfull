@@ -25,7 +25,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 //   );
 // }
 
-export default function alloffer({ totaloffer }) {
+export default function Alloffer({ totaloffer }) {
   const { city,latitude,longitude,setlatitude,setlongitude,setcity } =
   ChatState();
   useEffect(() => {

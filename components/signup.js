@@ -303,7 +303,7 @@ const Form1 = () => {
           Email address
         </FormLabel>
         <Input id="email" type="email" />
-        <FormHelperText>We'll never share your email.</FormHelperText>
+        <FormHelperText>Well never share your email.</FormHelperText>
       </FormControl>
 
       <FormControl>
@@ -527,7 +527,7 @@ const Form3 = () => {
   );
 };
 
-export default function multistep() {
+export default function Multistep() {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(33.33);
