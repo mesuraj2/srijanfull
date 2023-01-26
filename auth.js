@@ -97,14 +97,14 @@ router.post('/login',async (req,res)=>{
     const {email,password}=req.body;
     const user=await User.findOne({email:email})
     if(!user){
-        return res.json({message:"enter correct data"})
+        return res.json({message:"enter correct data",success:false})
     }
     if(!user.isverified){
         return res.json({isverified:false})
     }
    const compare=await bcrypt.compare(password,user.password)
    if(!compare){
-    return res.json({message:"enter correct data"})
+    return res.json({message:"enter correct data",success:false})
    }
    const data={
     user:{

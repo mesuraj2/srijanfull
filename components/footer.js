@@ -52,6 +52,7 @@ const SocialButton = ({
 
 export default function LargeWithAppLinksAndSocial() {
   return (
+    <footer>
     <Box
       bg={useColorModeValue('gray.50', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}>
@@ -117,5 +118,6 @@ export default function LargeWithAppLinksAndSocial() {
         </Container>
       </Box>
     </Box>
+    </footer>
   );
 }

@@ -67,6 +67,15 @@ const CFaLock = chakra(FaLock);
           position: "bottom",
         });
       }
+      else if(data.success==false){
+        toast({
+          title: "Incorect credientals",
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
       else{
       secureLocalStorage.setItem("token",data.authtoken);
       secureLocalStorage.setItem("id",data.id);

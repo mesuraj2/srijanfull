@@ -14,7 +14,7 @@ import {
 
   
   export default function CategoryOfferDetail({Offerdetail}) {
-    console.log(Offerdetail)
+    // console.log(Offerdetail)
     return (
       <Center py={12} flexWrap='wrap' backgroundColor={'#e4e4e4'}>
         {Offerdetail.map((offer)=>

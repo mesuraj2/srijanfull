@@ -12,6 +12,8 @@ import React from 'react'
 
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import { NextSeo } from 'next-seo';
+import { useToast } from '@chakra-ui/react';
 
 
 
@@ -22,12 +24,11 @@ export default function Index() {
 //   const [latitude, setlatitude] = useState()
 // const [longitude, setlongitude] = useState()
 // const [city, setcity] = useState()
+const toast =useToast()
 const { city,latitude,longitude,setlatitude,setlongitude,setcity } =
 ChatState();
 
   const getoffernearyou=async ()=>{
-   await getpostion()
-    // console.log(JSON.parse(localStorage.getItem("coordinates")))
     const { data } = await axios.post(
       `/api/offer/frontpageOffer`,
       {
@@ -36,7 +37,7 @@ ChatState();
       },
     );
     setAlloffer(data)
-  }
+    }
 
   const getallchatnearyou=async ()=>{
       const res =await fetch(`/api/offer/topChatnearYou`, {
@@ -47,11 +48,15 @@ ChatState();
   setAllchat(allchat)
   }
   useEffect(() => {
+   if(localStorage.getItem("coordinates")){
     getoffernearyou()
     getallchatnearyou()
+   }
   }, [])
 
   const getpostion=async()=>{
+    getoffernearyou()
+    getallchatnearyou()
     navigator.geolocation.getCurrentPosition(
       position => { 
         setlatitude(position.coords.latitude)
@@ -64,6 +69,7 @@ ChatState();
 
     const {data}=await axios.get(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
     setcity(data.city)
+
   }
 // useEffect(() => {
 // getpostion()
@@ -78,11 +84,13 @@ const uploadImg=async ()=>{
 }
 
 
-
-
-
   return (
-    <div className='bgcolor'>
+    <>
+    <NextSeo
+      title="Poolandsave"
+      description="We are trying to make bridge for connectiong more people together. if they want more people to avail a particular offer then they can pool offer here. we will make a chat thread and they can chat there and can buy it"
+    />
+    <main className='bgcolor'>
       <div className='location_postion'>
       <div>
       <div>{city && city}</div>
@@ -93,8 +101,9 @@ const uploadImg=async ()=>{
       <Link href='/offer_page'>addOffer</Link>
       {/* <Link href="/categoryOfferDetail">OfferPage </Link> */}
 
-      <Offer  alloffer={Alloffer} allchat={Allchat}/>
-    </div>
+      {Alloffer && <Offer  alloffer={Alloffer} allchat={Allchat}/>}
+    </main>
+    </>
   )
 }
 

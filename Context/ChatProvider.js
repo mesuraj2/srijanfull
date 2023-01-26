@@ -18,7 +18,16 @@ const ChatProvider = ({ children }) => {
   useEffect(() => {
     const userInfo = JSON.parse(secureLocalStorage.getItem("user"));
     setUser(userInfo);
-    
+
+    navigator.geolocation.getCurrentPosition(
+      position => { 
+        setlatitude(position.coords.latitude)
+        setlongitude(position.coords.longitude)
+        let coordinate=[position.coords.latitude,position.coords.longitude]
+        localStorage.setItem("coordinates",JSON.stringify(coordinate))
+      }, 
+      err => console.log(err)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
