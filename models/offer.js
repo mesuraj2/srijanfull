@@ -20,9 +20,9 @@ const Offerschema=mongoose.Schema({
       required:true
     },
     chat_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'chat'
-    },
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'chat'
+  },
     Location: {
         type: {
           type: String

@@ -5,7 +5,7 @@ import Allchat from './offer/allchat'
 function Offer({alloffer,allchat}) {
   return (
     <div >
-        <Allchat totalchat={allchat} />
+        {/* <Allchat totalchat={allchat} /> */}
         <div >
            <Alloffer totaloffer={alloffer}/>
         </div>

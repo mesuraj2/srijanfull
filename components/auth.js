@@ -16,6 +16,7 @@ import {
 import { useState,useEffect } from 'react';
 import  secureLocalStorage  from  "react-secure-storage";
 import Login from "./login";
+import { motion } from "framer-motion";
 
 const ProfileModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +32,7 @@ const ProfileModal = ({ children }) => {
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <button onClick={onOpen}>Login</button>
+        <Button bg={'#DD2D4A'} as={motion.button} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:1}} color='white' borderRadius='5px' onClick={onOpen}>Login/Signup</Button>
       )}
       <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />

@@ -68,7 +68,7 @@ router.post("/frontpageOffer",async (req,res)=>{
        },
        Category:"cloth"
     }
-    ).select('-Location').limit(4)
+    ).limit(4)
 
     const book = await offer.find(
         {
@@ -81,7 +81,7 @@ router.post("/frontpageOffer",async (req,res)=>{
             },
             Category:"book"
          }
-         ).select('-Location').limit(5)
+         ).limit(5)
 
     const fullGroupChat=cloth.concat(book)
           res.status(200).json(fullGroupChat);
@@ -126,7 +126,7 @@ router.get("/allOffer/",async (req,res)=>{
        },
        Category:req.query.category
     }
-    ).select('-Location')
+    )
          res.status(200).json(fullResult);
     } catch (error) {
         res.send(error)
@@ -136,7 +136,7 @@ router.get("/allOffer/",async (req,res)=>{
 
 router.post("/offerdetail",async (req,res)=>{
     try {
-          const fullGroupChat = await offer.find({_id:req.body.id})
+          let fullGroupChat = await offer.find({_id:req.body.id}).select("-Location").populate("chat_id","Location")
           res.status(200).json(fullGroupChat);
     } catch (error) {
         res.send(error)

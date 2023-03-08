@@ -31,17 +31,17 @@ export default function Alloffer({ totaloffer }) {
   return (
     <>
       <div className="Offerdesign">
-        <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
+        {/* <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
           OfferDesign2
           <Link
             href={`/categoryOfferDetail?category=cloth&lat=${latitude}&long=${longitude}`}
           >
             more
           </Link>
-        </Text>
+        </Text> */}
         <Offerdesign2 />
       </div>
-      <div className="Offerdesign">
+      {/* <div className="Offerdesign">
         <Text fontSize="30px" textAlign={"center"} p="6px" fontWeight="600">
           Category
         </Text>
@@ -95,10 +95,10 @@ export default function Alloffer({ totaloffer }) {
               </div>
             ))}
         </div>
-      </div>
-      <Offerdesign1 />
+      </div> */}
+      {/* <Offerdesign1 />
 
-      <Carausal />
+      <Carausal /> */}
     </>
   );
 }

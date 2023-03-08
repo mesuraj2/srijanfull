@@ -32,9 +32,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Auth from '../../components/auth'
+import haversine from 'haversine-distance'
 
 
 export default function Offerchat({Offerdetail}) {
+  // console.log(Offerdetail.chat_id.Location.coordinates)
+  const [firstChat, setfirstChat] = useState()
+  const [currentLocation, setcurrentLocation] = useState()
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter()
   const [chatid, setchatid] = useState()
@@ -50,6 +54,12 @@ export default function Offerchat({Offerdetail}) {
       settoken(false)
     }
   })
+
+  useEffect(() => {
+    setfirstChat((Offerdetail.chat_id.Location.coordinates).reverse())
+    setcurrentLocation((JSON.parse(localStorage.getItem("coordinates"))).reverse())
+  }, [])
+  
   
 
   const Joinchat= async()=>{
@@ -221,6 +231,9 @@ router.push({pathname:'/chat'})
             px={3}>
            Description:-- {Offerdetail.Desc && Offerdetail.Desc}
           </Text>
+          {
+            firstChat && <div>{(haversine(currentLocation,firstChat))/1000}</div>
+          }
           <Stack
             width={'100%'}
             mt={'2rem'}
