@@ -18,4 +18,5 @@ const fetchuser = (req,res,next)=>{
     res.send({error:'please authenticate first'})
 }
 }
+
 module.exports=fetchuser;

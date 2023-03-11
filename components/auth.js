@@ -34,7 +34,7 @@ const ProfileModal = ({ children }) => {
       ) : (
         <Button bg={'#DD2D4A'} as={motion.button} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:1}} color='white' borderRadius='5px' onClick={onOpen}>Login/Signup</Button>
       )}
-      <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered backdropBlur >
         <ModalOverlay />
         <ModalContent h="410px">
           <ModalCloseButton />

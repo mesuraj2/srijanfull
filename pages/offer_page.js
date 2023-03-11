@@ -3,8 +3,9 @@ import { useState } from 'react';
 import  secureLocalStorage  from  "react-secure-storage";
 import axios from 'axios';
 import { ChatState } from "../Context/ChatProvider";
-
+import {generateUploadURL} from '../config/upload'
 import { useToast } from '@chakra-ui/react';
+// import s3 from '../s3.js'
 
 
 export default function Loc() {
@@ -26,11 +27,24 @@ const { city,latitude,longitude,setlatitude,setlongitude,setcity } =
   }, [])
 
 const uploadImg=async ()=>{
+  
+  // const form=new FormData()
+  // form.append("pic",imageupload)
+  // const {data}=await axios.post("/upload")
+  // console.log(data)
+  const data=await generateUploadURL()
+  console.log(data)
 
-  const form=new FormData()
-  form.append("pic",imageupload)
-  const {data}=await axios.post("/upload",form)
-  setimageurl(data)
+  await fetch(data, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
+    body: imageupload
+  })
+
+  const imageUrl = data.split('?')[0]
+  console.log(imageUrl)
 
 }
 
@@ -84,9 +98,10 @@ const uploadImg=async ()=>{
   return (
     <div>
       <div>
-      <input type="file"  accept="image/jpeg" onChange={(event)=>{setimageupload(event.target.files[0])}}/>
+      <input required type="file"  accept="image/jpeg" onChange={(event)=>{setimageupload(event.target.files[0])}}/>
       <button onClick={uploadImg}>upload</button>
       </div>
+      {/* <img src="https://poolandsave.s3.ap-south-1.amazonaws.com/4b6a590f-5f06-4b71-9cd4-1eac648e3abc" alt="" /> */}
       <form className='offerpagedesign' onSubmit={handleSubmit}>
       <label>Enter your offername:
         <input

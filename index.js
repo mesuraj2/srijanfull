@@ -37,28 +37,33 @@ connectDB();
 server.use(Express.json());
 server.use(fileupload())
 
-server.post('/upload', async (req,res)=>{
+// server.post('/upload', async (req,res)=>{
+//   const url=await generateUploadURL()
+//   res.send(url)
+
+
+  
   // console.log(req.files)
-  const file=req.files.pic
+  // const file=req.files.pic
 
-  let bucket = 'poolandsave';
-        let key = 'suraj kumar.jpg';
-        let body = req.files.pic;
+  // let bucket = 'poolandsave';
+  //       let key = 'suraj kumar.jpg';
+  //       let body = req.files.pic;
 
-        let putResponse = await spaces.putObject({bucket, key, body})
+  //       let putResponse = await spaces.putObject({bucket, key, body})
 
-        console.log(`put status: ${putResponse.status}`)
-        console.log(`put response body: '${await putResponse.text()}'`)
-  // // console.log(file.name)
-  // const string=v4()
-  // const url=string+file.name.replace(/\s+/g, '-');
-  // // console.log(url)
-  // file.mv("./public/img/"+url,function(err){
-  //   if(!err){
-  //     res.send("/img/"+url)
-  //   }
-  // })
-})
+  //       console.log(`put status: ${putResponse.status}`)
+  //       console.log(`put response body: '${await putResponse.text()}'`)
+  // // // console.log(file.name)
+  // // const string=v4()
+  // // const url=string+file.name.replace(/\s+/g, '-');
+  // // // console.log(url)
+  // // file.mv("./public/img/"+url,function(err){
+  // //   if(!err){
+  // //     res.send("/img/"+url)
+  // //   }
+  // // })
+// })
 
 
 

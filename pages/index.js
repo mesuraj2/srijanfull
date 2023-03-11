@@ -17,6 +17,7 @@ import { NextSeo } from 'next-seo';
 import { Box, Flex, Heading, Select, Text, useToast } from '@chakra-ui/react';
 import { ImLocation2 } from 'react-icons/im';
 import { BsFillCartCheckFill } from 'react-icons/bs';
+import { BsFillChatDotsFill } from 'react-icons/bs';
 import { MdLocalOffer } from 'react-icons/md';
 import Carausal from '../components/Carausal';
 
@@ -103,6 +104,10 @@ const getdistance=()=>{
     />
     <main >
       <Flex justifyContent={'flex-end'} alignItems='center' height={'64px'}>
+      <Box display={'flex'} alignItems='center' mr={'1rem'}>
+         <Link href={'/chat'}><BsFillChatDotsFill size={20}/></Link> 
+          <Link href={'/chat'}><Text ml={'0.5rem'}>Chat</Text></Link>
+        </Box>
         <Box display={'flex'} alignItems='center' mr={'1rem'}>
           <ImLocation2 size={20}/>
           <Select placeholder='Location' border={'none'}>
