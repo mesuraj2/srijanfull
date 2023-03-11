@@ -4,19 +4,15 @@ const connectDB = require("./db");
 const cors = require("cors");
 const Chat = require("./chat");
 const Message = require("./message");
+const upload = require("./upload");
 const Offer = require("./offer");
-let fileupload = require("express-fileupload");
+// let fileupload = require("express-fileupload");
 const next = require("next");
 const { v4 } = require("uuid");
 
-var Spaces = require("digitalocean-spaces");
-global.fetch = require("node-fetch");
 
-var spaces = new Spaces({
-  accessKey: "DO00HZCQ2HNXHYC82T2N",
-  secretKey: "QRGv9sAWo1/RiANRbIC3t8ZHPEGeahwQjDzV1YcqZrE",
-  region: "nyc3",
-});
+
+
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -33,35 +29,14 @@ app
     // server.use(cors({origin:'http://localhost:3000'}))
 
     server.use(Express.json());
-    server.use(fileupload());
+    // server.use(fileupload());
 
-    // server.post('/upload', async (req,res)=>{
-    //   const url=await generateUploadURL()
-    //   res.send(url)
+    
 
-    // console.log(req.files)
-    // const file=req.files.pic
-
-    // let bucket = 'poolandsave';
-    //       let key = 'suraj kumar.jpg';
-    //       let body = req.files.pic;
-
-    //       let putResponse = await spaces.putObject({bucket, key, body})
-
-    //       console.log(`put status: ${putResponse.status}`)
-    //       console.log(`put response body: '${await putResponse.text()}'`)
-    // // // console.log(file.name)
-    // // const string=v4()
-    // // const url=string+file.name.replace(/\s+/g, '-');
-    // // // console.log(url)
-    // // file.mv("./public/img/"+url,function(err){
-    // //   if(!err){
-    // //     res.send("/img/"+url)
-    // //   }
-    // // })
-    // })
+    
 
     server.use("/api/auth", User);
+    server.use("/api/upload", upload);
     server.use("/api/chat", Chat);
     server.use("/api/message", Message);
     server.use("/api/offer", Offer);

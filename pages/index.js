@@ -125,6 +125,8 @@ const getdistance=()=>{
           <Text ml={'0.5rem'}>Offers</Text>
         </Box>
       </Flex>
+      
+
       <Carausal/>
       <Box textAlign={'center'} mt='2rem' boxSizing='border-box' paddingY={'1rem'} >
           <Heading color={'red'} fontSize='1.5rem' fontWeight={'normal'}>OUR CATEGORIES</Heading>
