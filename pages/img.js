@@ -4,7 +4,7 @@ import "cropperjs/dist/cropper.css";
 import axios from "axios";
 import { Spinner } from "@chakra-ui/react";
 
-export default function img() {
+export default function Img() {
   const [newAvatarUrl, setNewAvatarUrl] = useState();
   const [cropper, setCropper] = useState();
   const [loading, setloading] = useState(false);

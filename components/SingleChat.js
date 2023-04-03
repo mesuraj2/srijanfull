@@ -5,21 +5,21 @@ import { Box, Text } from "@chakra-ui/layout";
 // import "./styles.css";
 import { IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 // import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from "react-secure-storage";
 
-
-import io from 'socket.io-client'
+import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
+import ChatTyping from "./chatTyping";
 // let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
-const ENDPOINT = 'http://localhost:3000/'//["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = "http://localhost:3000/"; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
@@ -29,7 +29,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
-  
+
+  const [page, setpage] = useState(1)
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -38,8 +40,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const { selectedChat, setSelectedChat, user,setUser, notification, setNotification } =
-    ChatState();
+  const {
+    selectedChat,
+    setSelectedChat,
+    user,
+    setUser,
+    notification,
+    setNotification,
+  } = ChatState();
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
@@ -47,14 +55,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     try {
       const config = {
         headers: {
-        'auth-token':secureLocalStorage.getItem('token'),
+          "auth-token": secureLocalStorage.getItem("token"),
         },
       };
 
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/allMessage/${selectedChat._id}`,
+        `/api/message/allMessage/${selectedChat._id}?page=${page}`,
         config
       );
       setMessages(data);
@@ -79,12 +87,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   //     socket.on("connected", () => setSocketConnected(true));
   //     socket.on("typing", () => setIsTyping(true));
   //     socket.on("stop typing", () => setIsTyping(false));
-  // }, []) 
+  // }, [])
 
   useEffect(() => {
-    setUser(JSON.parse(secureLocalStorage.getItem('user')))
+    setUser(JSON.parse(secureLocalStorage.getItem("user")));
     socket = io(ENDPOINT);
-    socket.emit("setup", secureLocalStorage.getItem('id'));
+    socket.emit("setup", secureLocalStorage.getItem("id"));
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stop typing", () => setIsTyping(false));
@@ -98,22 +106,25 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const config = {
           headers: {
             "Content-type": "application/json",
-            'auth-token':secureLocalStorage.getItem('token'),
+            "auth-token": secureLocalStorage.getItem("token"),
           },
         };
         setNewMessage("");
         // console.log(selectedChat._id)
-        const res =await fetch(`/api/message`, {
-          method: 'POST', // or 'PUT'
+        const res = await fetch(`/api/message`, {
+          method: "POST", // or 'PUT'
           headers: {
-            'Content-Type': 'application/json',
-            'auth-token':secureLocalStorage.getItem('token')
+            "Content-Type": "application/json",
+            "auth-token": secureLocalStorage.getItem("token"),
           },
-          body:JSON.stringify({content:newMessage,chatId:selectedChat._id}),
-        })
-        let dat= await res.json()
+          body: JSON.stringify({
+            content: newMessage,
+            chatId: selectedChat._id,
+          }),
+        });
+        let dat = await res.json();
         socket.emit("new message", dat);
-        setMessages([...messages, dat]);
+        setMessages([dat,...messages, ]);
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -145,7 +156,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           setFetchAgain(!fetchAgain);
         }
       } else {
-        setMessages([...messages, newMessageRecieved]);
+        setMessages([newMessageRecieved,...messages]);
       }
     });
   });
@@ -228,9 +239,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-              
-              <div className="messages"  >
-                <ScrollableChat messages={messages}  />
+              <div className="messages">
+                <ScrollableChat messages={messages} />
               </div>
             )}
 
@@ -248,7 +258,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     width={70}
                     style={{ marginBottom: 15, marginLeft: 0 }}
                   /> */}
-                 Typing....
+                  <ChatTyping/>
                 </div>
               ) : (
                 <></>

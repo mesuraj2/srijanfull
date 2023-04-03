@@ -7,6 +7,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 import { ChatState } from "../Context/ChatProvider";
 import { useState } from "react";
 import {useToast} from "@chakra-ui/react";
+import { GoogleLogin } from "@react-oauth/google";
 import {
   Flex,
   Heading,
@@ -27,6 +28,7 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 
 
 import Signup from './signup'
+import axios from 'axios';
 
 export default function Login({onClose}) {
   const {register,handleSubmit}=useForm()
@@ -100,6 +102,28 @@ const CFaLock = chakra(FaLock);
       Router.push('/')
     }
   }, [])
+
+  const onSuccess=async (response)=>{
+    // console.log(response.credential)
+    const {data}=await axios.post('/api/auth/google',{
+      tokenid:response.credential
+    })
+    secureLocalStorage.setItem("token",data.authtoken);
+      secureLocalStorage.setItem("id",data.id);
+
+      const res =await fetch('/api/auth/getuser', {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token':secureLocalStorage.getItem('token')
+        },
+      })
+      let data2=await res.json()
+      secureLocalStorage.setItem("user", JSON.stringify(data2))
+      setsess(true)
+      setUser(data2);
+      onClose()
+  }
   
   return (
     <>
@@ -177,7 +201,14 @@ const CFaLock = chakra(FaLock);
         <Link color="teal.500" onClick={()=>setsignup(true)}>
           Sign Up
         </Link>
+
       </Box>
+      <GoogleLogin
+          onSuccess={onSuccess}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
     </Flex>
     )}
     </>
