@@ -11,6 +11,7 @@ import { ChatState } from "../Context/ChatProvider";
 import secureLocalStorage from "react-secure-storage";
 import Router from "next/router";
 import { ClassNames } from "@emotion/react";
+import { getCookie, deleteCookie } from "cookies-next";
 
 export default function MyChats({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState([]);
@@ -25,9 +26,6 @@ export default function MyChats({ fetchAgain }) {
     try {
       const res = await fetch("/api/chat/fetchChat", {
         method: "GET", // or 'PUT'
-        headers: {
-          "auth-token": secureLocalStorage.getItem("token"),
-        },
       });
       let data = await res.json();
       // console.log(data)
@@ -45,15 +43,18 @@ export default function MyChats({ fetchAgain }) {
   };
 
   useEffect(() => {
-    setLoggedUser(JSON.parse(secureLocalStorage.getItem("user")));
-    if (secureLocalStorage.getItem("token")) {
+    setLoggedUser(JSON.parse(localStorage.getItem("user")));
+    if (
+      getCookie("authtoken") !== null &&
+      getCookie("authtoken") !== undefined
+    ) {
       fetchChats();
     }
   }, [fetchAgain]);
   return (
     <Box
       // d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
-      className={selectedChat? "selecof":"selecon"}
+      className={selectedChat ? "selecof" : "selecon"}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -89,7 +90,6 @@ export default function MyChats({ fetchAgain }) {
         p={3}
         bg="#F8F8F8"
         w="100%"
-        h="100%"
         borderRadius="lg"
         overflowY="scroll"
       >

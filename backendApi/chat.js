@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("./models/chat");
-const User = require("./models/users");
-const message = require("./models/Message");
-const offer = require("./models/offer");
+const Chat = require("../models/chat");
+const User = require("../models/users");
+const message = require("../models/Message");
+const offer = require("../models/offer");
 const fetchuser = require("./fetchuser");
 
 //@description     Create or fetch One to One Chat
@@ -272,16 +272,15 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
 });
 
 router.get("/getChatDistance", async (req, res) => {
-  let {coordinate,offerid,distance}=req.body
+  let { coordinate, offerid, distance } = req.body;
   // coordinate=JSON.parse(coordinate)
   const data = await Chat.aggregate([
     {
       $geoNear: {
-        near: { coordinates: [17.6043852, 78.1222225] },
+        near: { coordinates: coordinate},
         distanceField: "ChatDistance",
         distanceMultiplier: 1 / 1000,
-        $maxDistance: 15*000,
-        
+        $maxDistance: 15 * 000,
       },
     },
     // { $project: { shopDistance: 1, } },

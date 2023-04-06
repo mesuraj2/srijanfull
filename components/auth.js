@@ -3,15 +3,11 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
   Button,
   useDisclosure,
-  IconButton,
-  Text,
-  Image,
 } from "@chakra-ui/react"; 
 import { useState,useEffect } from 'react';
 import  secureLocalStorage  from  "react-secure-storage";

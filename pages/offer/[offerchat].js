@@ -12,16 +12,8 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Button,
   useDisclosure,
-  IconButton,
   Text,
 } from "@chakra-ui/react";
 import {
@@ -66,28 +58,9 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
   const [chatDetail, setchatDetail] = useState();
   const [underDistance, setunderDistance] = useState(false);
 
-  useEffect(() => {
-    if (secureLocalStorage.getItem("token")) {
-      settoken(false);
-    }
-  });
-
-  // useEffect(() => {
-  //   setfirstChat((Offerdetail.chat_id.Location.coordinates).reverse())
-  //   setcurrentLocation((JSON.parse(localStorage.getItem("coordinates"))).reverse())
-  // }, [])
-
-  const Joinchat = async () => {
-    
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = {
-      headers: {
-        "auth-token": secureLocalStorage.getItem("token"),
-      },
-    };
+
     const { data } = await axios.post(
       `/api/chat/offerchat`,
       {
@@ -95,7 +68,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         offerid: router.query.offerchat,
         coordinate: JSON.stringify([17.614, 78.0816]),
       },
-      config
     );
     // console.log(data)
     toast({
@@ -109,14 +81,11 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
-        "auth-token": secureLocalStorage.getItem("token"),
       },
       body: JSON.stringify({ ChatId: data._id }),
     });
     let data2 = await res2.json();
-    // console.log(data2)
     setSelectedChat(data2);
-    // setInterval(function(){Router.push("/chat")},2000);
     router.push({ pathname: "/chat" });
     setchatname("");
   };
@@ -124,7 +93,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
   const CheckForChat = async () => {
     setpool2(false);
     if (chatDistance[0]) {
-      if (value < chatDistance[0].Distance+2) {
+      if (value < chatDistance[0].Distance + 2) {
         setunderDistance(true);
       }
     }
@@ -132,11 +101,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
 
   const handlePoolSubmit = async (e) => {
     e.preventDefault();
-    const config = {
-      headers: {
-        "auth-token": secureLocalStorage.getItem("token"),
-      },
-    };
+
     const { data } = await axios.post(
       `/api/chat/offerchat`,
       {
@@ -144,7 +109,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         offerid: router.query.offerchat,
         coordinate: localStorage.getItem("coordinates"),
       },
-      config
     );
     toast({
       title: "successfull created",
@@ -157,19 +121,17 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
-        "auth-token": secureLocalStorage.getItem("token"),
       },
       body: JSON.stringify({ ChatId: data._id }),
     });
     let data2 = await res2.json();
     // console.log(data2)
     setSelectedChat(data2);
-    // setInterval(function(){Router.push("/chat")},2000);
     router.push({ pathname: "/chat" });
     setchatname("");
   };
 
-  const JoinChat=async (id)=>{
+  const JoinChat = async (id) => {
     if (!secureLocalStorage.getItem("token")) {
       // router.push("/Login")
       settoken(true);
@@ -178,7 +140,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         method: "PUT", // or 'PUT'
         headers: {
           "Content-Type": "application/json",
-          "auth-token": secureLocalStorage.getItem("token"),
         },
         body: JSON.stringify({
           userId: secureLocalStorage.getItem("id"),
@@ -198,7 +159,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
           method: "POST", // or 'PUT'
           headers: {
             "Content-Type": "application/json",
-            "auth-token": secureLocalStorage.getItem("token"),
           },
           body: JSON.stringify({ ChatId: id }),
         });
@@ -218,7 +178,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
           method: "POST", // or 'PUT'
           headers: {
             "Content-Type": "application/json",
-            "auth-token": secureLocalStorage.getItem("token"),
           },
           body: JSON.stringify({ ChatId: id }),
         });
@@ -228,10 +187,14 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         router.push({ pathname: "/chat" });
       }
     }
-  }
+  };
   return (
     <>
-      <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+    <NextSeo
+        title={Offerdetail.offername}
+        description={Offerdetail.Desc ? Offerdetail.Desc : "It is best offer"}
+      />
+      {/* <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent h="410px">
           <ModalHeader
@@ -263,7 +226,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
       <Center py={6}>
         <Stack
           borderWidth="1px"
@@ -301,15 +264,6 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
             {firstChat && (
               <div>{haversine(currentLocation, firstChat) / 1000}</div>
             )}
-            {/* <Stack
-              width={"100%"}
-              mt={"2rem"}
-              w="40%"
-              direction={"row"}
-              padding={2}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            > */}
             {pool ? (
               <>
                 {pool2 ? (
@@ -320,17 +274,19 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                     <button onClick={CheckForChat}>Pool Now</button>
                   </>
                 ) : underDistance ? (
-                  <Box>{
-                    chatDistance.map((chat)=>{
+                  <Box>
+                    {chatDistance.map((chat) => {
                       return (
                         <>
-                        <Box>chatName: {chat.chatName} </Box>
-                        <p>{chat.Distance.toFixed(2)}</p>
-                        <Button onClick={()=>JoinChat(chat._id)}>Join Now</Button>
+                          <Box>chatName: {chat.chatName} </Box>
+                          <p>{chat.Distance.toFixed(2)}</p>
+                          <Button onClick={() => JoinChat(chat._id)}>
+                            Join Now
+                          </Button>
                         </>
-                      )
-                    })
-                    }</Box>
+                      );
+                    })}
+                  </Box>
                 ) : (
                   <form onSubmit={handlePoolSubmit}>
                     <SliderInput value={value} setvalue={setvalue} />
@@ -366,9 +322,8 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
 
 export async function getServerSideProps(context) {
   const res = await fetch(
-    `http://localhost:3000/api/offer/offerdetail?lat=${context.query.lat}&long=${context.query.long}`,
+    `${process.env.DOMAIN_URI}/api/offer/offerdetail?lat=${context.query.lat}&long=${context.query.long}`,
     {
-      // const res =await fetch(`https://poolandsave.com/api/offer/offerdetail`, {
       method: "POST", // or 'PUT'
       headers: {
         "Content-Type": "application/json",
@@ -377,7 +332,7 @@ export async function getServerSideProps(context) {
     }
   );
   let data = await res.json();
-  data.data=JSON.parse(data.data)
+  data.data = JSON.parse(data.data);
   return {
     props: { Offerdetail: data.fullGroupChat, chatDistance: data.data }, // will be passed to the page component as props
   };
@@ -411,7 +366,9 @@ function SliderInput({ value, setvalue }) {
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
-          <SliderThumb fontSize="sm" boxSize="32px">{value}</SliderThumb>
+          <SliderThumb fontSize="sm" boxSize="32px">
+            {value}
+          </SliderThumb>
         </Slider>
       </Box>
     </>

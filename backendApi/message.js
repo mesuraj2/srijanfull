@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("./models/chat");
-const User = require("./models/users");
+const Chat = require("../models/chat");
+const User = require("../models/users");
 const fetchuser = require("./fetchuser");
-const Message = require("./models/Message");
+const Message = require("../models/Message");
 
 router.post("/", fetchuser, async (req, res) => {
   const { content, chatId } = req.body;
@@ -34,12 +34,12 @@ router.post("/", fetchuser, async (req, res) => {
   }
 });
 
-router.get("/allMessage/:chatId", async (req, res) => {
-  console.log(req.query.page);
+router.get("/allMessage/:chatId",fetchuser, async (req, res) => {
+  // console.log(req.query.page);
   const message = await Message.find({ chat: req.params.chatId })
     .sort({ createdAt: -1 })
-    .skip((req.query.page - 1) * 25)
-    .limit(25)
+    .skip((req.query.page - 1) * 5)
+    .limit(5)
     .populate("sender", "name pic email")
     .populate("chat");
   res.json(message);

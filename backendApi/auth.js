@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const User = require("./models/users");
+const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
 const nodemailer = require("nodemailer");
+const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
 // const { response } = require("express");
 
-const client = new OAuth2Client(
-  "84972645868-7kfs4978rt0un3mc26lt44at4o98ihej.apps.googleusercontent.com"
-);
+const client = new OAuth2Client(process.env.GoogleClientId);
 
-const SECRET_KEY = "Suraj_kumar";
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
@@ -92,8 +90,7 @@ router.post("/google", async (req, res) => {
   client
     .verifyIdToken({
       idToken: tokenid,
-      audience:
-        '84972645868-7kfs4978rt0un3mc26lt44at4o98ihej.apps.googleusercontent.com',
+      audience: process.env.GoogleClientId,
     })
     .then((response) => {
       const { email, name, picture, email_verified } = response.payload;
@@ -107,10 +104,17 @@ router.post("/google", async (req, res) => {
                   id: user._id,
                 },
               };
-              let token = await jwt.sign(data, SECRET_KEY);
-              res.json({ id: user.id, authtoken: token });
+              let token = await jwt.sign(data, process.env.SECRET_KEY);
+              setCookie("authtoken", token, { req, res });
+              res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                pic: user.pic,
+              });
             } else {
-              const password = email + process.env.GoogleClientId;
+              const salt = await bcrypt.genSalt(10);
+              const password = await bcrypt.hash(req.body.password, salt);
               result = await User.create({
                 name: name,
                 email: email,
@@ -124,7 +128,7 @@ router.post("/google", async (req, res) => {
                 },
               };
               //    console.log(data)
-              var token = await jwt.sign(data, SECRET_KEY);
+              var token = await jwt.sign(data, process.env.SECRET_KEY);
               res.json({ token: token });
             }
           }
@@ -157,7 +161,8 @@ router.get("/searchUser", fetchuser, async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body.value;
+    // console.log(req.body)
     const user = await User.findOne({ email: email });
     if (!user) {
       return res.json({ message: "enter correct data", success: false });
@@ -174,10 +179,14 @@ router.post("/login", async (req, res) => {
         id: user.id,
       },
     };
-    //    console.log(user);
-    //    console.log(data)
-    var token = await jwt.sign(data, SECRET_KEY);
-    res.json({ id: user.id, authtoken: token });
+    var token = await jwt.sign(data, process.env.SECRET_KEY);
+    setCookie("authtoken", token, { req, res });
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+    });
   } catch (error) {
     res.status(500).json("internal server error");
   }

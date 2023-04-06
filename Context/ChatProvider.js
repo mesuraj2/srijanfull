@@ -16,7 +16,7 @@ const ChatProvider = ({ children }) => {
   const [longitude, setlongitude] = useState()
 
   useEffect(() => {
-    const userInfo = JSON.parse(secureLocalStorage.getItem("user"));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     setUser(userInfo);
 
     navigator.geolocation.getCurrentPosition(

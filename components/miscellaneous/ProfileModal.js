@@ -19,13 +19,7 @@ import  secureLocalStorage  from  "react-secure-storage";
 
 const ProfileModal = ({user,children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [user, setuser] = useState([])
-  // useEffect(() => {
-  //   if(secureLocalStorage.getItem('user')){
-  //    setuser(JSON.parse(secureLocalStorage.getItem('user')))
-  //   }
-  //  }, [])
-
+  
   return (
     <>
       {children ? (

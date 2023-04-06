@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Chat = require("./models/chat");
-const User = require("./models/users");
-const message = require("./models/Message");
-const offer = require("./models/offer");
+const Chat = require("../models/chat");
+const User = require("../models/users");
+const message = require("../models/Message");
+const offer = require("../models/offer");
 const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
 
@@ -144,7 +144,7 @@ router.post("/offerdetail", async (req, res) => {
     }
     let distance = chatDistacne.slice(0);
     distance.sort(function (a, b) {
-      return  b.Distance-a.Distance
+      return b.Distance - a.Distance;
     });
     const data = JSON.stringify(distance);
     res.status(200).json({ fullGroupChat, data });

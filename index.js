@@ -1,11 +1,11 @@
 const Express = require("express");
-const User = require("./auth");
-const connectDB = require("./db");
+const User = require("./backendApi/auth");
+const connectDB = require("./backendApi/db");
 const cors = require("cors");
-const Chat = require("./chat");
-const Message = require("./message");
-const upload = require("./upload");
-const Offer = require("./offer");
+const Chat = require("./backendApi/chat");
+const Message = require("./backendApi/message");
+const upload = require("./backendApi/upload");
+const Offer = require("./backendApi/offer");
 // let fileupload = require("express-fileupload");
 const next = require("next");
 const { v4 } = require("uuid");
@@ -59,16 +59,16 @@ app
     });
 
     io.on("connection", (socket) => {
-      console.log("Connected to via locally");
+      // console.log("Connected to via locally");
       socket.on("setup", (userData) => {
-        console.log(userData);
+        // console.log(userData);
         socket.join(userData);
         socket.emit("connected");
       });
 
       socket.on("join chat", (room) => {
         socket.join(room);
-        console.log("User Joined Room: " + room);
+        // console.log("User Joined Room: " + room);
       });
       socket.on("typing", (room) => socket.in(room).emit("typing"));
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
@@ -79,7 +79,7 @@ app
 
         if (!chat.users) return console.log("chat.users not defined");
         chat.users.forEach((user) => {
-          console.log(user._id);
+          // console.log(user._id);
           if (user._id == newMessageRecieved.sender._id) return;
           // console.log("suraj")
           socket.in(user._id).emit("message recieved", newMessageRecieved);

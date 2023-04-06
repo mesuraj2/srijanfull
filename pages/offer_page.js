@@ -8,6 +8,7 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import axios from "axios";
 import { Spinner } from "@chakra-ui/react";
+import { NextSeo } from "next-seo";
 // import s3 from '../s3.js'
 
 export default function Loc() {
@@ -106,69 +107,74 @@ export default function Loc() {
     }
   };
   return (
-    <Box display={'flex'} flexDirection='column' alignItems={'center'} >
-      <div>
-        <input
-          type="file"
-          accept="image/png, image/jpeg, image/jpg"
-          onChange={getNewAvatarUrl}
-          required
-        />
-        {newAvatarUrl && (
-          <Cropper
-            src={newAvatarUrl}
-            style={{ height: 400, width: 400 }}
-            initialAspectRatio={4 / 3}
-            minCropBoxHeight={100}
-            minCropBoxWidth={100}
-            cropBoxResizable={false}
-            guides={false}
-            checkOrientation={false}
-            onInitialized={(instance) => {
-              setCropper(instance);
-            }}
-          />
-        )}
-        {loading && <Spinner />}
-        <Button onClick={getCropData}>Upload</Button>
-        <div>check your location coordinate: {city && city}</div>
-        <Button onClick={getpostion}>updateLocation</Button>
-      </div>
-      <form className="offerpagedesign" onSubmit={handleSubmit}>
-        <label>
-          Enter your offername:
-          <Input
-            type="text"
-            value={offername}
-            onChange={(e) => setoffername(e.target.value)}
+    <>
+    <NextSeo
+        title="NewOffer"
+        description="This page is for creating New Offer"
+      />
+      <Box display={"flex"} flexDirection="column" alignItems={"center"}>
+        <div>
+          <input
+            type="file"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={getNewAvatarUrl}
             required
           />
-        </label>
-        <label>
-          Enter your desc:
-          <Input
-            type="text"
-            value={desc}
-            onChange={(e) => setdesc(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Enter your category:
-          <Input
-            type="text"
-            value={category}
-            onChange={(e) => setcategory(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          
-          <p>lat: {latitude}</p>
-          <p> long: {longitude}</p>
-        </label>
-        <Button type="submit">submit</Button>
-      </form>
-    </Box>
+          {newAvatarUrl && (
+            <Cropper
+              src={newAvatarUrl}
+              style={{ height: 400, width: 400 }}
+              initialAspectRatio={4 / 3}
+              minCropBoxHeight={100}
+              minCropBoxWidth={100}
+              cropBoxResizable={false}
+              guides={false}
+              checkOrientation={false}
+              onInitialized={(instance) => {
+                setCropper(instance);
+              }}
+            />
+          )}
+          {loading && <Spinner />}
+          <Button onClick={getCropData}>Upload</Button>
+          <div>check your location coordinate: {city && city}</div>
+          <Button onClick={getpostion}>updateLocation</Button>
+        </div>
+        <form className="offerpagedesign" onSubmit={handleSubmit}>
+          <label>
+            Enter your offername:
+            <Input
+              type="text"
+              value={offername}
+              onChange={(e) => setoffername(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Enter your desc:
+            <Input
+              type="text"
+              value={desc}
+              onChange={(e) => setdesc(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Enter your category:
+            <Input
+              type="text"
+              value={category}
+              onChange={(e) => setcategory(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            <p>lat: {latitude}</p>
+            <p> long: {longitude}</p>
+          </label>
+          <Button type="submit">submit</Button>
+        </form>
+      </Box>
+    </>
   );
 }

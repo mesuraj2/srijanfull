@@ -3,9 +3,9 @@ import { FormControl } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 // import "./styles.css";
-import { IconButton, Spinner, useToast } from "@chakra-ui/react";
+import { Button, IconButton, Spinner, useToast } from "@chakra-ui/react";
 import { getSender, getSenderFull } from "../config/ChatLogics";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
@@ -18,19 +18,30 @@ import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 import ChatTyping from "./chatTyping";
+import { off } from "../models/chat";
 // let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
-const ENDPOINT = "http://localhost:3000/"; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-  const [page, setpage] = useState(1)
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView();
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const [page, setpage] = useState(1);
 
   const defaultOptions = {
     loop: true,
@@ -53,17 +64,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     if (!selectedChat) return;
 
     try {
-      const config = {
-        headers: {
-          "auth-token": secureLocalStorage.getItem("token"),
-        },
-      };
-
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/allMessage/${selectedChat._id}?page=${page}`,
-        config
+        `/api/message/allMessage/${selectedChat._id}?page=${page}`
       );
       setMessages(data);
       setLoading(false);
@@ -90,7 +94,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   // }, [])
 
   useEffect(() => {
-    setUser(JSON.parse(secureLocalStorage.getItem("user")));
+    setUser(JSON.parse(localStorage.getItem("user")));
     socket = io(ENDPOINT);
     socket.emit("setup", secureLocalStorage.getItem("id"));
     socket.on("connected", () => setSocketConnected(true));
@@ -106,7 +110,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const config = {
           headers: {
             "Content-type": "application/json",
-            "auth-token": secureLocalStorage.getItem("token"),
           },
         };
         setNewMessage("");
@@ -115,7 +118,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           method: "POST", // or 'PUT'
           headers: {
             "Content-Type": "application/json",
-            "auth-token": secureLocalStorage.getItem("token"),
           },
           body: JSON.stringify({
             content: newMessage,
@@ -124,7 +126,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         });
         let dat = await res.json();
         socket.emit("new message", dat);
-        setMessages([dat,...messages, ]);
+        setMessages([dat, ...messages]);
       } catch (error) {
         toast({
           title: "Error Occured!",
@@ -156,7 +158,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           setFetchAgain(!fetchAgain);
         }
       } else {
-        setMessages([newMessageRecieved,...messages]);
+        setMessages([newMessageRecieved, ...messages]);
       }
     });
   });
@@ -179,6 +181,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setTyping(false);
       }
     }, timerLength);
+  };
+
+  const makePage = async () => {
+    setLoading2(true);
+    const { data } = await axios.get(
+      `/api/message/allMessage/${selectedChat._id}?page=${page + 1}`
+    );
+    setMessages([...messages, ...data]);
+    setLoading2(false);
   };
 
   return (
@@ -226,7 +237,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             p={3}
             bg="#E8E8E8"
             w="100%"
-            h="100%"
+            h="91%"
             borderRadius="lg"
             overflowY="scroll"
           >
@@ -239,8 +250,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-              <div className="messages">
+              <div className="flex flex-col ">
+                <Button loading={loading2} onClick={makePage}>
+                  more
+                </Button>
                 <ScrollableChat messages={messages} />
+                <div ref={messagesEndRef} />
               </div>
             )}
 
@@ -258,7 +273,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     width={70}
                     style={{ marginBottom: 15, marginLeft: 0 }}
                   /> */}
-                  <ChatTyping/>
+                  <ChatTyping />
                 </div>
               ) : (
                 <></>
@@ -269,6 +284,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 placeholder="Enter a message.."
                 value={newMessage}
                 onChange={typingHandler}
+                autoComplete={off}
               />
             </FormControl>
           </Box>
