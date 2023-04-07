@@ -69,13 +69,13 @@ export default function Navbar() {
     <header>
       <Box bg={"black"} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton
+          {/* <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
-          />
+          /> */}
           <HStack spacing={8} alignItems={"center"}>
             <Box color={"white"} ml="3rem" width={"12vw"}>
               <Link href="/">Pool & Save</Link>
@@ -141,7 +141,7 @@ export default function Navbar() {
             </Menu>
           </Flex>
         </Flex>
-        {isOpen ? (
+        {/* {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               <Link href="/">Home</Link>
@@ -150,7 +150,7 @@ export default function Navbar() {
               <Link href="/chat">Chat</Link>
             </Stack>
           </Box>
-        ) : null}
+        ) : null} */}
       </Box>
     </header>
   );
