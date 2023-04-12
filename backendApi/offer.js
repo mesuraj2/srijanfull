@@ -6,19 +6,33 @@ const message = require("../models/Message");
 const offer = require("../models/offer");
 const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
+const { off } = require("../models/chat");
+// const querystring = require("querystring");
 
 router.post("/", fetchuser, async (req, res) => {
-  const { Offername, coordinate, offer_chat_id, desc, category, url } =
-    req.body;
+  const {
+    Offername,
+    coordinate,
+    offer_chat_id,
+    desc,
+    category,
+    url,
+    brand,
+    quantity,
+    color,
+  } = req.body;
   console.log(desc);
   let location = JSON.parse(coordinate);
   // var locat= location.map(String)
   try {
     const offer1 = await offer.create({
       offername: Offername,
-      Category: category,
-      Desc: desc,
-      pic: url,
+      category,
+      description: desc,
+      image: url,
+      quantity,
+      brand,
+      color,
       Location: {
         type: "Point",
         coordinates: location,
@@ -104,19 +118,47 @@ router.get("/topChatnearYou", async (req, res) => {
 
 // specific product detail
 router.get("/allOffer/", async (req, res) => {
-  let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)];
-  console.log(typeof coordinte);
+  // console.log(req.query)
   try {
-    const fullResult = await offer.find({
+    // req.query.color=req.query.color.split(',')
+    let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)];
+    let location = {
       Location: {
         $near: {
           $geometry: { type: "Point", coordinates: coordinte },
-          $maxDistance: 100000,
         },
       },
-      //  Category:req.query.category
-    });
-    res.status(200).json(fullResult);
+    };
+    let queryObj = { ...req.query };
+    const excludeFiels = ["page", "sort", "limit", "lat", "long"];
+    excludeFiels.forEach((el) => delete queryObj[el]);
+    const page = req.query.page ? req.query.page : 1;
+    const skip = (page - 1) * 16;
+    
+    let queryObject = { ...queryObj, ...location };
+    let query;
+    if (Array.isArray(req.query.sort)) {
+      let obj = {};
+      req.query.sort.forEach((element) => {
+        obj[element] = 1;
+      });
+      query = await offer.find(queryObject).sort(obj).limit(16).skip(skip);
+    } else {
+      query = await offer
+        .find(queryObject)
+        .sort(req.query.sort)
+        .limit(16)
+        .skip(skip);
+    }
+
+    // console.log(obj)
+    // pagination
+    // const page=req.query.page? req.query.page:0
+    // const skip=(page-1)*16
+    // query=query.skip(skip).limit(16)
+
+    // const offer = await query;
+    res.status(200).json(query);
   } catch (error) {
     res.send(error);
   }

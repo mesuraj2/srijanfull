@@ -1,62 +1,60 @@
-import React, { useState } from "react";
-import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
-import axios from "axios";
-import { Spinner } from "@chakra-ui/react";
+import Router from "next/router";
+import { useEffect, useState } from "react";
+const color = ["red", "black", "blue"];
+export default function img() {
+  const [checke, setChecke] = useState([]);
 
-export default function Img() {
-  const [newAvatarUrl, setNewAvatarUrl] = useState();
-  const [cropper, setCropper] = useState();
-  const [loading, setloading] = useState(false);
-  const getNewAvatarUrl = (e) => {
-    if (e.target.files) {
-      setNewAvatarUrl(URL.createObjectURL(e.target.files[0]));
+  const handleChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setChecke((pre) => [...pre, value]);
+    } else {
+      setChecke((pre) => {
+        return [...pre.filter((color) => color !== value)];
+      });
     }
   };
-
-  const getCropData = async () => {
-    if (cropper) {
-      const file = await fetch(cropper.getCroppedCanvas().toDataURL())
-        .then((res) => res.blob())
-        .then((blob) => {
-          return new File([blob], "newAvatar.png", { type: "image/png" });
-        });
-      if (file) {
-        setloading(true);
-        const form = new FormData();
-        form.append("file", file);
-        const { data } = await axios.post("/api/upload", form);
-        console.log(data);
-        setNewAvatarUrl("");
-        setloading(false);
-      }
+  useEffect(() => {
+    if (checke.length > 0) {
+      const url = checke.join(",");
+      Router.push({
+        pathname: "/img",
+        query: { color: url },
+      });
+    } else {
+      Router.push({
+        pathname: "/img",
+      });
     }
-  };
+  }, [checke]);
 
+  const handlevalue = (value) => {
+    let inp = document.getElementById(value);
+    inp.checked = false;
+    let obj = checke.filter((chck) => chck !== value);
+    setChecke(obj);
+  };
   return (
-    <div>
-      <input
-        type="file"
-        accept="image/png, image/jpeg, image/jpg"
-        onChange={getNewAvatarUrl}
-      />
-      {newAvatarUrl && (
-        <Cropper
-          src={newAvatarUrl}
-          style={{ height: 400, width: 400 }}
-          initialAspectRatio={4 / 3}
-          minCropBoxHeight={100}
-          minCropBoxWidth={100}
-          cropBoxResizable={false}
-          guides={false}
-          checkOrientation={false}
-          onInitialized={(instance) => {
-            setCropper(instance);
-          }}
-        />
-      )}
-      {loading && <Spinner />}
-      <button onClick={getCropData}>Upload</button>
+    <div className="app">
+      {color.map((color, index) => {
+        return (
+          <div key={index}>
+            <input
+              type="checkbox"
+              id={color}
+              value={color}
+              onChange={handleChange}
+            />
+            {color}
+          </div>
+        );
+      })}
+
+      <div>
+        {checke.map((value) => {
+          return <button onClick={() => handlevalue(value)}>{value}</button>;
+        })}
+      </div>
     </div>
   );
 }

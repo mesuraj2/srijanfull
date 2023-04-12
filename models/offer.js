@@ -6,19 +6,39 @@ const Offerschema = mongoose.Schema(
       type: String,
       required: true,
     },
-    Category: {
+    category: {
       type: String,
       required: true,
     },
-    pic: {
-      type: String,
-      default:
-        "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png",
-    },
-    Desc: {
+    brand: {
       type: String,
       required: true,
     },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    sold: {
+      type: Number,
+      default: 0,
+    },
+    image: {
+      type: Array,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    ratings: [
+      {
+        star: Number,
+        postedby: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+      },
+    ],
     chat_id: [
       {
         type: mongoose.Schema.Types.ObjectId,
