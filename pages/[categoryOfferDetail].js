@@ -6,7 +6,12 @@ import {
   Text,
   Stack,
   Image,
+  Button,
+  Icon,
+  IconButton
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
+
 import Offerdesign1 from '../components/offer/offerdesign1'
 import { NextSeo } from "next-seo";
 
@@ -17,9 +22,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 export default function CategoryOfferDetail({Offerdetail}) {
-  const router=useRouter()
-  // console.log(router.query)
-  const [filter, setfilter] = useState(router.query)
+  const [filter, setfilter] = useState([])
+  const tags = ["hii", "hello", "jhxsdsd", "hds", "jksnf", "dsjdns"]
   return (
     <>
     <NextSeo
@@ -28,7 +32,7 @@ export default function CategoryOfferDetail({Offerdetail}) {
       />
       <OptionMenu />
       <Box display={"flex"} borderTop="1px solid grey">
-        <Box width={"21%"} boxSizing="border-box" px={"1rem"}>
+        <Box width={"21%"} boxSizing="border-box" px={"1rem"} overflowY={"scroll"}>
           <Filter filter={filter} setfilter={setfilter}/>
         </Box>
         <Box
@@ -36,7 +40,20 @@ export default function CategoryOfferDetail({Offerdetail}) {
           flexWrap="wrap"
           borderLeft="2px solid #d9d9d9"
         >
-          <Box border="0.5px solid #d9d9d9" boxSizing="border-box" paddingLeft={'0.5rem'}>Home/Clothing</Box>
+          <Box color={"#e45970"} boxSizing="border-box" paddingLeft={'0.5rem'} margin={2}>Home/Clothing</Box>
+          <div className="flex flex-row p-3 m-3">
+            <div className="my-3 w-[70px]">Tags:</div>
+            <div className="flex flex-wrap">
+              {tags.map((item, index) => (
+                <div key={index} className="bg-[#fbea9d] px-[1rem] rounded-full mx-3 my-2 w-fit inline py-1 flex">
+                  {item}
+                  <button>
+                    <CloseIcon marginLeft={2} w={3} h={2} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
           <Offerdesign1 Offerdetail={Offerdetail}/>
         </Box>
       </Box>

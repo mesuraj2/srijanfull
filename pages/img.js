@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { useEffect, useState } from "react";
 const color = ["red", "black", "blue"];
-export default function img() {
+export default function Img() {
   const [checke, setChecke] = useState([]);
 
   const handleChange = (event) => {
@@ -49,12 +49,12 @@ export default function img() {
           </div>
         );
       })}
-      
-    <img src="https://poolandsave.nyc3.digitaloceanspaces.com/d9b6dbd4-55a9-4a94-8c4d-772e56d0f1a4IMG_20220714_212040.jpg" />
+
+      <img src="https://poolandsave.nyc3.digitaloceanspaces.com/d9b6dbd4-55a9-4a94-8c4d-772e56d0f1a4IMG_20220714_212040.jpg" />
 
       <div>
-        {checke.map((value) => {
-          return <button onClick={() => handlevalue(value)}>{value}</button>;
+        {checke.map((value,index) => {
+          return <button key={index} onClick={() => handlevalue(value)}>{value}</button>;
         })}
       </div>
     </div>

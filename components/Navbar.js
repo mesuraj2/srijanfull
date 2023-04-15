@@ -107,10 +107,11 @@ export default function Navbar() {
                 placeholder="Search for Products..."
               />
               <InputRightAddon
-                borderTopRightRadius={"20px"}
-                borderBottomRightRadius="20px"
-                bgColor={"#DD2D4A"}
+                borderTopRightRadius={"full"}
+                borderBottomRightRadius="full"
+                bgColor={"#dd2d4a"}
                 color="white"
+                border={"none"}
               >
                 All
               </InputRightAddon>
