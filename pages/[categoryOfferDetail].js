@@ -43,7 +43,7 @@ export default function CategoryOfferDetail({Offerdetail}) {
             <div className="my-3 w-[70px]">Tags:</div>
             <div className="flex flex-wrap">
               {tags.map((item, index) => (
-                <div className="bg-[#fbea9d] px-[1rem] rounded-full mx-3 my-2 w-fit inline py-1 flex">
+                <div key={index} className="bg-[#fbea9d] px-[1rem] rounded-full mx-3 my-2 w-fit inline py-1 flex">
                   {item}
                   <button>
                     <CloseIcon marginLeft={2} w={3} h={2} />
