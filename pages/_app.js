@@ -8,11 +8,31 @@ import ChatProvider from "../Context/ChatProvider";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
+import Script from "next/script";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
     <>
+      <Script
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-2J1LECGN5B"
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+  gtag('config', 'G-2J1LECGN5B', {
+page_path: window.location.pathname,
+});
+`,
+        }}
+      />
       <GoogleOAuthProvider clientId="84972645868-7kfs4978rt0un3mc26lt44at4o98ihej.apps.googleusercontent.com">
         <ChakraProvider>
           <ChatProvider>
@@ -23,9 +43,13 @@ function MyApp({ Component, pageProps }) {
               />
             </Head>
             <NextNProgress color={"#E0425C"} />
-            {router.pathname !== "/404" && <Navbar />}
-            <Component {...pageProps} />
-            {router.pathname !== "/chat" && router.pathname !== "/404" && <Footer />}
+            <Provider store={store}>
+              {router.pathname !== "/404" && <Navbar />}
+              <Component {...pageProps} />
+              {router.pathname !== "/chat" && router.pathname !== "/404" && (
+                <Footer />
+              )}
+            </Provider>
           </ChatProvider>
         </ChakraProvider>
       </GoogleOAuthProvider>

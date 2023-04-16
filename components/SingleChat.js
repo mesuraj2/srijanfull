@@ -18,7 +18,9 @@ import io from "socket.io-client";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import { ChatState } from "../Context/ChatProvider";
 import ChatTyping from "./chatTyping";
-import { off } from "../models/chat";
+import { useDispatch } from "react-redux";
+
+import { addNotification } from "../redux/NotificationSlice";
 // let socket2 // "https://talk-a-tive.herokuapp.com"; -> After deployment
 const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
@@ -31,6 +33,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const messagesEndRef = useRef(null);
 
@@ -154,7 +157,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved, ...notification]);
+          // console.log(newMessageRecieved.chat);
+          // setNotification([newMessageRecieved, ...notification]);
+          dispatch(
+            addNotification({
+              chat: newMessageRecieved.chat
+            })
+          );
           setFetchAgain(!fetchAgain);
         }
       } else {
@@ -284,7 +293,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 placeholder="Enter a message.."
                 value={newMessage}
                 onChange={typingHandler}
-                autoComplete={off}
+                autoComplete="off"
               />
             </FormControl>
           </Box>

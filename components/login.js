@@ -41,17 +41,17 @@ export default function Login({ onClose }) {
   const handleShowClick = () => setShowPassword(!showPassword);
 
   const loginsubmitForm = async (value) => {
-    const {data}=await axios.post("/api/auth/login",{
-      value
-    })
-    // const res = await fetch("/api/auth/login", {
-    //   method: "POST", // or 'PUT'
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body:jSON.stringify(value),
-    // });
-    // let data = await res.json();
+    // const {data}=await axios.post("/api/auth/login",{
+    //   value
+    // })
+    const res = await fetch("/api/auth/login", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:JSON.stringify(value),
+    });
+    const data=res.json()
     if (data.success == false) {
       toast({
         title: "Incorect credientals",

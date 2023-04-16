@@ -69,7 +69,7 @@ export default function OptionMenu() {
         <Link
           style={{ marginleft: "0.5rem" }}
           className="ml-2"
-          href={`/categoryOfferDetail?category=cloth&lat=${latitude}&long=${longitude}`}
+          href={`/categoryOfferDetail?lat=${latitude}&long=${longitude}`}
         >
           offer
         </Link>

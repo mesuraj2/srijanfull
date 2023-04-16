@@ -18,6 +18,8 @@ import { NextSeo } from "next-seo";
 import Filter from "../components/offer/filter";
 import OptionMenu from "../components/OptionMenu";
 import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function CategoryOfferDetail({Offerdetail}) {
   const [filter, setfilter] = useState([])
@@ -61,16 +63,21 @@ export default function CategoryOfferDetail({Offerdetail}) {
 
 export async function getServerSideProps(context) {
   const { category, lat, long } = context.query;
-  const res = await fetch(
-    `${process.env.DOMAIN_URI}/api/offer/allOffer?category=${category}&lat=${lat}&long=${long}`,
-    {
-      method: "GET", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  let data = await res.json();
+  // console.log(context.query)
+  delete context.query.categoryOfferDetail
+  const {data}=await axios.get(`${process.env.DOMAIN_URI}/api/offer/allOffer`,{
+    params:context.query
+  })
+  // const res = await fetch(
+  //   `?lat=${lat}&long=${long}`,
+  //   {
+  //     method: "GET", // or 'PUT'
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+  // );
+  // let data = await res.json();
   // console.log(data)
   return {
     props: { Offerdetail: data }, // will be passed to the page component as props

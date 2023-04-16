@@ -36,9 +36,22 @@ import { getCookie, deleteCookie } from "cookies-next";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const { user, setUser, sess, setsess } = ChatState();
+  const cart = useSelector((state) => state.cart);
+
+
+  console.log(cart)
+  const getTotalQuantity = () => {
+    let total = 0;
+    cart.forEach((item) => {
+      total += item.quantity;
+    });
+    return total;
+  };
+
   useEffect(() => {
     if (
       getCookie("authtoken") !== null &&
@@ -142,6 +155,10 @@ export default function Navbar() {
             </Menu>
           </Flex>
         </Flex>
+        {/* <div className="text-white">suraj</div>
+        {
+          getTotalQuantity && <div className="text-white">{getTotalQuantity}</div>
+        } */}
         {/* {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>

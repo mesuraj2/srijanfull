@@ -161,8 +161,8 @@ router.get("/searchUser", fetchuser, async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body.value;
-    // console.log(req.body)
+    const { email, password } = req.body;
+    console.log(email,password)
     const user = await User.findOne({ email: email });
     if (!user) {
       return res.json({ message: "enter correct data", success: false });
