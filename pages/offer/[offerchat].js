@@ -1,6 +1,7 @@
 import React from "react";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+// import style from "./../../styles/radar.module.css"
 import {
   Box,
   Input,
@@ -193,6 +194,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
       }
     }
   };
+  let value_arr = [3, 5, 10, 20]
   return (
     <>
       <NextSeo
@@ -378,9 +380,9 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
           </div>
         </section>
 
-        <section className="text-gray-600 w-[44%] body-font overflow-hidden">
-          <div className="flex items-center p-6 justify-center">
-            <div className="bg-white p-6 rounded-lg shadow-md w-full lg:max-w-xl">
+        <section className="text-gray-600 w-[70%] w-[44%] body-font overflow-hidden">
+          <div className="flex items-center p-6 justify-center overflow-hidden">
+            <div className="bg-white p-6 rounded-lg shadow-md w-full lg:max-w-xl overflow-hidden">
               {step === 1 && (
                 <button
                   className="bg-blue-500 px-6 py-1.5 rounded-lg text-white hover:bg-blue-600"
@@ -391,58 +393,47 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
               )}
               {step === 2 && (
                 <>
+                  <h3>Select radius:</h3>
+                  <Image src="/img/map.jpg" className="absolute w-[50%] md:w-[30%]" />
+                  <div className="wrap relative" >
+                    <div className="radar-wrap">
+                      <div className="radar">
+                        <div className="shadow"></div>
+                      </div>
+                    </div>
+                  </div>
+                  {value_arr.map((item)=>(
+                    <Button
+                      border={"1px solid black"}
+                      mx="1.5"
+                      borderRadius="full"
+                      className="rounded"
+                      size={"xs"}
+                      onClick={() => {
+                        setvalue(item);
+                      }}
+                    >
+                      {item} Km
+                    </Button>
+                  ))}
+                  <Button
+                    mx="1.5"
+                    size={"sm"}
+                    borderRadius="full"
+                    onClick={() => {
+                      setmanualDis(!manualDis);
+                    }}
+                  >
+                    Select Manual
+                  </Button>
                   Distance {value}
                   {manualDis ? (
-                    <SliderInput value={value} setvalue={setvalue} />
-                  ) : (
                     <>
-                      <Button
-                        border={"2px solid red"}
-                        mx="1.5"
-                        onClick={() => {
-                          setvalue(3);
-                        }}
-                      >
-                        3
-                      </Button>
-                      <Button
-                        mx="1.5"
-                        border={"2px solid red"}
-                        onClick={() => {
-                          setvalue(5);
-                        }}
-                      >
-                        5
-                      </Button>
-                      <Button
-                        mx="1.5"
-                        border={"2px solid red"}
-                        onClick={() => {
-                          setvalue(10);
-                        }}
-                      >
-                        10
-                      </Button>
-                      <Button
-                        mx="1.5"
-                        border={"2px solid red"}
-                        onClick={() => {
-                          setvalue(20);
-                        }}
-                      >
-                        20
-                      </Button>
-                      <Button
-                        mx="1.5"
-                        onClick={() => {
-                          setmanualDis(true);
-                        }}
-                      >
-                        Select Manual
-                      </Button>
+                        <SliderInput value={value} setvalue={setvalue} />
                     </>
-                  )}
-                  <Button onClick={CheckForChat}>Pool Now</Button>
+                  ):(<></>)}
+                  <br />
+                  <Button onClick={CheckForChat} backgroundColor={"#dd2d4a"} textColor={"white"}>Pool Now</Button>
                 </>
               )}
 
@@ -611,7 +602,7 @@ function SliderInput({ value, setvalue }) {
 
   return (
     <>
-      <Heading>Choose distance(in KM)</Heading>
+      <Heading fontSize={["3xl", "2xl", "3xl"]}>Choose distance(in KM)</Heading>
       <Box display={"flex"} width="80%">
         <NumberInput
           maxW="100px"
