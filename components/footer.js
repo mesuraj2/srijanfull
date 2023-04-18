@@ -58,20 +58,22 @@ export default function LargeWithAppLinksAndSocial() {
       bg={'#0f1619'}
       color={'white'}>
       <Container as={Stack} maxW={'6xl'} py={10}>
-        <Heading fontSize={'1.7rem'}>Pool & Save</Heading>
-        <Stack direction={'row'} spacing={6}>
-            <SocialButton label={'Twitter'} href={'#'}>
-              <FaTwitter />
-            </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
-              <FaYoutube />
-            </SocialButton>
-            <SocialButton label={'Instagram'} href={'#'}>
-              <FaInstagram />
-            </SocialButton>
-          </Stack>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
+        <div className='flex felx-row justify-evenly mb-5'>
+            <Heading fontSize={'2rem'}>Pool & Save</Heading>
+            <Stack direction={'row'} spacing={6} alignItems={"center"}>
+              <SocialButton label={'Twitter'} href={'#'}>
+                <FaTwitter  size={30}/>
+              </SocialButton>
+              <SocialButton label={'YouTube'} href={'#'}>
+                <FaYoutube size={30} />
+              </SocialButton>
+              <SocialButton label={'Instagram'} href={'#'}>
+                <FaInstagram size={30} />
+              </SocialButton>
+            </Stack>
+        </div>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}  justifyContent={"space-evenly"}>
+          <Stack align={'flex-start'} width={"fit-content"} marginX={"auto"}>
             <Heading as={'h4'} color='grey' fontSize={'1.5rem'}>Company</Heading>
             <Link href={'#'}>About Us</Link>
             <Link href={'#'}>Blog</Link>
@@ -79,14 +81,14 @@ export default function LargeWithAppLinksAndSocial() {
             <Link href={'#'}>Contact Us</Link>
           </Stack>
 
-          <Stack align={'flex-start'}>
+            <Stack align={'flex-start'} width={"fit-content"} marginX={"auto"}>
             <Heading as={'h4'} color='grey' fontSize={'1.5rem'}>Support</Heading>
             <Link href={'#'}>Help center</Link>
             <Link href={'#'}>Safety Center</Link>
             <Link href={'#'}>Community Guidelines</Link>
           </Stack>
 
-          <Stack align={'flex-start'}>
+            <Stack align={'flex-start'} width={"fit-content"} marginX={"auto"}>
             <Heading as={'h4'} color='grey' fontSize={'1.5rem'}>Legal</Heading>
             <Link href={'#'}>Cookies Policy</Link>
             <Link href={'#'}>Privacy Policy</Link>
@@ -94,7 +96,7 @@ export default function LargeWithAppLinksAndSocial() {
             <Link href={'#'}>Law Enforcement</Link>
           </Stack>
 
-          <Stack align={'flex-start'}>
+            <Stack align={'flex-start'} width={"fit-content"} marginX={"auto"}>
             <ListHeader>Install App</ListHeader>
             {/* <AppStoreBadge />
             <PlayStoreBadge /> */}
