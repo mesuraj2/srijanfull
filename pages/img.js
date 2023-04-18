@@ -50,7 +50,7 @@ export default function Img() {
         );
       })}
 
-      <img src="https://poolandsave.nyc3.digitaloceanspaces.com/d9b6dbd4-55a9-4a94-8c4d-772e56d0f1a4IMG_20220714_212040.jpg" />
+      {/* <img src="https://poolandsave.nyc3.digitaloceanspaces.com/d9b6dbd4-55a9-4a94-8c4d-772e56d0f1a4IMG_20220714_212040.jpg" /> */}
 
       <div>
         {checke.map((value,index) => {

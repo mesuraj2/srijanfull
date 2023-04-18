@@ -4,6 +4,7 @@ import React from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
+import { Divider } from "@chakra-ui/layout";
 
 export default function Offerdesign1({ Offerdetail }) {
   const { city, latitude, longitude, setlatitude, setlongitude, setcity } =
@@ -12,7 +13,8 @@ export default function Offerdesign1({ Offerdetail }) {
   // console.log(Offerdetail)
   return (
     <section className="text-gray-600 body-font">
-      <div className="container px-6 py-16 mx-auto">
+      <Divider />
+      <div className="container px-6 pb-16 pt-8  border-white mx-auto">
         <div className="flex flex-wrap -m-4">
           {Offerdetail.map((offer, index) => {
             return (
@@ -20,7 +22,7 @@ export default function Offerdesign1({ Offerdetail }) {
                 key={offer._id}
                 className="lg:w-1/4 customBreak md:w-1/2 p-4 w-full hover:shadow-md"
               >
-                <div className="bg-[#DD2D4A] text-white rounded-t-lg leading-7">
+                <div className="bg-[#DD2D4A] pl-3 text-white rounded-t-lg leading-7">
                   Offer
                 </div>
                 <a className="block relative h-72 rounded-b-lg overflow-hidden">
@@ -47,8 +49,8 @@ export default function Offerdesign1({ Offerdetail }) {
                     onClick={() =>
                       dispatch(
                         addToCart({
-                          _id:offer._id,
-                          name:offer.offername
+                          _id: offer._id,
+                          name: offer.offername,
                         })
                       )
                     }
