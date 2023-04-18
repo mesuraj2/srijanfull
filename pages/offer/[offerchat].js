@@ -194,7 +194,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
       }
     }
   };
-  let value_arr = [3, 5, 10, 20]
+  let value_arr = [3, 5, 10, 20];
   return (
     <>
       <NextSeo
@@ -394,16 +394,20 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
               {step === 2 && (
                 <>
                   <h3>Select radius:</h3>
-                  <Image src="/img/map.jpg" className="absolute w-[50%] md:w-[30%]" />
-                  <div className="wrap relative" >
+                  <Image
+                    src="/img/map.jpg"
+                    className="absolute w-[50%] md:w-[30%]"
+                  />
+                  <div className="wrap relative">
                     <div className="radar-wrap">
                       <div className="radar">
                         <div className="shadow"></div>
                       </div>
                     </div>
                   </div>
-                  {value_arr.map((item)=>(
+                  {value_arr.map((item, index) => (
                     <Button
+                      key={index}
                       border={"1px solid black"}
                       mx="1.5"
                       borderRadius="full"
@@ -429,11 +433,19 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                   Distance {value}
                   {manualDis ? (
                     <>
-                        <SliderInput value={value} setvalue={setvalue} />
+                      <SliderInput value={value} setvalue={setvalue} />
                     </>
-                  ):(<></>)}
+                  ) : (
+                    <></>
+                  )}
                   <br />
-                  <Button onClick={CheckForChat} backgroundColor={"#dd2d4a"} textColor={"white"}>Pool Now</Button>
+                  <Button
+                    onClick={CheckForChat}
+                    backgroundColor={"#dd2d4a"}
+                    textColor={"white"}
+                  >
+                    Pool Now
+                  </Button>
                 </>
               )}
 
@@ -441,10 +453,10 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                 <>
                   {underDistance ? (
                     <Box>
-                      {chatDistance.map((chat) => {
+                      {chatDistance.map((chat, index) => {
                         return (
                           <>
-                            <Box>chatName: {chat.chatName} </Box>
+                            <Box key={index}>chatName: {chat.chatName} </Box>
                             <p>{chat.Distance.toFixed(2)}</p>
                             <Button onClick={() => JoinChat(chat._id)}>
                               Join Now
