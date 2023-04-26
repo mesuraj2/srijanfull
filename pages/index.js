@@ -14,7 +14,7 @@ import haversine from "haversine-distance";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { NextSeo } from "next-seo";
-import { Box, Flex, Heading, Select, Text, useToast } from "@chakra-ui/react";
+import { Box, Circle, Flex, Heading, Select, Text, useToast } from "@chakra-ui/react";
 import { ImLocation2 } from "react-icons/im";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { BsFillChatDotsFill } from "react-icons/bs";
@@ -22,6 +22,8 @@ import { MdLocalOffer } from "react-icons/md";
 import Carausal from "../components/Carausal";
 import OptionMenu from "../components/OptionMenu";
 import Offerdesign2 from "../components/offer/offerdesign2";
+import Lottie from "react-lottie-player";
+import cicle from "../animations/circle.json";
 
 export default function Index() {
   const [imageupload, setimageupload] = useState();
@@ -61,7 +63,12 @@ export default function Index() {
       />
       <main>
         <OptionMenu />
-
+        {/* <Lottie
+          loop
+          animationData={cicle}
+          play
+          style={{ width: 150, height: 150 }}
+        /> */}
         <Carausal />
         <Box
           textAlign={"center"}

@@ -36,6 +36,8 @@ import {
 import Auth from "../../components/auth";
 import haversine from "haversine-distance";
 import { getCookie, deleteCookie } from "cookies-next";
+import Lottie from "react-lottie-player";
+import cicle from "../../animations/circle.json";
 
 export default function Offerchat({ Offerdetail, chatDistance }) {
   const [firstChat, setfirstChat] = useState();
@@ -201,16 +203,16 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         title={Offerdetail.offername}
         description={Offerdetail.Desc ? Offerdetail.Desc : "It is best offer"}
       />
-      <div className="flex flex-col md:flex-row justify-center items-center md:items-start">
-        <section className="text-gray-600 pt-6 w-full md:w-[55%] body-font overflow-hidden">
-          <div className="container px-7  pb-2">
+      <div className="flex max-w-[1336px] m-auto flex-col md:flex-row justify-center items-center md:items-start">
+        <section className="text-gray-600 pt-6 w-full md:w-[60%] body-font overflow-hidden">
+          <div className="container px-7 m-auto  pb-2">
             <div className=" flex flex-wrap">
-              <img
+              <Image
                 alt="ecommerce"
                 className="md:w-[85%] m-auto h-[23rem]  object-cover object-center rounded"
                 src="https://dummyimage.com/400x400"
               />
-              <div className=" w-full pr-6 pl-4 lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+              <div className=" w-full pr-6 pl-4 lg:pl-11 lg:py-6 mt-6 lg:mt-0">
                 <h2 className="text-sm title-font text-gray-500 tracking-widest">
                   BRAND NAME
                 </h2>
@@ -380,12 +382,12 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
           </div>
         </section>
 
-        <section className="text-gray-600 w-[70%] w-[44%] body-font overflow-hidden">
+        <section className="text-gray-600 sm:w-[44%] body-font overflow-hidden">
           <div className="flex items-center p-6 justify-center overflow-hidden">
-            <div className="bg-white p-6 rounded-lg shadow-md w-full lg:max-w-xl overflow-hidden">
+            <div className="bg-white p-6 rounded-lg  w-full lg:max-w-xl overflow-hidden">
               {step === 1 && (
                 <button
-                  className="bg-blue-500 px-6 py-1.5 rounded-lg text-white hover:bg-blue-600"
+                  className="bg-[#DD2D4A] w-[64%] block m-auto px-6 py-1.5 rounded-lg text-white hover:bg-blue-600"
                   onClick={handleNext}
                 >
                   Poolnow
@@ -393,56 +395,77 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
               )}
               {step === 2 && (
                 <>
-                  <h3>Select radius:</h3>
-                  <Image
-                    src="/img/map.jpg"
-                    className="absolute w-[50%] md:w-[30%]"
-                  />
-                  <div className="wrap relative">
-                    <div className="radar-wrap">
-                      <div className="radar">
-                        <div className="shadow"></div>
-                      </div>
+                  <h3 className="mb-2">Select radius:</h3>
+                  <div className="shadow-lg">
+                    <div className="absolute w-[30%] h-[20%]">
+                      <Lottie
+                        loop
+                        animationData={cicle}
+                        play
+                        style={{ height: "100%" }}
+                      />
                     </div>
+                    <Image src="/img/map.jpg" className="" />
                   </div>
-                  {value_arr.map((item, index) => (
-                    <Button
-                      key={index}
-                      border={"1px solid black"}
-                      mx="1.5"
-                      borderRadius="full"
-                      className="rounded"
-                      size={"xs"}
-                      onClick={() => {
-                        setvalue(item);
-                      }}
-                    >
-                      {item} Km
-                    </Button>
-                  ))}
-                  <Button
-                    mx="1.5"
-                    size={"sm"}
-                    borderRadius="full"
-                    onClick={() => {
-                      setmanualDis(!manualDis);
-                    }}
-                  >
-                    Select Manual
-                  </Button>
-                  Distance {value}
-                  {manualDis ? (
-                    <>
-                      <SliderInput value={value} setvalue={setvalue} />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  <br />
+                  <div className="text-center pt-2">Distance {value}</div>
+                  <div className="text-center p-4">
+                    {value_arr.map((item, index) => (
+                      <Button
+                        key={index}
+                        border={"1px solid black"}
+                        mx="1.5"
+                        borderRadius="full"
+                        className="rounded"
+                        size={"xs"}
+                        onClick={() => {
+                          setvalue(item);
+                        }}
+                      >
+                        {item} Km
+                      </Button>
+                    ))}
+                    <SliderInput value={value} setvalue={setvalue} />
+                    {/* {manualDis ? (
+                      <>
+                        
+                      </>
+                    ) : (
+                      <>
+                        {value_arr.map((item, index) => (
+                          <Button
+                            key={index}
+                            border={"1px solid black"}
+                            mx="1.5"
+                            borderRadius="full"
+                            className="rounded"
+                            size={"xs"}
+                            onClick={() => {
+                              setvalue(item);
+                            }}
+                          >
+                            {item} Km
+                          </Button>
+                        ))}
+                        <Button
+                          mx="1.5"
+                          size={"sm"}
+                          borderRadius="full"
+                          onClick={() => {
+                            setmanualDis(!manualDis);
+                          }}
+                        >
+                          Select Manual
+                        </Button>
+                      </>
+                    )} */}
+                    <br />
+                  </div>
                   <Button
                     onClick={CheckForChat}
                     backgroundColor={"#dd2d4a"}
                     textColor={"white"}
+                    display={"block"}
+                    className="m-auto w-2/5"
                   >
                     Pool Now
                   </Button>
@@ -455,18 +478,41 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                     <Box>
                       {chatDistance.map((chat, index) => {
                         return (
-                          <>
+                          <div
+                            key={index}
+                            className="flex flex-col items-center gap-3"
+                          >
                             <Box key={index}>chatName: {chat.chatName} </Box>
                             <p>{chat.Distance.toFixed(2)}</p>
-                            <Button onClick={() => JoinChat(chat._id)}>
-                              Join Now
-                            </Button>
-                          </>
+                            <div className="flex gap-2">
+                              <button
+                                className="bg-[#DD2D4A]  block  px-6 py-1.5 rounded-lg text-white mr-2"
+                                onClick={() => JoinChat(chat._id)}
+                              >
+                                Join Now
+                              </button>
+
+                              <button
+                                className="bg-[#DD2D4A] block px-6 py-1.5 rounded-lg
+                            text-white mr-2"
+                                onClick={() => {
+                                  setStep(1);
+                                  setmanualDis(false);
+                                  setunderDistance(false);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
                         );
                       })}
                     </Box>
                   ) : (
-                    <form onSubmit={handlePoolSubmit}>
+                    <form
+                      className="flex w-4/5 gap-3 flex-col"
+                      onSubmit={handlePoolSubmit}
+                    >
                       <Input
                         type="text"
                         placeholder="Enter chat name"
@@ -481,15 +527,22 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                         onChange={(e) => setchatDetail(e.target.value)}
                         required
                       />
-                      <button type="submit">Pool Now</button>
+                      <div className="m-auto flex ">
+                        <button
+                          className="bg-[#DD2D4A]  block  px-6 py-1.5 rounded-lg text-white mr-2"
+                          type="submit"
+                        >
+                          Pool Now
+                        </button>
+                        <button
+                          className="  bg-[#DD2D4A]  block  px-6 py-1.5 rounded-lg text-white"
+                          onClick={handleBack}
+                        >
+                          Back
+                        </button>
+                      </div>
                     </form>
                   )}
-                  <button
-                    className="bg-gray-300 px-6 py-1.5 rounded-lg text-gray-700 hover:bg-gray-400"
-                    onClick={handleBack}
-                  >
-                    Back
-                  </button>
                 </>
               )}
             </div>
@@ -614,8 +667,7 @@ function SliderInput({ value, setvalue }) {
 
   return (
     <>
-      <Heading fontSize={["3xl", "2xl", "3xl"]}>Choose distance(in KM)</Heading>
-      <Box display={"flex"} width="80%">
+      <Box m={"auto"} pt="1rem" display={"flex"} width="80%">
         <NumberInput
           maxW="100px"
           mr="2rem"

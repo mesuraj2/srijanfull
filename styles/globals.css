@@ -471,7 +471,7 @@ ol, li {
 
 
 
-body {
+/* body {
   background: #181a1e;
   margin: 0;
   padding: 0;
@@ -483,9 +483,9 @@ body {
   align-items: center;
   display: flex;
   /* min-height: 100vh; */
-  overflow: hidden;
-}
-
+  /* overflow: hidden; */
+/* } */ 
+/* 
 .radar-wrap {
   position: relative;
   width: 100%;
@@ -694,4 +694,4 @@ body {
   100% {
     background: #25282d;
   }
-}
+} */

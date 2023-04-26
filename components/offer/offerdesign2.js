@@ -13,19 +13,18 @@ export default function Offerdesign1() {
                 className="lg:w-1/3 customBreak md:w-1/2 p-4 w-full hover:shadow-lg"
               >
                 <a className="block relative h-48 rounded overflow-hidden">
-                <Image
-              src="/img/1.jpeg"
-              layout={"fill"} alt='image' className='image_border'
-            />
+                  <Image
+                    src="/img/1.jpeg"
+                    layout={"fill"}
+                    alt="image"
+                    className="image_border"
+                  />
                 </a>
-                <div className="mt-4">
-                  <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                    CATEGORY
-                  </h3>
-                  <h2 className="text-gray-900 title-font text-lg font-medium">
-                    The Catalyzer
-                  </h2>
-                  <p className="mt-1">$16.00</p>
+                <div className="mt-4 flex justify-between px-5">
+                  <div className="font-semibold">Cloth</div>
+                  <div className="text-[#DD2D4A] font-bold">
+                    Up to 10% off
+                  </div>
                 </div>
               </div>
             );

@@ -1,62 +1,43 @@
-import Router from "next/router";
-import { useEffect, useState } from "react";
-const color = ["red", "black", "blue"];
+// import React from "react";
+// import GoogleMapReact from "google-map-react";
+
+// const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+// export default function SimpleMap() {
+//   const defaultProps = {
+//     center: {
+//       lat: 10.99835602,
+//       lng: 77.01502627,
+//     },
+//     zoom: 11,
+//   };
+
+//   return (
+//     // Important! Always set the container height explicitly
+//     <div style={{ height: "100vh", width: "100%" }}>
+//       <GoogleMapReact
+//         bootstrapURLKeys={{ key: "AIzaSyB2-NqsdU7khAc2NgCkPgEszbI-W4rf50M" }}
+//         defaultCenter={defaultProps.center}
+//         defaultZoom={defaultProps.zoom}
+//       >
+//         home
+//       </GoogleMapReact>
+//     </div>
+//   );
+// }
+import React from "react";
+import Lottie from "react-lottie-player";
+import  chat  from "../animations/chat.json";
+
 export default function Img() {
-  const [checke, setChecke] = useState([]);
-
-  const handleChange = (event) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setChecke((pre) => [...pre, value]);
-    } else {
-      setChecke((pre) => {
-        return [...pre.filter((color) => color !== value)];
-      });
-    }
-  };
-  useEffect(() => {
-    if (checke.length > 0) {
-      const url = checke.join(",");
-      Router.push({
-        pathname: "/img",
-        query: { color: url },
-      });
-    } else {
-      Router.push({
-        pathname: "/img",
-      });
-    }
-  }, [checke]);
-
-  const handlevalue = (value) => {
-    let inp = document.getElementById(value);
-    inp.checked = false;
-    let obj = checke.filter((chck) => chck !== value);
-    setChecke(obj);
-  };
   return (
-    <div className="app">
-      {color.map((color, index) => {
-        return (
-          <div key={index}>
-            <input
-              type="checkbox"
-              id={color}
-              value={color}
-              onChange={handleChange}
-            />
-            {color}
-          </div>
-        );
-      })}
-
-      {/* <img src="https://poolandsave.nyc3.digitaloceanspaces.com/d9b6dbd4-55a9-4a94-8c4d-772e56d0f1a4IMG_20220714_212040.jpg" /> */}
-
-      <div>
-        {checke.map((value,index) => {
-          return <button key={index} onClick={() => handlevalue(value)}>{value}</button>;
-        })}
-      </div>
+    <div>
+      <Lottie
+        loop
+        animationData={chat}
+        play
+        style={{ width: 150, height: 150 }}
+      />
     </div>
   );
 }
