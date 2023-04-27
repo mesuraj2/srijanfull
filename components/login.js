@@ -49,9 +49,10 @@ export default function Login({ onClose }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body:JSON.stringify(value),
+      body: JSON.stringify(value),
     });
-    const data=res.json()
+    const data = await res.json();
+    console.log(data);
     if (data.success == false) {
       toast({
         title: "Incorect credientals",
@@ -70,6 +71,7 @@ export default function Login({ onClose }) {
   };
 
   const onSuccess = async (response) => {
+    console.log(response);
     const { data } = await axios.post("/api/auth/google", {
       tokenid: response.credential,
     });

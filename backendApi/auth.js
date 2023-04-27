@@ -9,8 +9,9 @@ const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
 // const { response } = require("express");
+const GoogleClientId='84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com'
 
-const client = new OAuth2Client(process.env.GoogleClientId);
+const client = new OAuth2Client(GoogleClientId);
 
 
 var transporter = nodemailer.createTransport({
@@ -86,11 +87,12 @@ router.post("/verify", async (req, res) => {
 // for google auth
 
 router.post("/google", async (req, res) => {
+  // console.log(GoogleClientId)
   const { tokenid } = req.body;
   client
     .verifyIdToken({
       idToken: tokenid,
-      audience: process.env.GoogleClientId,
+      audience:GoogleClientId,
     })
     .then((response) => {
       const { email, name, picture, email_verified } = response.payload;
@@ -162,7 +164,7 @@ router.get("/searchUser", fetchuser, async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email,password)
+    // console.log(email,password)
     const user = await User.findOne({ email: email });
     if (!user) {
       return res.json({ message: "enter correct data", success: false });

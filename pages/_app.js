@@ -33,7 +33,7 @@ page_path: window.location.pathname,
 `,
         }}
       />
-      <GoogleOAuthProvider clientId="84972645868-7kfs4978rt0un3mc26lt44at4o98ihej.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId="84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com">
         <ChakraProvider>
           <ChatProvider>
             <Head>

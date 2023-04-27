@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Router, { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 // import style from "./../../styles/radar.module.css"
@@ -39,6 +39,8 @@ import { getCookie, deleteCookie } from "cookies-next";
 import Lottie from "react-lottie-player";
 import cicle from "../../animations/circle.json";
 
+// import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+
 export default function Offerchat({ Offerdetail, chatDistance }) {
   const [firstChat, setfirstChat] = useState();
   const [currentLocation, setcurrentLocation] = useState();
@@ -59,6 +61,11 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
   const [underDistance, setunderDistance] = useState(false);
   const [manualDis, setmanualDis] = useState(false);
   const [step, setStep] = useState(1);
+
+  // const { isLoaded } = useLoadScript({
+  //   googleMapsApiKey: "AIzaSyA54f-tAHzvnfQ0QwBm57SMRPIEtorLPLQ",
+  // });
+  // const center = useMemo(() => ({ lat: 18.52043, lng: 73.856743 }), []);
 
   const handleNext = () => {
     setStep(step + 1);
@@ -405,7 +412,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
                         style={{ height: "100%" }}
                       />
                     </div>
-                    <Image src="/img/map.jpg" className="" />
+                    <Image src="/img/map.jpg" className="" alt="image" />
                   </div>
                   <div className="text-center pt-2">Distance {value}</div>
                   <div className="text-center p-4">
