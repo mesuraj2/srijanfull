@@ -9,17 +9,17 @@ import {
   Button,
   Icon,
   IconButton,
-} from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
 
-import Offerdesign1 from "../components/offer/offerdesign1";
-import { NextSeo } from "next-seo";
+import Offerdesign1 from '../components/offer/offerdesign1';
+import { NextSeo } from 'next-seo';
 
-import Filter from "../components/offer/filter";
-import OptionMenu from "../components/OptionMenu";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/router";
+import Filter from '../components/offer/filter';
+import OptionMenu from '../components/OptionMenu';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function CategoryOfferDetail({ Offerdetail }) {
   const [filter, setfilter] = useState([]);
@@ -33,14 +33,14 @@ export default function CategoryOfferDetail({ Offerdetail }) {
       delete router.query.categoryOfferDetail;
       delete router.query.color;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetai',
         query: { ...router.query },
       });
     } else {
-      const url = filter.join(",");
+      const url = filter.join(',');
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, color: url },
       });
     }
@@ -52,14 +52,14 @@ export default function CategoryOfferDetail({ Offerdetail }) {
       delete router.query.categoryOfferDetail;
       delete router.query.category;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query },
       });
     } else {
-      const url = filtercategory.join(",");
+      const url = filtercategory.join(',');
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, category: url },
       });
     }
@@ -82,13 +82,13 @@ export default function CategoryOfferDetail({ Offerdetail }) {
     if (router.query.page && router.query.page != 1) {
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, page: Number(router.query.page) - 1 },
       });
     } else {
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, page: 1 },
       });
     }
@@ -98,13 +98,13 @@ export default function CategoryOfferDetail({ Offerdetail }) {
     if (router.query.page) {
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, page: Number(router.query.page) + 1 },
       });
     } else {
       delete router.query.categoryOfferDetail;
       router.push({
-        pathname: "/categoryOfferDetail",
+        pathname: '/categoryOfferDetail',
         query: { ...router.query, page: 2 },
       });
     }
@@ -117,12 +117,12 @@ export default function CategoryOfferDetail({ Offerdetail }) {
         description="This is the best offer in you Loacation"
       />
       <OptionMenu />
-      <Box display={"flex"} borderTop="1px solid grey">
+      <Box display={'flex'} borderTop="1px solid grey">
         <Box
-          width={"21%"}
+          width={'21%'}
           boxSizing="border-box"
-          px={"1rem"}
-          overflowY={"scroll"}
+          px={'1rem'}
+          overflowY={'scroll'}
         >
           <Filter
             filter={filter}
