@@ -1,60 +1,93 @@
-import React from 'react';
-import About from '../components/About';
-import CatigoryDisplay from '../components/CatigoryDisplay';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+// // import Head from 'next/head'
+// // import Image from 'next/image'
+// import { useState, useEffect } from "react";
+// import Link from "next/link";
+// // import styles from '../styles/Home.module.css'
+// import Router from "next/router";
+// import Offer from "../components/Offer";
+// import secureLocalStorage from "react-secure-storage";
+// import axios from "axios";
+// import { ChatState } from "../Context/ChatProvider";
+// import React from "react";
+// import haversine from "haversine-distance";
 
-//  bg-cover bg-center main__header
+// import ReactCrop from "react-image-crop";
+// import "react-image-crop/dist/ReactCrop.css";
+// import { NextSeo } from "next-seo";
+// import { Box, Circle, Flex, Heading, Select, Text, useToast } from "@chakra-ui/react";
+// import { ImLocation2 } from "react-icons/im";
+// import { BsFillCartCheckFill } from "react-icons/bs";
+// import { BsFillChatDotsFill } from "react-icons/bs";
+// import { MdLocalOffer } from "react-icons/md";
+// import Carausal from "../components/Carausal";
+// import OptionMenu from "../components/OptionMenu";
+// import Offerdesign2 from "../components/offer/offerdesign2";
+// import Lottie from "react-lottie-player";
+// import cicle from "../animations/circle.json";
 
-const home = () => {
-  const links = ['HOME', 'ABOUT', 'OFFERS', 'CATEGORIES', 'FAQs', 'CONTACT US'];
-  return (
-    <div className="bg-[#B9E9FC]">
-      <div className="flex flex-col">
-        <div className="flex flex-row justify-around items-center">
-          <div className="flex flex-row gap-10 invisible">
-            <button class="btn  btn-active uppercase tracking-wider text-[1.1rem]">
-              LogIn
-            </button>
-            <button class="btn btn-outline tracking-wider text-[1.1rem]">
-              Sign Up
-            </button>
-          </div>
-          <h1 className="text-center  text-[6rem] main__font tracking-wider">
-            Pool & Save
-          </h1>
-          <div className="flex flex-row gap-10 ">
-            <button class="btn btn-active uppercase tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90">
-              LogIn
-            </button>
-            <button class="btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
-              Sign Up
-            </button>
-          </div>
-        </div>
-        <div>
-          <ul className="flex flex-row w-ful justify-center gap-10 secondary_font text-[1.4rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
-            {links.map((link, index) => (
-              <li
-                className={`${
-                  link === 'HOME'
-                    ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
-                    : ''
-                } cursor-pointer hover:-translate-y-1 transition-all`}
-                key={link}
-              >
-                {link}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <Header />
-        <About />
-        <CatigoryDisplay />
-        <Footer />
-      </div>
-    </div>
-  );
-};
+// export default function Index() {
+//   const [imageupload, setimageupload] = useState();
+//   const [Alloffer, setAlloffer] = useState([]);
+//   const [Allchat, setAllchat] = useState([]);
+//   //   const [latitude, setlatitude] = useState()
+//   // const [longitude, setlongitude] = useState()
+//   // const [city, setcity] = useState()
+//   const toast = useToast();
+//   const { city, latitude, longitude, setlatitude, setlongitude, setcity } =
+//     ChatState();
 
-export default home;
+//   const getpostion = async () => {
+//     navigator.geolocation.getCurrentPosition(
+//       (position) => {
+//         setlatitude(position.coords.latitude);
+//         setlongitude(position.coords.longitude);
+//         let coordinate = [position.coords.latitude, position.coords.longitude];
+//         localStorage.setItem("coordinates", JSON.stringify(coordinate));
+//       },
+//       (err) => console.log(err)
+//     );
+
+//     const { data } = await axios.get(
+//       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+//     );
+//     setcity(data.city);
+//   };
+//   useEffect(() => {
+//     getpostion();
+//   }, []);
+//   return (
+//     <>
+//       <NextSeo
+//         title="Poolandsave"
+//         description="We are trying to make bridge for connectiong more people together. if they want more people to avail a particular offer then they can pool offer here. we will make a chat thread and they can chat there and can buy it"
+//       />
+//       <main>
+//         <OptionMenu />
+//         {/* <Lottie
+//           loop
+//           animationData={cicle}
+//           play
+//           style={{ width: 150, height: 150 }}
+//         /> */}
+//         <Carausal />
+//         <Box
+//           textAlign={"center"}
+//           mt="2rem"
+//           boxSizing="border-box"
+//           paddingY={"1rem"}
+//         >
+//           <Heading color={"red"} fontSize="1.5rem" fontWeight={"normal"}>
+//             OUR CATEGORIES
+//           </Heading>
+//           <Text width={"65%"} m="auto">
+//             We are having a vast variety of products that you can choose from.
+//             We provide shopping accessories like groceries, wears for men, women
+//             and children, shoes, fashion accessories, etc. we also update
+//             regular offers for our customers for our wide variety of products.
+//           </Text>
+//         </Box>
+//         <Offerdesign2 />
+//       </main>
+//     </>
+//   );
+// }
