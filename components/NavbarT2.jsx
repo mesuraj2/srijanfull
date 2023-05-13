@@ -1,8 +1,15 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 const NavbarT2 = () => {
-  const links = ['HOME', 'ABOUT', 'OFFERS', 'CATEGORIES', 'FAQs', 'CONTACT US'];
+  const links = {
+    HOME: '/',
+    ABOUT: '/about',
+    CATEGORIES: '/categories',
+    FAQs: '/faqs',
+    'CONTACT US': '/contact',
+  };
   const router = useRouter();
   return (
     <div className="navbar bg-transparent">
@@ -64,16 +71,16 @@ const NavbarT2 = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="flex flex-row w-ful justify-center gap-10 secondary_font text-[1.2rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
-          {links.map((link, index) => (
+          {Object.keys(links).map((linkKey, index) => (
             <li
               className={`${
-                `/${link.toLowerCase()}` === router.pathname
+                `${links[linkKey].toLowerCase()}` === router.pathname
                   ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
                   : ''
               } cursor-pointer hover:-translate-y-1 transition-all`}
-              key={link}
+              key={index}
             >
-              {link}
+              <Link href={links[linkKey]}>{linkKey}</Link>
             </li>
           ))}
         </ul>
