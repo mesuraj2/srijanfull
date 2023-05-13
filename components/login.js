@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Router from "next/router";
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import Router from 'next/router';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-import secureLocalStorage from "react-secure-storage";
-import { ChatState } from "../Context/ChatProvider";
-import { useState } from "react";
-import { useToast } from "@chakra-ui/react";
-import { GoogleLogin } from "@react-oauth/google";
+import secureLocalStorage from 'react-secure-storage';
+import { ChatState } from '../Context/ChatProvider';
+import { useState } from 'react';
+import { useToast } from '@chakra-ui/react';
+import { GoogleLogin } from '@react-oauth/google';
 import {
   Flex,
   Heading,
@@ -23,11 +23,11 @@ import {
   FormControl,
   FormHelperText,
   InputRightElement,
-} from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
+} from '@chakra-ui/react';
+import { FaUserAlt, FaLock } from 'react-icons/fa';
 
-import Signup from "./signup";
-import axios from "axios";
+import Signup from './signup';
+import axios from 'axios';
 
 export default function Login({ onClose }) {
   // const { register, handleSubmit } = useForm();
@@ -172,6 +172,23 @@ export default function Login({ onClose }) {
             Login
           </button>
           <div className="divider">OR</div>
+          <div>
+            <GoogleLogin
+              // onSuccess={onSuccess}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+            />
+          </div>
+          <div>
+            New To Pool & Save?{' '}
+            <Link
+              className="border-b-2 border-black ml-2"
+              href="/login?signup=true"
+            >
+              Sign up
+            </Link>
+          </div>
         </div>
       </div>
     </div>
