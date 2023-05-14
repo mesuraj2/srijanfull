@@ -38,6 +38,7 @@ import haversine from "haversine-distance";
 import { getCookie, deleteCookie } from "cookies-next";
 import Lottie from "react-lottie-player";
 import cicle from "../../animations/circle.json";
+import Modal from "../../components/modal";
 
 // import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
@@ -390,6 +391,7 @@ export default function Offerchat({ Offerdetail, chatDistance }) {
         </section>
 
         <section className="text-gray-600 sm:w-[44%] body-font overflow-hidden">
+          <Modal/>
           <div className="flex items-center p-6 justify-center overflow-hidden">
             <div className="bg-white p-6 rounded-lg  w-full lg:max-w-xl overflow-hidden">
               {step === 1 && (
