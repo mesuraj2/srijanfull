@@ -9,7 +9,7 @@ const login = () => {
   return (
     <>
     {
-       router.query.signup ?<Signup/>: <Login/>
+       router.query.signup ? <Signup/>: <Login/>
     }
     </>
   );
