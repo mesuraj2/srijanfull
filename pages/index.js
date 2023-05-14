@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import SearchBar from '../components/SearchBar';
+import NavbarT2 from '../components/NavbarT2';
 
 //  bg-cover bg-center main__header
 
@@ -19,8 +21,11 @@ const home = () => {
   const router = useRouter();
   return (
     <div className="bg-[#B9E9FC]">
-      <div className="flex flex-col">
-        <div className="flex flex-row justify-around items-center">
+      <div className="flex flex-col  items-center justify-center mx-auto">
+        <div className="w-[90%]">
+          <NavbarT2 />
+        </div>
+        {/* <div className="flex flex-row justify-around items-center">
           <div className="flex flex-row gap-10 invisible">
             <button class="btn  btn-active uppercase tracking-wider text-[1.1rem]">
               LogIn
@@ -29,26 +34,26 @@ const home = () => {
               Sign Up
             </button>
           </div>
-          <h1 className="text-center  text-[6rem] main__font tracking-wider">
+          <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[5rem] 2xl:text-[6rem] main__font tracking-wider">
             Pool & Save
           </h1>
-          <div className="flex flex-row gap-10 ">
+          <div className="flex flex-row gap-5 lg:gap-10 ">
             <Link
               href="/login"
-              class="btn btn-active uppercase tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90"
+              class="btn btn-active uppercase tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal bg-black/90"
             >
               LogIn
             </Link>
             <Link
               href={'/login?signup=true'}
-              class="btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal"
+              class="btn btn-outline tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal"
             >
               Sign Up
             </Link>
           </div>
         </div>
         <div>
-          <ul className="flex flex-row w-ful justify-center gap-10 secondary_font text-[1.4rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
+          <ul className="flex flex-row w-ful justify-center gap-10 secondary_font text-[1.2rem] 14xl:text-[1.4rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
             {Object.keys(links).map((linkKey, index) => (
               <li
                 className={`${
@@ -62,6 +67,12 @@ const home = () => {
               </li>
             ))}
           </ul>
+        </div> */}
+        <div className="flex items-center justify-center mx-auto mt-10 lg:my-10">
+          <SearchBar
+            globalClassName={''}
+            inputClassName={'w-[100%] md:w-[35rem]'}
+          />
         </div>
         <Header />
         <About />
