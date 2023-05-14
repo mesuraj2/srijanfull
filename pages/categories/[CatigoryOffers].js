@@ -13,7 +13,7 @@ const index = () => {
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="w-[90%] mx-auto">
-        <NavbarT2 />;
+        <NavbarT2 />
         <h1 className="text-center text-[4rem] main__font tracking-wider mt-10">
           {catigoryName}
         </h1>
