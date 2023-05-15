@@ -4,6 +4,7 @@ import Footer from '../../components/Footer';
 import NavbarT2 from '../../components/NavbarT2';
 import { FaFilter } from 'react-icons/fa';
 import SearchBar from '../../components/SearchBar';
+import Filter from '../../components/offer/filter';
 
 const index = () => {
   const rep = [1, 2, 3, 4, 5, 6, 77, 8, 9];
@@ -68,14 +69,11 @@ const index = () => {
           </div>
           <div className="drawer-side">
             <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-            <ul className="menu p-4 mt-4 w-[22rem] bg-base-100 text-base-content  rounded-md ">
-              <li>
-                <a>Sidebar Item 1</a>
-              </li>
-              <li>
-                <a>Sidebar Item 2</a>
-              </li>
-            </ul>
+            <div className="flex flex-col gap-5 p-4 mt-4 w-[22rem] bg-base-100 text-base-content  rounded-md ">
+              <div>
+                <Filter />
+              </div>
+            </div>
           </div>
         </div>
       </div>

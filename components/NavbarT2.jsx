@@ -73,7 +73,7 @@ const NavbarT2 = () => {
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex flex-row w-ful justify-center gap-10 secondary_font text-[1.2rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
+        <ul className="flex flex-row w-ful justify-center gap-5 xl:gap-10 secondary_font text-[1.2rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto px-5">
           {Object.keys(links).map((linkKey, index) => (
             <li
               className={`${
@@ -91,7 +91,7 @@ const NavbarT2 = () => {
       <div className="navbar-end">
         {/* <a className="btn">Get started</a> */}
         <div className="flex items-center justify-center gap-2">
-          <button className="btn btn-outline">Your offers</button>
+          {/* <button className="btn btn-outline">Your offers</button> */}
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <div className="indicator">

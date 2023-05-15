@@ -1,5 +1,5 @@
-import { Box, Heading, Divider, HStack, Stack } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import { Box, Heading, Divider, HStack, Stack } from '@chakra-ui/layout';
+import React, { useState } from 'react';
 import {
   Select,
   CheckboxGroup,
@@ -10,8 +10,8 @@ import {
   Button,
   Icon,
   useDisclosure,
-} from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react';
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import {
   Accordion,
@@ -19,19 +19,19 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-} from "@chakra-ui/react";
-import { Radio, RadioGroup } from "@chakra-ui/react";
+} from '@chakra-ui/react';
+import { Radio, RadioGroup } from '@chakra-ui/react';
 
 function MyAccordion({ filter, setfilter, Category, options }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <div className="my-5">
       <Heading
-        size={"md"}
+        size={'md'}
         margintop={5}
         marginBottom={3}
         textAlign="left"
-        fontWeight={"600"}
+        fontWeight={'600'}
       >
         {Category}
       </Heading>
@@ -53,8 +53,8 @@ function MyAccordion({ filter, setfilter, Category, options }) {
 }
 
 export default function Filter({ filter, setfilter, setfiltercategory }) {
-  const color = ["red", "black", "green"];
-  const category = ["book", "cloth"];
+  const color = ['red', 'black', 'green'];
+  const category = ['book', 'cloth'];
   // const [checke, setChecke] = useState([]);
 
   const handleChange = (event) => {
@@ -78,14 +78,16 @@ export default function Filter({ filter, setfilter, setfiltercategory }) {
       });
     }
   };
+
+  const distances = ['200 m', '500 m', '1 km', '2 km', '5 km'];
   return (
     <>
-      <Heading fontWeight={"500"} fontSize={"2rem"}>
+      {/* <Heading fontWeight={'500'} fontSize={'2rem'}>
         Filter
       </Heading>
       <Divider />
       <div className="py-3">
-        <Heading size={"md"} margintop={5} textAlign="left" fontWeight={"600"}>
+        <Heading size={'md'} margintop={5} textAlign="left" fontWeight={'600'}>
           Color
         </Heading>
         {color.map((color, index) => {
@@ -104,7 +106,7 @@ export default function Filter({ filter, setfilter, setfiltercategory }) {
       </div>
       <Divider />
       <div className="py-1">
-        <Heading size={"md"} margintop={5} textAlign="left" fontWeight={"600"}>
+        <Heading size={'md'} margintop={5} textAlign="left" fontWeight={'600'}>
           category
         </Heading>
         {category.map((category, index) => {
@@ -120,35 +122,48 @@ export default function Filter({ filter, setfilter, setfiltercategory }) {
             </div>
           );
         })}
+      </div> */}
+
+      {/* <MyAccordion
+        filter={filter}
+        setfilter={setfilter}
+        Category={"Category"}
+        options={options}
+      /> */}
+
+      {/* <MyAccordion
+        filter={filter}
+        setfilter={setfilter}
+        Category={"Category"}
+        options={options}
+      />
+
+      <MyAccordion
+        filter={filter}
+        setfilter={setfilter}
+        Category={"Category"}
+        options={options}
+      />
+
+      <MyAccordion
+        filter={filter}
+        setfilter={setfilter}
+        Category={"Category"}
+        options={options}
+      /> */}
+      <div className="flex flex-col gap-1 secondary_font tracking-wider">
+        <p className="text-[1.1rem] font-[500] my-3">Radius Under</p>
+        {distances.map((dis, index) => {
+          return (
+            <div className="flex ml-3 mt-1">
+              <input type="checkbox" className="checkbox" id={`${dis}`} />
+              <label htmlFor={dis} className="mx-1 text-[1.1rem]">
+                {dis}
+              </label>
+            </div>
+          );
+        })}
       </div>
-
-      {/* <MyAccordion
-        filter={filter}
-        setfilter={setfilter}
-        Category={"Category"}
-        options={options}
-      /> */}
-
-      {/* <MyAccordion
-        filter={filter}
-        setfilter={setfilter}
-        Category={"Category"}
-        options={options}
-      />
-
-      <MyAccordion
-        filter={filter}
-        setfilter={setfilter}
-        Category={"Category"}
-        options={options}
-      />
-
-      <MyAccordion
-        filter={filter}
-        setfilter={setfilter}
-        Category={"Category"}
-        options={options}
-      /> */}
     </>
   );
 }
