@@ -8,7 +8,7 @@ const NavbarT2 = () => {
     ABOUT: '/about',
     CATEGORIES: '/categories',
     FAQs: '/faqs',
-    'CONTACT US': '/contact',
+    // 'CONTACT US': '/contact',
   };
   const router = useRouter();
   return (
