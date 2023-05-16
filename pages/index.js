@@ -77,7 +77,7 @@ const home = () => {
         <Header />
         <About />
         <CatigoryDisplay />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
