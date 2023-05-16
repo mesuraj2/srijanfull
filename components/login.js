@@ -36,7 +36,7 @@ export default function Login({ onClose }) {
   // const CFaUserAlt = chakra(FaUserAlt);
   // const CFaLock = chakra(FaLock);
   // const [showPassword, setShowPassword] = useState(false);
-  // const toast = useToast();
+  const toast = useToast();
 
   // const handleShowClick = () => setShowPassword(!showPassword);
 
@@ -82,7 +82,7 @@ export default function Login({ onClose }) {
   //   onClose();
   // };
   const initValues = {
-    uname: '',
+    email: '',
     password: '',
   };
 
@@ -105,6 +105,31 @@ export default function Login({ onClose }) {
       },
     }));
 
+  const handleLogin = async () => {
+    const response = await axios.post("api/auth/login",values
+    )
+    if(response.data.success == false){
+      toast({
+        title: response.data.message,
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+    else{
+      await toast({
+        title: "Login Successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      window.location.assign("/")
+    }
+
+  }
+
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -122,19 +147,18 @@ export default function Login({ onClose }) {
           <div className="">
             <div className="form-control w-[28rem]">
               <label className="label">
-                <span className="label-text text-black/60">username*</span>
+                <span className="label-text text-black/60">email*</span>
               </label>
               <input
-                value={values.uname}
+                value={values.email}
                 onChange={handleChange}
                 onBlur={onBlur}
-                type="text"
-                name="uname"
-                className={`${
-                  touched.uname && !values.uname ? 'bg-red-100' : 'bg-white'
-                } input input-bordered w-[28rem]`}
+                type="email"
+                name="email"
+                className={`${touched.email && !values.email ? 'bg-red-100' : 'bg-white'
+                  } input input-bordered w-[28rem]`}
               />
-              {touched.uname && !values.uname && (
+              {touched.email && !values.email && (
                 <span className="label-text-alt mt-1 text-red-600">
                   Required
                 </span>
@@ -150,11 +174,10 @@ export default function Login({ onClose }) {
                 onBlur={onBlur}
                 type="text"
                 name="password"
-                className={`${
-                  touched.password && !values.password
+                className={`${touched.password && !values.password
                     ? 'bg-red-100'
                     : 'bg-white'
-                } input input-bordered w-[28rem]`}
+                  } input input-bordered w-[28rem]`}
               />
               {touched.password && !values.password && (
                 <span className="label-text-alt mt-1 text-red-600">
@@ -164,10 +187,10 @@ export default function Login({ onClose }) {
             </div>
           </div>
           <button
-            disabled={!values.uname || !values.password}
-            className={`${
-              isLoading ? 'loading' : ''
-            }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+            disabled={!values.email || !values.password}
+            className={`${isLoading ? 'loading' : ''
+              }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+            onClick={handleLogin}
           >
             Login
           </button>

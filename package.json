@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev2": "nodemon index.js",
     "dev": "node index.js",
     "build": "next build",
     "start": "NODE_ENV=production node index.js"
