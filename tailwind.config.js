@@ -9,7 +9,15 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        xs: '400px',
+        '19xl': '1900px',
+        '11xl': '1100px',
+        '14xl': '1400px',
+        // => @media (min-width: 1536px) { ... }
+      },
+    },
   },
   plugins: [require('daisyui')],
 };
