@@ -65,56 +65,56 @@ router.get("/offernearyou", async (req, res) => {
 });
 
 router.post("/frontpageOffer", async (req, res) => {
-  const { coordinate } = req.body;
-  let location = JSON.parse(coordinate);
 
   try {
-    const cloth = await offer
+    let { coordinate,distance } = req.body;
+    distance=distance? distance*1000:10*1000
+    let location = JSON.parse(coordinate);
+    const fullGroupChat = await offer
       .find({
         Location: {
           $near: {
             $geometry: { type: "Point", coordinates: location },
-            $maxDistance: 100000,
+            $maxDistance: distance,
           },
-        },
-        Category: "cloth",
+        }
       })
-      .limit(4);
+      .limit(8);
 
-    const book = await offer
-      .find({
-        Location: {
-          $near: {
-            $geometry: { type: "Point", coordinates: location },
-            $maxDistance: 100000,
-          },
-        },
-        Category: "book",
-      })
-      .limit(5);
+    // const book = await offer
+    //   .find({
+    //     Location: {
+    //       $near: {
+    //         $geometry: { type: "Point", coordinates: location },
+    //         $maxDistance: 100000,
+    //       },
+    //     },
+    //     Category: "book",
+    //   })
+    //   .limit(5);
 
-    const fullGroupChat = cloth.concat(book);
+    // const fullGroupChat = cloth.concat(book);
     res.status(200).json(fullGroupChat);
   } catch (error) {
     res.send(error);
   }
 });
 
-router.get("/topChatnearYou", async (req, res) => {
-  try {
-    const fullGroupChat = await Chat.find({
-      Location: {
-        $near: {
-          $geometry: { type: "Point", coordinates: [17.6043852, 78.1222225] },
-          $maxDistance: 100000,
-        },
-      },
-    });
-    res.status(200).json(fullGroupChat);
-  } catch (error) {
-    res.send(error);
-  }
-});
+// router.get("/topChatnearYou", async (req, res) => {
+//   try {
+//     const fullGroupChat = await Chat.find({
+//       Location: {
+//         $near: {
+//           $geometry: { type: "Point", coordinates: [17.6043852, 78.1222225] },
+//           $maxDistance: 100000,
+//         },
+//       },
+//     });
+//     res.status(200).json(fullGroupChat);
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
 
 // specific product detail
 router.get("/allOffer/", async (req, res) => {

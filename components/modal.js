@@ -1,18 +1,53 @@
-import React from 'react'
+import { ViewIcon } from "@chakra-ui/icons";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
+} from "@chakra-ui/react"; 
+import { useState,useEffect } from 'react';
+import  secureLocalStorage  from  "react-secure-storage";
+import Login from "./login";
+import { motion } from "framer-motion";
 
-export default function Modal() {
+const modalLivePool = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+//   const [user, setuser] = useState([])
+//   useEffect(() => {
+//     if(secureLocalStorage.getItem('user')){
+//      setuser(JSON.parse(secureLocalStorage.getItem('user')))
+//     }
+//    }, [])
+
   return (
-    <div>
-      <label for="my-modal-3" class="btn">open modal</label>
+    <>
+      {children ? (
+        <span onClick={onOpen}>{children}</span>
+      ) : (
+        <Button bg={'#DD2D4A'} as={motion.button} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:1}} color='white' borderRadius='5px' onClick={onOpen}>Live Pool</Button>
+      )}
+      <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered backdropBlur >
+        <ModalOverlay />
+        <ModalContent h="410px">
+          <ModalCloseButton />
+          <ModalBody
+            d="flex"
+            flexDir="column"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
 
-        <input type="checkbox" id="my-modal-3" class="modal-toggle" />
-        <div class="modal">
-        <div class="modal-box relative">
-            <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-            <h3 class="text-lg font-bold">Congratulations random Internet user!</h3>
-            <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-        </div>
-        </div>
-    </div>
-  )
-}
+export default modalLivePool;
