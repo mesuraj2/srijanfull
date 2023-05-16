@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import Footer from '../../components/Footer';
+import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import { FaFilter } from 'react-icons/fa';
 import SearchBar from '../../components/SearchBar';
 import Filter from '../../components/offer/filter';
+import CatigoryOfferCard from '../../components/CatigoryOfferCard';
 
 const index = () => {
   const rep = [1, 2, 3, 4, 5, 6, 77, 8, 9];
@@ -45,31 +46,14 @@ const index = () => {
               </div>
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
                 {rep.map((item, index) => {
-                  return (
-                    <div className="card card-side bg-base-100 shadow-xl w-[28rem] h-[15rem]">
-                      <figure>
-                        <img
-                          src="https://assets.tatacliq.com/medias/sys_master/images/31135470419998.jpg"
-                          alt="Movie"
-                          className="w-[14rem] h-[14rem] bg-center"
-                        />
-                      </figure>
-                      <div className="card-body">
-                        <h2 className="card-title">Puma Sneakers</h2>
-                        <p>save 20% on purchase of 2 sneakers</p>
-                        <div className="card-actions justify-end">
-                          <button className="btn ">Join Chat</button>
-                        </div>
-                      </div>
-                    </div>
-                  );
+                  return <CatigoryOfferCard />;
                 })}
               </div>
             </div>
           </div>
           <div className="drawer-side">
             <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-            <div className="flex flex-col gap-5 p-4 mt-4 w-[22rem] bg-base-100 text-base-content  rounded-md ">
+            <div className="flex flex-col gap-5 p-4 mt-4 lg:w-[16rem] xl:w-[18rem] 2xl:w-[22rem] bg-base-100 text-base-content  rounded-md ">
               <div>
                 <Filter />
               </div>
@@ -77,7 +61,7 @@ const index = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <FooterT2 />
     </div>
   );
 };

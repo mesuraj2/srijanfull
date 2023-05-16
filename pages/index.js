@@ -1,7 +1,7 @@
 import React from 'react';
 import About from '../components/About';
 import CatigoryDisplay from '../components/CatigoryDisplay';
-import Footer from '../components/Footer';
+import FooterT2 from '../components/FooterT2';
 import Header from '../components/Header';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -77,7 +77,7 @@ const home = () => {
         <Header />
         <About />
         <CatigoryDisplay />
-        {/* <Footer /> */}
+        <FooterT2 />
       </div>
     </div>
   );
