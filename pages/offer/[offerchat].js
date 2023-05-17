@@ -670,6 +670,7 @@ export async function getServerSideProps(context) {
   };
 }
 
+
 function SliderInput({ value, setvalue }) {
   // const [value, setValue] = React.useState(0)
   const handleChange = (value) => setvalue(value);
