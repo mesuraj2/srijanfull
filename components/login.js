@@ -70,17 +70,17 @@ export default function Login({ onClose }) {
   //   }
   // };
 
-  // const onSuccess = async (response) => {
-  //   console.log(response);
-  //   const { data } = await axios.post("/api/auth/google", {
-  //     tokenid: response.credential,
-  //   });
-  //   secureLocalStorage.setItem("id", data._id);
-  //   localStorage.setItem("user", JSON.stringify(data));
-  //   setsess(true);
-  //   setUser(data);
-  //   onClose();
-  // };
+  const onSuccess = async (response) => {
+    console.log(response);
+    const { data } = await axios.post("/api/auth/google", {
+      tokenid: response.credential,
+    });
+    secureLocalStorage.setItem("id", data._id);
+    localStorage.setItem("user", JSON.stringify(data));
+    // setsess(true);
+    // setUser(data);
+    onClose();
+  };
   const initValues = {
     email: '',
     password: '',
@@ -118,14 +118,14 @@ export default function Login({ onClose }) {
       });
     }
     else{
-      await toast({
+      toast({
         title: "Login Successful",
         status: "success",
         duration: 3000,
         isClosable: true,
         position: "bottom",
       });
-      window.location.assign("/")
+      onClose()
     }
 
   }
@@ -197,7 +197,7 @@ export default function Login({ onClose }) {
           <div className="divider">OR</div>
           <div>
             <GoogleLogin
-              // onSuccess={onSuccess}
+              onSuccess={onSuccess}
               onError={() => {
                 console.log('Login Failed');
               }}

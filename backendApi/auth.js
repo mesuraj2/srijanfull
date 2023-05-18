@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const url = require("url");
 const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -81,17 +82,18 @@ router.post("/verifyId", async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
-  console.log(req.query.id);
-  const user = await User.findById(req.query.id);                                 
-  console.log(user)
+  const userid = req.body.id ? req.body.id : req.query.id;
+  const user = await User.findById(userid);  
   if (user) {
     user.isverified = true;
     await user.save();
+    res.send({ success: true, message: "Suessfully Verified" });
   }
   else{
     console.log("User not found/ Malformed query id");
+    res.send({ success: false, message: "Failed to Verify" });
+
   }
-  res.send({ success: true, message: "done" });
 });
 
 // for google auth
@@ -123,12 +125,13 @@ router.post("/google", async (req, res) => {
                 pic: user.pic,
               });
             } else {
-              const salt = await bcrypt.genSalt(10);
-              const password = await bcrypt.hash(req.body.password, salt);
+              // const salt = await bcrypt.genSalt(10);
+              // console.log(req.body.password)
+              // const password = await bcrypt.hash(req.body.password, salt);
               result = await User.create({
                 name: name,
                 email: email,
-                password,
+                password: 'googleauth',
                 pic: picture,
                 isverified: true,
               });
@@ -177,6 +180,9 @@ router.post("/login", async (req, res) => {
     if (!user.isverified) {
       return res.json({ message: "Email not verified",isverified: false });
     }
+    if(user.password == 'googleauth'){
+      return res.json({ message: "Please Sign in via Google", success: false });
+    }
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) {
       return res.json({ message: "Password is incorrect", success: false });
@@ -186,8 +192,8 @@ router.post("/login", async (req, res) => {
         id: user.id,
       },
     };
-    var token = await jwt.sign(data, process.env.SECRET_KEY);
-    setCookie("authtoken", token);
+    var token = jwt.sign(data, process.env.SECRET_KEY);
+    setCookie("authtoken", token, { req, res });
     res.json({
       _id: user._id,
       name: user.name,
