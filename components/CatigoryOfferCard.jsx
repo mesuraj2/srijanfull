@@ -1,10 +1,10 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const CatigoryOfferCard = ({name, description, image, chatlink}) => {
-  //Need to update if user joins chat or create new chat
-  // Would be better if chat option is written maybe
+    const router = useRouter();
   return (
-    <div className="card card-side bg-base-100 shadow-xl xl:w-[25rem] 14xl:w-[28rem]  flex-col h-[30rem] w-[20rem] xl:flex-row xl:h-[15rem]">
+    <div className="card card-side bg-base-100 shadow-xl  xl:w-[25rem] 14xl:w-[28rem]  flex-row md:flex-col w-[25rem] h-[15rem] md:h-[30rem] md:w-[20rem] xl:flex-row xl:h-[15rem]">
       <figure>
         <img
           src={image}
@@ -16,7 +16,9 @@ const CatigoryOfferCard = ({name, description, image, chatlink}) => {
         <h2 className="card-title">{name}</h2>
         <p>{description}</p>
         <div className="card-actions justify-end">
-          <button className="btn ">Join Chat</button>
+          <button onClick={() => router.push('/offer')} className="btn">
+            Learn More
+          </button>
         </div>
       </div>
     </div>
