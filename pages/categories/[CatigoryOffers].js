@@ -46,7 +46,7 @@ const index = () => {
               </div>
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
                 {rep.map((item, index) => {
-                  return <CatigoryOfferCard />;
+                  return <CatigoryOfferCard key={index}/>;
                 })}
               </div>
             </div>
