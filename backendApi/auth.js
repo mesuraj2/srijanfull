@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const url = require("url");
 const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -22,27 +23,33 @@ var transporter = nodemailer.createTransport({
   },
 });
 
+// //Tests
+router.post("/test", async (req, res) => {
+  console.log("request Incoming")
+  console.log(req.body.uname,req.body.email,req.body.url,req.body.password)
+  res.json({ token: "123456789", success: true});
+})
+
 router.post("/", async (req, res) => {
-  // console.log(req.imgurl);
   const user = await User.findOne({ email: req.body.email });
   if (user) {
-    return res.json({ message: "email already exits", emailExits: true });
+    return res.json({ message: "Email already exists", emailExits: true, success: false });
   }
   const salt = await bcrypt.genSalt(10);
   const pass = await bcrypt.hash(req.body.password, salt);
   let result = await User.create({
-    name: req.body.name,
+    name: req.body.uname,
     email: req.body.email,
     password: pass,
     pic: req.body.url,
   });
-
+  console.log(result)
   var mailoption = {
     from: "<znsuraj7@gmail.com>",
     to: req.body.email,
-    subject: "verify your gmail",
-    html: `<h2> verify your gmail</h2>
-        <a href="http://localhost:3000/email/account/${result._id}"> verify accound ${req.body.name}</a>
+    subject: "Verify your Mail ID",
+    html: `<h2> Verify your Mail ID</h2>
+        <a href="http://localhost:3000/email/account/${result._id}"> verify account ${req.body.uname}</a>
         `,
   };
 
@@ -50,7 +57,7 @@ router.post("/", async (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log("verification send to your mail");
+      console.log("Verification Mail sent to your mail");
     }
   });
   const data = {
@@ -58,16 +65,16 @@ router.post("/", async (req, res) => {
       id: result.id,
     },
   };
-  //    console.log(data)
-  var token = await jwt.sign(data, SECRET_KEY);
-  res.json({ token: token });
+  var token = await jwt.sign(data, process.env.SECRET_KEY);
+  console.log(token)
+  res.json({ message: "OTP sent to your mail", token: token, success: true});
 });
 // for verify is it correct id
 
 router.post("/verifyId", async (req, res) => {
   let id = req.query.id;
   console.log(req.query.id);
-  const user = await User.findOne({ _id: id });
+  const user = await User.findById(id);
   if (user) {
     return res.send({ verify: true });
   }
@@ -75,19 +82,22 @@ router.post("/verifyId", async (req, res) => {
 });
 
 router.post("/verify", async (req, res) => {
-  console.log(req.query.id);
-  const user = await User.findOne({ email: req.params.email });
+  const userid = req.body.id ? req.body.id : req.query.id;
+  const user = await User.findById(userid);  
   if (user) {
     user.isverified = true;
     await user.save();
+    res.send({ success: true, message: "Suessfully Verified" });
   }
-  res.send({ success: true, message: "done" });
+  else{
+    console.log("User not found/ Malformed query id");
+    res.send({ success: false, message: "Failed to Verify" });
+
+  }
 });
 
 // for google auth
-
 router.post("/google", async (req, res) => {
-  // console.log(GoogleClientId)
   const { tokenid } = req.body;
   client
     .verifyIdToken({
@@ -115,12 +125,13 @@ router.post("/google", async (req, res) => {
                 pic: user.pic,
               });
             } else {
-              const salt = await bcrypt.genSalt(10);
-              const password = await bcrypt.hash(req.body.password, salt);
+              // const salt = await bcrypt.genSalt(10);
+              // console.log(req.body.password)
+              // const password = await bcrypt.hash(req.body.password, salt);
               result = await User.create({
                 name: name,
                 email: email,
-                password,
+                password: 'googleauth',
                 pic: picture,
                 isverified: true,
               });
@@ -151,12 +162,10 @@ router.get("/searchUser", fetchuser, async (req, res) => {
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
-    // console.log(users)
     res.send(users);
   } catch (error) {
     res.send("error");
   }
-  // console.log(keyword)
 });
 
 //login endpoint
@@ -164,24 +173,26 @@ router.get("/searchUser", fetchuser, async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    // console.log(email,password)
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.json({ message: "enter correct data", success: false });
+      return res.json({ message: "Email/Password is incorrect", success: false });
     }
     if (!user.isverified) {
-      return res.json({ isverified: false });
+      return res.json({ message: "Email not verified",isverified: false });
     }
-    const compare = await bcrypt.compare(password, user.password);
+    if(user.password == 'googleauth'){
+      return res.json({ message: "Please Sign in via Google", success: false });
+    }
+    const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) {
-      return res.json({ message: "enter correct data", success: false });
+      return res.json({ message: "Password is incorrect", success: false });
     }
     const data = {
       user: {
         id: user.id,
       },
     };
-    var token = await jwt.sign(data, process.env.SECRET_KEY);
+    var token = jwt.sign(data, process.env.SECRET_KEY);
     setCookie("authtoken", token, { req, res });
     res.json({
       _id: user._id,
@@ -190,7 +201,7 @@ router.post("/login", async (req, res) => {
       pic: user.pic,
     });
   } catch (error) {
-    res.status(500).json("internal server error");
+    res.status(500).json("Internal server error");
   }
 });
 

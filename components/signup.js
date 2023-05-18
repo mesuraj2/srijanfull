@@ -67,13 +67,40 @@ export default function Signup() {
     if (data.token) {
       toast({
         title: 'successfully created',
-        status: 'success ',
+        status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'top-left',
       });
     }
   };
+
+  const handleRegister = async () => {
+    let registervalue = values
+    registervalue['url'] = 'https://i.pravatar.cc/150?u=a042581f4e29026704d'
+    const response = await axios.post('/api/auth/', registervalue);
+    if (response.data.success == false) {
+      console.log('Failer')
+      toast({
+        title: response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-left',
+      });
+    }
+    else {
+      console.log('Success')
+      toast({
+        title: response.data.message,
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-left',
+      });
+      Router.push('/login');
+    }
+  }
   return (
     <>
       {/* UI FOR SIGNUP PAGE */}
@@ -96,9 +123,8 @@ export default function Signup() {
                 onBlur={onBlur}
                 type="email"
                 name="email"
-                className={`${
-                  touched.email && !values.email ? 'bg-red-100' : 'bg-white'
-                } input input-bordered w-[28rem]`}
+                className={`${touched.email && !values.email ? 'bg-red-100' : 'bg-white'
+                  } input input-bordered w-[28rem]`}
               />
               {/* FORM VALIDATION */}
               {touched.email && !values.email && (
@@ -117,9 +143,8 @@ export default function Signup() {
                 onBlur={onBlur}
                 type="text"
                 name="uname"
-                className={`${
-                  touched.uname && !values.uname ? 'bg-red-100' : 'bg-white'
-                } input input-bordered w-[28rem]`}
+                className={`${touched.uname && !values.uname ? 'bg-red-100' : 'bg-white'
+                  } input input-bordered w-[28rem]`}
               />
               {/* FORM VALIDATION */}
               {touched.uname && !values.uname && (
@@ -139,11 +164,10 @@ export default function Signup() {
                 onBlur={onBlur}
                 type="text"
                 name="password"
-                className={`${
-                  touched.password && !values.password
+                className={`${touched.password && !values.password
                     ? 'bg-red-100'
                     : 'bg-white'
-                } input input-bordered w-[28rem]`}
+                  } input input-bordered w-[28rem]`}
               />
               {/* FORM VALIDATION */}
               {touched.password && !values.password && (
@@ -155,9 +179,9 @@ export default function Signup() {
 
             <button
               disabled={!values.uname || !values.password || !values.email}
-              className={`${
-                isLoading ? 'loading' : ''
-              }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+              className={`${isLoading ? 'loading' : ''
+                }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+              onClick={handleRegister}
             >
               Sign up!
             </button>
