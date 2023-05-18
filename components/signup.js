@@ -67,7 +67,7 @@ export default function Signup() {
     if (data.token) {
       toast({
         title: 'successfully created',
-        status: 'success ',
+        status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'top-left',
@@ -79,8 +79,8 @@ export default function Signup() {
     let registervalue = values
     registervalue['url'] = 'https://i.pravatar.cc/150?u=a042581f4e29026704d'
     const response = await axios.post('/api/auth/', registervalue);
-    console.log(response.data)
-    if (response.success == false) {
+    if (response.data.success == false) {
+      console.log('Failer')
       toast({
         title: response.data.message,
         status: 'error',
@@ -90,6 +90,7 @@ export default function Signup() {
       });
     }
     else {
+      console.log('Success')
       toast({
         title: response.data.message,
         status: 'success',
@@ -97,7 +98,7 @@ export default function Signup() {
         isClosable: true,
         position: 'top-left',
       });
-      localStorage.setItem("token", response.data.token)
+      Router.push('/login');
     }
   }
   return (

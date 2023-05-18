@@ -1,6 +1,8 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 const CatigoryDisplay = () => {
+  const router = useRouter();
   return (
     <div className="w-screen md:pt-[4rem]  mb-[8rem] bg-[#B9E9FC] flex flex-col gap-10">
       <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider mt-10">
@@ -33,7 +35,10 @@ const CatigoryDisplay = () => {
             className="w-[15rem] rounded-md shadow-md"
           />
         </div>
-        <button class="btn btn-outline tracking-wide text-[1.1rem] my-10">
+        <button
+          onClick={() => router.push('/categories')}
+          class="btn btn-outline tracking-wide text-[1.1rem] my-10"
+        >
           Explore More
         </button>
       </div>

@@ -6,7 +6,7 @@ const getCookie = require("cookies-next").getCookie;
 const fetchuser = (req, res, next) => {
   const token = getCookie("authtoken", { req, res });
   if (!token) {
-    return res.send({ error: "please authenticate first" });
+    return res.send({ error: "Please authenticate first" });
   }
 
   try {

@@ -1,17 +1,31 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import { FaFilter } from 'react-icons/fa';
 import SearchBar from '../../components/SearchBar';
 import Filter from '../../components/offer/filter';
 import CatigoryOfferCard from '../../components/CatigoryOfferCard';
+import FilterDrawer from '../../components/FilterDrawer';
+import axios from 'axios';
 
 const index = () => {
-  const rep = [1, 2, 3, 4, 5, 6, 77, 8, 9];
+  //Updating this will change number of items in categories/categoryoffer
+  const rep = [1, 2, 3];
+  const [categoryoffers, setcategoryoffers] = useState([])
   const router = useRouter();
   const catigoryName = router.query.CatigoryOffers;
-  console.log(catigoryName);
+  const fetchItems = async () => {
+    console.log(catigoryName)
+      axios.get(`/api/offer/categoryoffers`).then((res) => { setcategoryoffers(res.data) })
+    
+  }
+
+  useEffect(() => {
+    fetchItems()
+    console.log(categoryoffers)
+  }, [])
+
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="w-[90%] mx-auto">
@@ -27,11 +41,15 @@ const index = () => {
         <div className="flex items-center justify-center mx-auto  mt-10">
           <SearchBar globalClassName={''} inputClassName={'w-[28rem]'} />
         </div>
-        <div className="drawer drawer-mobile h-auto my-20">
-          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content flex flex-col items-center ">
-            {/* <!-- Page content here --> */}
-
+        <div className="flex justify-end lg:hidden my-5">
+          <FilterDrawer />
+        </div>
+{/* //Its' gonna be buggy here, fix it
+// <<<<<<< fronted */}
+        <div className="flex flex-row gap-10">
+          <div className="hidden lg:block">
+            <FilterDrawer />
+{/* // ======= */}
             <div className="flex flex-col gap-5">
               <div className="ml-auto">
                 <label
@@ -46,24 +64,41 @@ const index = () => {
               </div>
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
                 {rep.map((item, index) => {
-                  return <CatigoryOfferCard key={index}/>;
+                  return <CatigoryOfferCard
+                    name="Puma Sneakers"
+                    image="https://assets.tatacliq.com/medias/sys_master/images/31135470419998.jpg"
+                    description="Brand New Puma Sneakers" />;
+                })}
+                {categoryoffers && categoryoffers.map(item => {
+                  return <CatigoryOfferCard
+                    name={item.offername}
+                    image={item.image[0]}
+                    description={item.description} />;
                 })}
               </div>
             </div>
+{/* // >>>>>>> backend */}
           </div>
-          <div className="drawer-side">
-            <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-            <div className="flex flex-col gap-5 p-4 mt-4 lg:w-[16rem] xl:w-[18rem] 2xl:w-[22rem] bg-base-100 text-base-content  rounded-md ">
-              <div>
-                <Filter />
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 my-10 lg:gap-x-5  gap-y-5 items-center justify-center mx-auto">
+            {rep.map((item, index) => {
+              return <CatigoryOfferCard />;
+            })}
           </div>
         </div>
       </div>
+
       <FooterT2 />
     </div>
   );
 };
 
 export default index;
+
+
+// // This gets called on every request
+// export async function getServerSideProps(context) {
+//   const catigoryName=context.query.CatigoryOffers
+
+//   const {data}=await axios.get(`/api/offer/categoryoffers`)
+//   return { props: {  } };
+// }
