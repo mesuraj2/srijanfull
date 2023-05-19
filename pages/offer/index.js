@@ -39,7 +39,7 @@ const index = () => {
               <h2 className="tracking-wider text-black/90 secondary_font text-[1.3rem]">
                 Save 20% On Purchase Of 2 Sneakers
               </h2>
-              <p className="tracking-wider text-black/60 secondary_font text-[1.15rem]">
+              <p className="tracking-wider text-black/70 secondary_font text-[1.15rem]">
                 PUMA Sunny Saving Days - Save 20% on Purchase of 2 Sections in
                 Off sitewide. Shop Your Favorite Styles Now.
               </p>
@@ -68,8 +68,8 @@ const index = () => {
                   />
                 </svg>
               </button>
-              <button className="btn btn-error text-white secondary_font text-[1.15rem] mt-5">
-                Start Pooling
+              <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]">
+                Pool Now
               </button>
             </div>
           </div>

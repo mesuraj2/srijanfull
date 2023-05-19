@@ -19,15 +19,16 @@ export default function Verify({ verifyId }) {
     const { data } = await axios.post("/api/auth/verify", {
       id: router.query.verify,
     });
-    console.log(data);
     toast({
-      title: "Suessfully verified",
-      status: "success",
+      title: data.message,
+      status: data.success ? "success" : "error",
       duration: 5000,
       isClosable: true,
       position: "top",
     });
-    setlogin(true);
+    if(data.status){
+      setlogin(true);
+    }
   };
   return (
     <div>
