@@ -78,6 +78,7 @@ router.get("/categoryoffers", async (req, res) => {
     let queryObject = { ...queryObj, ...location };
     let query;
     let limit = req.query.limit ? req.query.limit : 16
+    console.log(queryObject)
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
@@ -224,6 +225,7 @@ router.get("/allOffer/", async (req, res) => {
     const skip = (page - 1) * 16;
 
     let queryObject = { ...queryObj, ...location };
+    console.log(queryObject)
     let query;
     if (Array.isArray(req.query.sort)) {
       let obj = {};

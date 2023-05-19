@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import GetStarted from './GetStarted';
 import UserPanel from './UserPanel';
+import { getCookie } from "cookies-next";
 
 const NavbarT2 = () => {
   const links = {
@@ -13,6 +14,18 @@ const NavbarT2 = () => {
     // 'CONTACT US': '/contact',
   };
   const router = useRouter();
+  const [signedin, setsignedin] = useState(false);
+  useEffect(() => {
+    // axios.get('')
+    if (getCookie("authtoken")) {
+      setsignedin(true);
+    }
+    else {
+      setsignedin(false);
+    }
+    console.log('hello')
+
+  })
   return (
     <div>
       {/* <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[4rem]  main__font tracking-wider">
@@ -82,11 +95,10 @@ const NavbarT2 = () => {
           <ul className="flex flex-row w-ful justify-center gap-5 xl:gap-10 secondary_font text-[1.2rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto px-5">
             {Object.keys(links).map((linkKey, index) => (
               <li
-                className={`${
-                  `${links[linkKey].toLowerCase()}` === router.pathname
+                className={`${`${links[linkKey].toLowerCase()}` === router.pathname
                     ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
                     : ''
-                } cursor-pointer hover:-translate-y-1 transition-all`}
+                  } cursor-pointer hover:-translate-y-1 transition-all`}
                 key={index}
               >
                 <Link href={links[linkKey]}>{linkKey}</Link>
@@ -95,8 +107,7 @@ const NavbarT2 = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <UserPanel />
-          {/* <GetStarted /> */}
+          {signedin ? <UserPanel /> : <GetStarted />}
         </div>
       </div>
     </div>

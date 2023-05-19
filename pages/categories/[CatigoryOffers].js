@@ -6,25 +6,31 @@ import { FaFilter } from 'react-icons/fa';
 import SearchBar from '../../components/SearchBar';
 import Filter from '../../components/offer/filter';
 import CatigoryOfferCard from '../../components/CatigoryOfferCard';
-import FilterDrawer from '../../components/FilterDrawer';
 import axios from 'axios';
 
-const index = () => {
+const index = ({ categoryoffers }) => {
+  // Explanation
+  // 'checked' will give the current checked radius
+  // if 'checked' is changed it will change the url with radius query as checked
+  // so backend will fetch offers with the 'checked' radius
+
+  // Thinking of using context provider instead of prop drilling
+
+  const [checked, setChecked] = useState('');
+  const distancedict = {
+    '200 m': 200,
+    '500 m': 500,
+    '1 km': 1000,
+    '2 km': 2000,
+    '5 km': 5000,
+  }
   //Updating this will change number of items in categories/categoryoffer
-  const rep = [1, 2, 3];
-  const [categoryoffers, setcategoryoffers] = useState([])
   const router = useRouter();
   const catigoryName = router.query.CatigoryOffers;
-  const fetchItems = async () => {
-    console.log(catigoryName)
-      axios.get(`/api/offer/categoryoffers`).then((res) => { setcategoryoffers(res.data) })
-    
-  }
 
-  useEffect(() => {
-    fetchItems()
-    console.log(categoryoffers)
-  }, [])
+  useEffect(()=>{
+    router.push({path: router.pathname, query : {...router.query, radius: distancedict[checked] }})
+  },[checked])
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -41,15 +47,11 @@ const index = () => {
         <div className="flex items-center justify-center mx-auto  mt-10">
           <SearchBar globalClassName={''} inputClassName={'w-[28rem]'} />
         </div>
-        <div className="flex justify-end lg:hidden my-5">
-          <FilterDrawer />
-        </div>
-//Its' gonna be buggy here, fix it
-// <<<<<<< fronted
-        <div className="flex flex-row gap-10">
-          <div className="hidden lg:block">
-            <FilterDrawer />
-// =======
+        <div className="drawer drawer-mobile h-auto my-20">
+          <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content flex flex-col items-center ">
+            {/* <!-- Page content here --> */}
+
             <div className="flex flex-col gap-5">
               <div className="ml-auto">
                 <label
@@ -63,12 +65,6 @@ const index = () => {
                 </label>
               </div>
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
-                {rep.map((item, index) => {
-                  return <CatigoryOfferCard
-                    name="Puma Sneakers"
-                    image="https://assets.tatacliq.com/medias/sys_master/images/31135470419998.jpg"
-                    description="Brand New Puma Sneakers" />;
-                })}
                 {categoryoffers && categoryoffers.map(item => {
                   return <CatigoryOfferCard
                     name={item.offername}
@@ -77,19 +73,35 @@ const index = () => {
                 })}
               </div>
             </div>
-// >>>>>>> backend
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 my-10 lg:gap-x-5  gap-y-5 items-center justify-center mx-auto">
-            {rep.map((item, index) => {
-              return <CatigoryOfferCard />;
-            })}
+          <div className="drawer-side">
+            <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
+            <div className="flex flex-col gap-5 p-4 mt-4 lg:w-[16rem] xl:w-[18rem] 2xl:w-[22rem] bg-base-100 text-base-content  rounded-md ">
+              <div>
+                <Filter checked={checked} setChecked={setChecked} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <FooterT2 />
     </div>
   );
 };
 
 export default index;
+
+export async function getServerSideProps(context) {
+  const q = context.query
+  q['category'] = context.query.CatigoryOffers
+  const { data } = await axios.get(
+    `${process.env.DOMAIN_URI}/api/offer/categoryoffers`,
+    {
+      params: q,
+    }
+  );
+
+  return {
+    props: { categoryoffers: data }, // will be passed to the page component as props
+  };
+}

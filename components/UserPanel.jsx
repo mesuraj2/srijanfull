@@ -1,6 +1,11 @@
 import React from 'react';
+import { deleteCookie } from "cookies-next";
 
 const UserPanel = () => {
+  const handleLogout = () => {
+    deleteCookie('authtoken');
+    window.location.reload();
+  }
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
@@ -67,7 +72,7 @@ const UserPanel = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={handleLogout}>Logout</a>
             </li>
           </ul>
         </div>
