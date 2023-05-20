@@ -76,9 +76,7 @@ export default function Signup() {
   };
 
   const handleRegister = async () => {
-    let registervalue = values
-    registervalue['url'] = 'https://i.pravatar.cc/150?u=a042581f4e29026704d'
-    const response = await axios.post('/api/auth/', registervalue);
+    const response = await axios.post('/api/auth/', values);
     if (response.data.success == false) {
       console.log('Failer')
       toast({

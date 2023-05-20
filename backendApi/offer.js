@@ -46,8 +46,28 @@ router.get("/categories", async (req, res) => {
   res.json(categories)
 })
 
+router.get('/searchoffers', async (req, res) => {
+  try {
+    let search = req.query.search
+    let searchquery = {
+      description: {
+        $text: {
+          $search: search
+        }
+      }
+    }
+
+    let query = await offer.find(searchquery)
+    console.log(searchquery)
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
+
 router.get("/categoryoffers", async (req, res) => {
   try {
+    let search = req.query.search
     let radius = req.query.radius
     let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
     let location = radius ? ({
@@ -64,17 +84,29 @@ router.get("/categoryoffers", async (req, res) => {
         },
       },
     })
+    let searchquery = {
+      description: {
+        $text: {
+          $search: search
+        }
+      }
+
+    }
     // Lets understand the code
     // so there will be list of query parameters, some of the query parameters can be handled by 
     // mongodb, like color=black etc, others like page , sort are not to be handled by mongodb
     let queryObj = { ...req.query };
-    // console.log(queryObj)
-    const excludeFiels = ["page", "sort", "limit", "lat", "long"];
+    console.log(queryObj)
+    const excludeFiels = ["page", "sort", "limit", "lat", "long", "search"];
     excludeFiels.forEach((el) => delete queryObj[el]);
     const page = req.query.page ? req.query.page : 1;
     const skip = (page - 1) * 16;
 
-    let queryObject = { ...queryObj, ...location };
+    // let queryObject = search ? { ...queryObj, ...location } : { ...queryObj, ...location, ...searchquery};
+    let queryObject = { ...queryObj, ...location }
+    if (search) {
+      queryObject = { ...queryObject, ...searchquery }
+    }
     let query;
     let limit = req.query.limit ? req.query.limit : 16
     console.log(queryObject)

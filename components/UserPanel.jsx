@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { deleteCookie } from "cookies-next";
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
-const UserPanel = ({setsignedin}) => {
+const UserPanel = () => {
+  const router = useRouter();
+  const [userimage, setuserimage] = useState('');
+
+  const getUser = async () => {
+    const res = await axios.get('http://localhost:3000/api/auth/getUser');
+    setuserimage(res.data.pic);
+  }
+
   const handleLogout = () => {
     deleteCookie('authtoken');
-    // window.location.reload();
-    setsignedin(false)
+    router.push('/')
   }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
@@ -47,7 +61,7 @@ const UserPanel = ({setsignedin}) => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full ">
-              <img src="https://static.vecteezy.com/system/resources/previews/011/484/608/original/anime-boy-avatar-vector.jpg" />
+              <img src={userimage ? userimage : 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'} />
             </div>
           </label>
           <ul

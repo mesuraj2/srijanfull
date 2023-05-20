@@ -41,7 +41,6 @@ router.post("/", async (req, res) => {
     name: req.body.uname,
     email: req.body.email,
     password: pass,
-    pic: req.body.url,
   });
   console.log(result)
   var mailoption = {
@@ -65,15 +64,13 @@ router.post("/", async (req, res) => {
       id: result.id,
     },
   };
-  var token = await jwt.sign(data, process.env.SECRET_KEY);
-  console.log(token)
+  var token = jwt.sign(data, process.env.SECRET_KEY);
   res.json({ message: "OTP sent to your mail", token: token, success: true});
 });
 // for verify is it correct id
 
 router.post("/verifyId", async (req, res) => {
   let id = req.query.id;
-  console.log(req.query.id);
   const user = await User.findById(id);
   if (user) {
     return res.send({ verify: true });
@@ -150,23 +147,6 @@ router.post("/google", async (req, res) => {
     });
 });
 
-//searching the users
-router.get("/searchUser", fetchuser, async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
-  try {
-    const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
-    res.send(users);
-  } catch (error) {
-    res.send("error");
-  }
-});
 
 //login endpoint
 
@@ -205,9 +185,27 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/getuser", fetchuser, async (req, res) => {
+//searching the users
+router.get("/searchUser", fetchuser, async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
   try {
-    userId = req.user.id;
+    const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
+    res.send(users);
+  } catch (error) {
+    res.send("error");
+  }
+});
+
+router.get("/getuser", fetchuser, async (req, res) => {
+  try {
+    let userId = req.user.id;
     const user = await User.findOne({ _id: userId }).select("-password");
     res.send(user);
   } catch (error) {
