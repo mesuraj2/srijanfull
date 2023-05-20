@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
     to: req.body.email,
     subject: "Verify your Mail ID",
     html: `<h2> Verify your Mail ID</h2>
-        <a href="http://localhost:3000/email/account/${result._id}"> verify account ${req.body.uname}</a>
+        <a href="${process.env.DOMAIN_URI}/email/account/${result._id}"> verify account ${req.body.uname}</a>
         `,
   };
 

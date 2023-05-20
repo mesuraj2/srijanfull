@@ -172,7 +172,7 @@ export default function Login({ onClose }) {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={onBlur}
-                type="text"
+                type="password"
                 name="password"
                 className={`${touched.password && !values.password
                     ? 'bg-red-100'
@@ -205,12 +205,12 @@ export default function Login({ onClose }) {
           </div>
           <div>
             New To Pool & Save?{' '}
-            <Link
+            <button
               className="border-b-2 border-black ml-2"
-              href="/login?signup=true"
+              onClick={()=>Router.push('/login?signup=true')}
             >
               Sign up
-            </Link>
+            </button>
           </div>
         </div>
       </div>
