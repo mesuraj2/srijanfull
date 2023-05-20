@@ -13,6 +13,7 @@ const index = () => {
     offerImag1:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkOYMM5349QtMehTFrnjxJ2QZeTbejMs6dDoEsBNz5GJ5iSqBEo9qIfkL3VWuFQdPkbKI&usqp=CAU',
   };
+  const router = useRouter();
   const badgeList = ['puma', 'discount', 'hot', 'shoes', 'Sneakers'];
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -68,7 +69,10 @@ const index = () => {
                   />
                 </svg>
               </button>
-              <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]">
+              <button
+                onClick={() => router.push('/radar')}
+                className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]"
+              >
                 Pool Now
               </button>
             </div>
