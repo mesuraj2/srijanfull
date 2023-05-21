@@ -93,6 +93,7 @@ router.post("/", async (req, res) => {
 });
 // for verify is it correct id
 
+// otp Verification
 router.post("/verifyOtp", async (req, res) => {
   try {
     const { userId, otp } = req.body;
