@@ -285,26 +285,53 @@ router.get("/allOffer/", async (req, res) => {
   }
 });
 
+
+// Gets Offer chat for a particualar offer
+router.post("/offerchats", async (req, res) => {
+  try {
+    const radius = req.query.radius
+    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
+    const locationquery = {
+      Location: {
+        $near: {
+          $geometry: { type: "Point", coordinates: coordinte },
+          $maxDistance: radius,
+        },
+      },
+    }
+    // const { lat, long } = req.query;
+    let query = { _id: req.body.id }
+    query = radius ? { ...query, ...locationquery } : query
+    console.log(query)
+    let data = await offer
+    .find(query)
+    .populate("chat_id", "Location chatName users");
+    res.status(200).json(data[0]);
+  } catch (error) {
+    res.send(error)
+  }
+})
+
 router.post("/offerdetail", async (req, res) => {
   try {
-    const { lat, long } = req.query;
+    // const { lat, long } = req.query;
     let fullGroupChat = await offer
       .find({ _id: req.body.id })
-      .populate("chat_id", "Location chatName");
+      .populate("chat_id", "Location chatName users");
     let chatDistacne = [];
-    if (fullGroupChat[0].chat_id) {
-      fullGroupChat[0].chat_id.forEach((value) => {
-        let a = [lat, long];
-        let b = value.Location.coordinates;
-        const dist = haversine(a, b) / 1000;
-        let obj = {
-          _id: value._id,
-          chatName: value.chatName,
-          Distance: dist,
-        };
-        chatDistacne.push(obj);
-      });
-    }
+    // if (fullGroupChat[0].chat_id) {
+    //   fullGroupChat[0].chat_id.forEach((value) => {
+    //     let a = [lat, long];
+    //     let b = value.Location.coordinates;
+    //     const dist = haversine(a, b) / 1000;
+    //     let obj = {
+    //       _id: value._id,
+    //       chatName: value.chatName,
+    //       Distance: dist,
+    //     };
+    //     chatDistacne.push(obj);
+    //   });
+    // }
     let distance = chatDistacne.slice(0);
     distance.sort(function (a, b) {
       return b.Distance - a.Distance;

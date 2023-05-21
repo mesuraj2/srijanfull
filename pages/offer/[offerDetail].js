@@ -1,20 +1,30 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import Carousel from '../../components/Carousel';
 import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import OfferBadges from '../../components/OfferBadges';
 import SearchBar from '../../components/SearchBar';
 import { ImLocation } from 'react-icons/im';
+import axios from 'axios';
 
-const index = () => {
+const index = ({ data }) => {
   const imageLinks = {
     offerName: 'https://i.ytimg.com/vi/cBU87-41urA/maxresdefault.jpg',
     offerImag1:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkOYMM5349QtMehTFrnjxJ2QZeTbejMs6dDoEsBNz5GJ5iSqBEo9qIfkL3VWuFQdPkbKI&usqp=CAU',
   };
+  let imglinks = new Object();
+  for(var i = 0; i < data.image.length; i++) {
+    // imglinks.set(i,data.image[i])
+    imglinks[i] = data.image[i];
+  }
+  console.log(imglinks)
+  console.log(imageLinks)
+  console.log(typeof imglinks)
+  console.log(typeof imageLinks)
   const router = useRouter();
-  const badgeList = ['puma', 'discount', 'hot', 'shoes', 'Sneakers'];
+  // const badgeList = ['puma', 'discount', 'hot', 'shoes', 'Sneakers'];
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="w-[90%] mx-auto">
@@ -28,28 +38,27 @@ const index = () => {
         <div className="my-[2rem]">
           <div className="flex flex-row gap-10">
             <div className="14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] rounded-md">
-              <Carousel imageLinks={imageLinks} />
+              <Carousel imageLinks={imglinks} />
             </div>
             <div className="my-[2rem] flex flex-col gap-5">
               <div className="flex flex-row gap-10 items-center ">
                 <p className="uppercase text-black/70 text-[1.5rem] main__font  font-[600]">
-                  Puma
+                  {data.offername}
                 </p>
-                <OfferBadges badgeList={badgeList} />
+                {data.tags? <OfferBadges badgeList={data.tags} />: ''}
               </div>
               <h2 className="tracking-wider text-black/90 secondary_font text-[1.3rem]">
-                Save 20% On Purchase Of 2 Sneakers
+                {data.smalldescription ? data.smalldescription : ''}
               </h2>
               <p className="tracking-wider text-black/70 secondary_font text-[1.15rem]">
-                PUMA Sunny Saving Days - Save 20% on Purchase of 2 Sections in
-                Off sitewide. Shop Your Favorite Styles Now.
+               {data.description}
               </p>
               <div className="tracking-wider text-black/50 secondary_font text-[.9rem] flex flex-row items-center gap-2">
-                <ImLocation />
+                
+              {data.locationdesc? <div className='flex'><ImLocation />
                 <p>
-                  H No 3/6/111/7 & 6, GF & 1st Flr, Puma Store, Liberty Main Rd
-                  Himayat Ngr Hyderabad - 500029
-                </p>
+                   {data.locationdesc}
+                </p></div>: ''}
               </div>
 
               <button className="btn w-fit btn-outline flex flex-row gap-2 items-center mt-5">
@@ -70,9 +79,8 @@ const index = () => {
                 </svg>
               </button>
               <button
-                onClick={() => router.push('/radar')}
-                className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]"
-              >
+                onClick={() => router.push(`/radar/${data._id}`)}
+                className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]">
                 Pool Now
               </button>
             </div>
@@ -85,6 +93,29 @@ const index = () => {
 };
 
 export default index;
+
+export async function getServerSideProps(context) {
+  const offerid = context.query.offerDetail
+  const { data } = await axios.post(
+    `${process.env.DOMAIN_URI}/api/offer/offerchats`,
+    {
+      id: offerid
+    }
+  );
+  return {
+    props: { data: data }, // will be passed to the page component as props
+  };
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
