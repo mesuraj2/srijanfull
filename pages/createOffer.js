@@ -49,7 +49,7 @@ const createOffer = () => {
             disabled={true}
             className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
           >
-            Start Pooling
+            Pool Now
           </button>
         </div>
       </div>
