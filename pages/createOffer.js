@@ -41,11 +41,14 @@ const createOffer = () => {
           </div>
         </div>
 
-        <div className="flex items-center pb-[5rem]">
-          {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem] w-[20rem]">
+        <div className="flex items-center justify-center pb-[5rem] gap-5 pt-[2rem]">
+          <button className="btn  btn-outline secondary_font  mt-5  text-[1.2rem] w-[20rem]">
             Create New Offer
-          </button> */}
-          <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem] w-[20rem]">
+          </button>
+          <button
+            disabled={true}
+            className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
+          >
             Start Pooling
           </button>
         </div>
