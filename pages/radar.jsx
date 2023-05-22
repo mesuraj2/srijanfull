@@ -87,7 +87,7 @@ const radar = () => {
         <div className="my-[5rem] flex flex-row justify-center gap-[5rem] items-center">
           <div className="flex flex-col gap-5 ">
             <img src="/img/map.jpg" className="w-[40rem]" alt="image" />
-            <select className="select  w-[40rem]">
+            <select className="select  w-fit mx-auto">
               <option disabled selected>
                 Pick Radius
               </option>
@@ -99,11 +99,11 @@ const radar = () => {
             </select>
           </div>
           <div className="">
-            {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
+            <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
               Search
-            </button> */}
+            </button>
             {/* <JoinChatPanel /> */}
-            <CreateChatForm />
+            {/* <CreateChatForm /> */}
           </div>
         </div>
       </div>
