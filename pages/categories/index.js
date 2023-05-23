@@ -11,6 +11,7 @@ const categories = () => {
     router.push(`/categories/${catigoryName}`);
   };
 
+  // we will also impliment it with backend later
   const [categorieslist, setcategorieslist] = useState([]);
   const onLoad = () => {
     const res = axios.get("/api/offer/categories")
@@ -23,6 +24,7 @@ const categories = () => {
   useEffect(() => {
     onLoad();
   }, []);
+  
 
   return (
     <div className="w-screen bg-[#B9E9FC]">

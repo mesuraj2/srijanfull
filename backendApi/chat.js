@@ -59,7 +59,7 @@ router.post("/", fetchuser, async (req, res) => {
   // res.send(result._id)
 });
 
-//@description     Create New offer Chat
+// @description     Create New offer Chat
 router.post("/offerchat", fetchuser, async (req, res) => {
   const { chatName, offerid, coordinate } = req.body;
   let location = JSON.parse(coordinate);
@@ -216,7 +216,7 @@ router.put("/groupremove", fetchuser, async (req, res) => {
 router.put("/groupadd", fetchuser, async (req, res) => {
   const { chatId, userId } = req.body;
 
-  // let check=await Chat.find({_id:chatId,users:{$elemMatch:{$eq:userId}}})
+  // let check = await Chat.find({_id:chatId,users:{$elemMatch:{$eq:userId}}})
   // if(check){
   //   return res.send('user aleady exits');
   // }
