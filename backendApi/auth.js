@@ -47,10 +47,21 @@ router.post("/", async (req, res) => {
   var mailoption = {
     from: "<znsuraj7@gmail.com>",
     to: req.body.email,
-    subject: "Verify your Mail ID",
-    html: `<h2> Verify your Mail ID</h2>
-        <a href="http://localhost:3000/email/account/${result._id}"> verify account ${req.body.uname}</a>
-        `,
+    subject: "Account Verification - One-Time Password (OTP)",
+    html: 
+    // `<h2> Verify your Mail ID</h2>
+    //     <a href="http://localhost:3000/email/account/${result._id}"> verify account ${req.body.uname}</a>
+    //     `,
+
+        `<p>Welcome to Picapool.com- Your Gateway to Amazing Group Buying Deals!</p>
+        <p style="font-size:1.1em">Hi,${req.body.uname}</p>
+        <p>We are thrilled to welcome you to Picapool.com, your go-to platform for incredible group buying opportunities! On behalf of our entire team, I would like to express our sincere appreciation for choosing us as your preferred destination for amazing deals and savings.</p>
+        <p>We're delighted that you've chosen Picapool.com as your partner in discovering exceptional group buying deals. Get ready to embark on a journey of incredible savings and unforgettable experiences!</p>
+        <p>Thank you for choosing Picapool.com. Use the following OTP to complete your Sign Up procedures. OTP is valid for 3 minutes</p>
+        <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">324457</h2>
+        <p style="font-size:0.9em;">Best Regards,<br />Team Pica Pool</p>
+
+        `
   };
 
   transporter.sendMail(mailoption, function (error, info) {
