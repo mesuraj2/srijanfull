@@ -24,7 +24,7 @@ const NavbarT2 = () => {
     else {
       setsignedin(false);
     }
-  },[])
+  },[signedin])
   return (
     <div>
       {/* <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[4rem]  main__font tracking-wider">

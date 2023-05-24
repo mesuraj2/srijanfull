@@ -9,6 +9,9 @@ const haversine = require("haversine-distance");
 const { off } = require("../models/chat");
 // const querystring = require("querystring");
 
+// 26.40583
+// 83.83844
+
 const categories = [
   {
     name: 'cloth',
@@ -143,6 +146,7 @@ router.post("/", fetchuser, async (req, res) => {
   } = req.body;
   console.log(desc);
   let location = JSON.parse(coordinate);
+  console.log(location)
   // var locat= location.map(String)
   try {
     const offer1 = await offer.create({
