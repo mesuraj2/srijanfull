@@ -71,9 +71,9 @@ router.get('/searchoffers', async (req, res) => {
 router.get("/categoryoffers", async (req, res) => {
   try {
     let search = req.query.search
-    let radius = req.query.radius
-    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
-    let location = radius ? ({
+    let radius =Number(req.query.radius)
+    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [26.405817, 83.838554];
+    let location = radius>0 ? ({
       Location: {
         $near: {
           $geometry: { type: "Point", coordinates: coordinte },
@@ -99,8 +99,8 @@ router.get("/categoryoffers", async (req, res) => {
     // so there will be list of query parameters, some of the query parameters can be handled by 
     // mongodb, like color=black etc, others like page , sort are not to be handled by mongodb
     let queryObj = { ...req.query };
-    console.log(queryObj)
-    const excludeFiels = ["page", "sort", "limit", "lat", "long", "search"];
+    console.log("from query",queryObj)
+    const excludeFiels = ["page", "sort", "limit", "lat","radius", "long", "search"];
     excludeFiels.forEach((el) => delete queryObj[el]);
     const page = req.query.page ? req.query.page : 1;
     const skip = (page - 1) * 16;
@@ -112,7 +112,7 @@ router.get("/categoryoffers", async (req, res) => {
     }
     let query;
     let limit = req.query.limit ? req.query.limit : 16
-    console.log(queryObject)
+    console.log("query" ,queryObject)
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
@@ -122,7 +122,6 @@ router.get("/categoryoffers", async (req, res) => {
     } else {
       query = await offer
         .find(queryObject)
-        .sort(req.query.sort)
         .limit(limit)
         .skip(skip);
     }
@@ -149,6 +148,7 @@ router.post("/", fetchuser, async (req, res) => {
   console.log(location)
   // var locat= location.map(String)
   try {
+    // let location = JSON.parse(coordinate)? JSON.parse(coordinate):[26.405817, 83.838554];
     const offer1 = await offer.create({
       offername: Offername,
       category,
@@ -159,12 +159,13 @@ router.post("/", fetchuser, async (req, res) => {
       color,
       Location: {
         type: "Point",
-        coordinates: location,
+        coordinates: [26.405817, 83.838554],
       },
       chat_id: offer_chat_id,
     });
-    const fullGroupChat = await offer.findOne({ _id: offer1._id });
-    res.status(200).json(fullGroupChat);
+    // console.log(offer1)
+    // const fullGroupChat = await offer.findOne({ _id: offer1._id });
+    res.status(200).json(offer1);
   } catch (error) {
     res.send(error);
   }
@@ -173,7 +174,7 @@ router.post("/", fetchuser, async (req, res) => {
 router.get("/offernearyou", async (req, res) => {
   const { coordinate } = req.body;
   let location = JSON.parse(coordinate);
-  console.log(typeof location);
+  // console.log(typeof location);
   try {
     const fullGroupChat = await offer.find({
       Location: {
@@ -260,7 +261,7 @@ router.get("/allOffer/", async (req, res) => {
     const skip = (page - 1) * 16;
 
     let queryObject = { ...queryObj, ...location };
-    console.log(queryObject)
+    // console.log(queryObject)
     let query;
     if (Array.isArray(req.query.sort)) {
       let obj = {};
@@ -294,7 +295,9 @@ router.get("/allOffer/", async (req, res) => {
 router.post("/offerchats", async (req, res) => {
   try {
     const radius = req.query.radius
-    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
+
+    let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)]
+    // (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
     const locationquery = {
       Location: {
         $near: {

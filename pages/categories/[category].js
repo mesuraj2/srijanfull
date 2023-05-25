@@ -94,7 +94,8 @@ export default index;
 
 export async function getServerSideProps(context) {
   const q = context.query
-  q['category'] = context.query.CatigoryOffers
+  // console.log(q)
+  // q['category'] = context.query.CatigoryOffers
   const { data } = await axios.get(
     `${process.env.DOMAIN_URI}/api/offer/categoryoffers`,
     {
