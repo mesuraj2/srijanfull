@@ -15,10 +15,12 @@ const index = ({ data }) => {
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkOYMM5349QtMehTFrnjxJ2QZeTbejMs6dDoEsBNz5GJ5iSqBEo9qIfkL3VWuFQdPkbKI&usqp=CAU',
   };
   let imglinks = new Object();
+  if(data.image){
   for(var i = 0; i < data.image.length; i++) {
     // imglinks.set(i,data.image[i])
     imglinks[i] = data.image[i];
   }
+}
   console.log(imglinks)
   console.log(imageLinks)
   console.log(typeof imglinks)

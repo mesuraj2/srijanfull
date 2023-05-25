@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-const ImageUploader = () => {
-  const [images, setImages] = useState([]);
+const ImageUploader = ({ setImages }) => {
 
   const onDrop = (acceptedFiles) => {
     if (acceptedFiles.length <= 5) {

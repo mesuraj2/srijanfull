@@ -102,7 +102,7 @@ export async function getServerSideProps(context) {
       params: q,
     }
   );
-    // console.log(data)
+    console.log(data)
   return {
     props: { categoryoffers: data }, // will be passed to the page component as props
   };
