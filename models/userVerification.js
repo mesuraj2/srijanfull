@@ -12,7 +12,7 @@ const UserVerification=mongoose.Schema({
     timestamps:true
 })
 
-UserVerification.index({createdAt: 1},{expireAfterSeconds: 3600000});
+UserVerification.index({createdAt: 1},{expireAfterSeconds: 300});
 
 module.exports=mongoose.model('userVerification',UserVerification);
 
