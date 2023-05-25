@@ -24,7 +24,7 @@ import { FaUserAlt, FaLock } from 'react-icons/fa';
 
 import Login from './login';
 import { GoogleLogin } from '@react-oauth/google';
-import Link from 'next/link';
+// import Link from 'next/link';
 
 export default function Signup() {
   const toast = useToast();
@@ -76,9 +76,7 @@ export default function Signup() {
   };
 
   const handleRegister = async () => {
-    let registervalue = values
-    registervalue['url'] = 'https://i.pravatar.cc/150?u=a042581f4e29026704d'
-    const response = await axios.post('/api/auth/', registervalue);
+    const response = await axios.post('/api/auth/', values);
     if (response.data.success == false) {
       console.log('Failer')
       toast({
@@ -197,9 +195,9 @@ export default function Signup() {
             {/* WHEN CLICKED REDICT TO SIGN-UP PAGE */}
             <div>
               Already user?{' '}
-              <Link className="border-b-2 border-black ml-2" href="/login">
+              <button className="border-b-2 border-black ml-2" onClick={()=>Router.push('/login')}>
                 Log In
-              </Link>
+              </button>
             </div>
           </div>
         </div>

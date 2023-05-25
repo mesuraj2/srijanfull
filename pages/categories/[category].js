@@ -67,6 +67,7 @@ const index = ({ categoryoffers }) => {
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
                 {categoryoffers && categoryoffers.map(item => {
                   return <CatigoryOfferCard
+                    _id={item._id}
                     name={item.offername}
                     image={item.image[0]}
                     description={item.description} />;
@@ -93,14 +94,15 @@ export default index;
 
 export async function getServerSideProps(context) {
   const q = context.query
-  q['category'] = context.query.CatigoryOffers
+  // console.log(q)
+  // q['category'] = context.query.CatigoryOffers
   const { data } = await axios.get(
     `${process.env.DOMAIN_URI}/api/offer/categoryoffers`,
     {
       params: q,
     }
   );
-
+    // console.log(data)
   return {
     props: { categoryoffers: data }, // will be passed to the page component as props
   };

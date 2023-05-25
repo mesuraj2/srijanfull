@@ -46,12 +46,31 @@ router.get("/categories", async (req, res) => {
   res.json(categories)
 })
 
+router.get('/searchoffers', async (req, res) => {
+  try {
+    let search = req.query.search
+    let searchquery = {
+      description: {
+        $text: {
+          $search: search
+        }
+      }
+    }
+
+    let query = await offer.find(searchquery)
+    console.log(searchquery)
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
+
 router.get("/categoryoffers", async (req, res) => {
   try {
-    
-    let radius = req.query.radius
-    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
-    let location = radius ? ({
+    let search = req.query.search
+    let radius =Number(req.query.radius)
+    let coordinte = (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [26.405817, 83.838554];
+    let location = radius>0 ? ({
       Location: {
         $near: {
           $geometry: { type: "Point", coordinates: coordinte },
@@ -65,19 +84,32 @@ router.get("/categoryoffers", async (req, res) => {
         },
       },
     })
+    let searchquery = {
+      description: {
+        $text: {
+          $search: search
+        }
+      }
+
+    }
     // Lets understand the code
     // so there will be list of query parameters, some of the query parameters can be handled by 
     // mongodb, like color=black etc, others like page , sort are not to be handled by mongodb
     let queryObj = { ...req.query };
-    console.log(queryObj)
-    const excludeFiels = ["page", "sort", "limit", "lat", "long"];
+    console.log("from query",queryObj)
+    const excludeFiels = ["page", "sort", "limit", "lat","radius", "long", "search"];
     excludeFiels.forEach((el) => delete queryObj[el]);
     const page = req.query.page ? req.query.page : 1;
     const skip = (page - 1) * 16;
 
-    let queryObject = { ...queryObj, ...location };
+    // let queryObject = search ? { ...queryObj, ...location } : { ...queryObj, ...location, ...searchquery};
+    let queryObject = { ...queryObj, ...location }
+    if (search) {
+      queryObject = { ...queryObject, ...searchquery }
+    }
     let query;
     let limit = req.query.limit ? req.query.limit : 16
+    console.log("query" ,queryObject)
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
@@ -87,7 +119,6 @@ router.get("/categoryoffers", async (req, res) => {
     } else {
       query = await offer
         .find(queryObject)
-        .sort(req.query.sort)
         .limit(limit)
         .skip(skip);
     }
@@ -109,10 +140,10 @@ router.post("/", fetchuser, async (req, res) => {
     quantity,
     color,
   } = req.body;
-  console.log(desc);
-  let location = JSON.parse(coordinate);
+  // console.log(desc);
   // var locat= location.map(String)
   try {
+    // let location = JSON.parse(coordinate)? JSON.parse(coordinate):[26.405817, 83.838554];
     const offer1 = await offer.create({
       offername: Offername,
       category,
@@ -123,12 +154,13 @@ router.post("/", fetchuser, async (req, res) => {
       color,
       Location: {
         type: "Point",
-        coordinates: location,
+        coordinates: [26.405817, 83.838554],
       },
       chat_id: offer_chat_id,
     });
-    const fullGroupChat = await offer.findOne({ _id: offer1._id });
-    res.status(200).json(fullGroupChat);
+    // console.log(offer1)
+    // const fullGroupChat = await offer.findOne({ _id: offer1._id });
+    res.status(200).json(offer1);
   } catch (error) {
     res.send(error);
   }
@@ -137,7 +169,7 @@ router.post("/", fetchuser, async (req, res) => {
 router.get("/offernearyou", async (req, res) => {
   const { coordinate } = req.body;
   let location = JSON.parse(coordinate);
-  console.log(typeof location);
+  // console.log(typeof location);
   try {
     const fullGroupChat = await offer.find({
       Location: {
@@ -224,6 +256,7 @@ router.get("/allOffer/", async (req, res) => {
     const skip = (page - 1) * 16;
 
     let queryObject = { ...queryObj, ...location };
+    // console.log(queryObject)
     let query;
     if (Array.isArray(req.query.sort)) {
       let obj = {};
@@ -252,26 +285,55 @@ router.get("/allOffer/", async (req, res) => {
   }
 });
 
+
+// Gets Offer chat for a particualar offer
+router.post("/offerchats", async (req, res) => {
+  try {
+    const radius = req.query.radius
+
+    let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)]
+    // (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
+    const locationquery = {
+      Location: {
+        $near: {
+          $geometry: { type: "Point", coordinates: coordinte },
+          $maxDistance: radius,
+        },
+      },
+    }
+    // const { lat, long } = req.query;
+    let query = { _id: req.body.id }
+    query = radius ? { ...query, ...locationquery } : query
+    console.log(query)
+    let data = await offer
+    .find(query)
+    .populate("chat_id", "Location chatName users");
+    res.status(200).json(data[0]);
+  } catch (error) {
+    res.send(error)
+  }
+})
+
 router.post("/offerdetail", async (req, res) => {
   try {
-    const { lat, long } = req.query;
+    // const { lat, long } = req.query;
     let fullGroupChat = await offer
       .find({ _id: req.body.id })
-      .populate("chat_id", "Location chatName");
+      .populate("chat_id", "Location chatName users");
     let chatDistacne = [];
-    if (fullGroupChat[0].chat_id) {
-      fullGroupChat[0].chat_id.forEach((value) => {
-        let a = [lat, long];
-        let b = value.Location.coordinates;
-        const dist = haversine(a, b) / 1000;
-        let obj = {
-          _id: value._id,
-          chatName: value.chatName,
-          Distance: dist,
-        };
-        chatDistacne.push(obj);
-      });
-    }
+    // if (fullGroupChat[0].chat_id) {
+    //   fullGroupChat[0].chat_id.forEach((value) => {
+    //     let a = [lat, long];
+    //     let b = value.Location.coordinates;
+    //     const dist = haversine(a, b) / 1000;
+    //     let obj = {
+    //       _id: value._id,
+    //       chatName: value.chatName,
+    //       Distance: dist,
+    //     };
+    //     chatDistacne.push(obj);
+    //   });
+    // }
     let distance = chatDistacne.slice(0);
     distance.sort(function (a, b) {
       return b.Distance - a.Distance;

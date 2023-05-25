@@ -10,8 +10,6 @@ const Offer = require("./backendApi/offer");
 const next = require("next");
 const { v4 } = require("uuid");
 
-
-
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -30,7 +28,6 @@ app
     // server.use(fileupload());
 
     
-
     
 
     server.use("/api/auth", User);
@@ -45,7 +42,7 @@ app
 
     const server2 = server.listen(
       PORT,
-      console.log(`Server running on PORT ${PORT}...`)
+      console.log(`Server running on  http://localhost:3000`)
     );
 
     const io = require("socket.io")(server2, {

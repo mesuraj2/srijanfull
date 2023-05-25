@@ -4,13 +4,18 @@ import CatigoryCard from '../../components/CatigoryCard';
 import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import axios from 'axios';
+import { ChatState } from '../../Context/ChatProvider';
 
 const categories = () => {
+  
   const router = useRouter();
   const handleClick = (catigoryName) => {
-    router.push(`/categories/${catigoryName}`);
+    let coordinate=JSON.parse(localStorage.getItem("coordinates"))
+    console.log(coordinate)
+    router.push(`/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`);
   };
 
+  // we will also impliment it with backend later
   const [categorieslist, setcategorieslist] = useState([]);
   const onLoad = () => {
     const res = axios.get("/api/offer/categories")
@@ -23,6 +28,7 @@ const categories = () => {
   useEffect(() => {
     onLoad();
   }, []);
+  
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
