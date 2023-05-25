@@ -350,4 +350,18 @@ router.post("/offerdetail", async (req, res) => {
   }
 });
 
+// Create Offer
+router.post('createOffer', fetchuser, async (req, res) => {
+  
+  let result = offer.createOne({
+    offername: req.body.name,
+    category: req.body.category,
+    brand: req.body.brand,
+    image: req.body.image,
+    quantity: req.body.quantity,
+    description: req.body.description,
+  })
+})
+
+
 module.exports = router;
