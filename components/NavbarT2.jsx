@@ -16,6 +16,7 @@ const NavbarT2 = () => {
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
+  
   useEffect(() => {
     // axios.get('')
     if (getCookie("authtoken")) {

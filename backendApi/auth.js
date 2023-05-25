@@ -6,35 +6,15 @@ const userVerification = require("../models/userVerification");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
-const nodemailer = require("nodemailer");
+const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
-// const userVerification = require("../models/userVerification");
 // const { response } = require("express");
 const GoogleClientId =
   "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
-
-// var transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "znsuraj7@gmail.com",
-//     pass: "zgsrcafffgoobxmh",
-//   },
-// });
-var transporter = nodemailer.createTransport({
-  service: "Godaddy",
-  host: "smtpout.secureserver.net",
-  secureConnection: true,
-  port: 465,
-  auth: {
-    user: "noreply@picapool.com",
-    pass: "Think@9110",
-  },
-});
-
 // //Tests
 router.post("/test", async (req, res) => {
   console.log("request Incoming");
@@ -65,29 +45,21 @@ router.post("/", async (req, res) => {
     otp,
   });
 
-  var mailoption = {
-    from: "<noreply@picapool.com>",
-    to: req.body.email,
-    subject: "Account Verification - One-Time Password (OTP)",
-    html: `<div>
-    <p>Welcome to Picapool.com- Your Gateway to Amazing Group Buying Deals!</p>
-    <p style="font-size:1.1em">Hi,${req.body.uname}</p>
-    <p>We are thrilled to welcome you to Picapool.com, your go-to platform for incredible group buying opportunities! On behalf of our entire team, I would like to express our sincere appreciation for choosing us as your preferred destination for amazing deals and savings.</p>
-    <p>We're delighted that you've chosen Picapool.com as your partner in discovering exceptional group buying deals. Get ready to embark on a journey of incredible savings and unforgettable experiences!</p>
-    <p>Thank you for choosing Picapool.com. Use the following OTP to complete your Sign Up procedures. OTP is valid for 3 minutes</p>
-    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
-    <p style="font-size:0.9em;">Best Regards,<br />Team Pica Pool</p>
-    </div>
-        `,
-  };
+  let message = `<div>
+  <p>Welcome to Picapool.com- Your Gateway to Amazing Group Buying Deals!</p>
+  <p style="font-size:1.1em">Hi,${req.body.uname}</p>
+  <p>We are thrilled to welcome you to Picapool.com, your go-to platform for incredible group buying opportunities! On behalf of our entire team, I would like to express our sincere appreciation for choosing us as your preferred destination for amazing deals and savings.</p>
+  <p>We're delighted that you've chosen Picapool.com as your partner in discovering exceptional group buying deals. Get ready to embark on a journey of incredible savings and unforgettable experiences!</p>
+  <p>Thank you for choosing Picapool.com. Use the following OTP to complete your Sign Up procedures. OTP is valid for 3 minutes</p>
+  <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
+  <p style="font-size:0.9em;">Best Regards,<br />Team Pica Pool</p>
+  </div>`;
 
-  transporter.sendMail(mailoption, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Verification Mail sent to your mail");
-    }
-  });
+  nodeMailer(
+    req.body.email,
+    message,
+    "Account Verification - One-Time Password (OTP)"
+  );
 
   const data = {
     user: {

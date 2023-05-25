@@ -3,7 +3,7 @@ import { deleteCookie } from "cookies-next";
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
-const UserPanel = () => {
+const UserPanel = ({setsignedin}) => {
   const router = useRouter();
   const [userimage, setuserimage] = useState('');
 
@@ -14,6 +14,7 @@ const UserPanel = () => {
 
   const handleLogout = () => {
     deleteCookie('authtoken');
+    setsignedin(false)
     router.push('/')
   }
 
