@@ -64,21 +64,22 @@ export default function Signup() {
       tokenid: response.credential,
     });
     // console.log(data)
-    if (data.token) {
+    if (data.success) {
       toast({
-        title: 'successfully created',
+        title: data.message,
         status: 'success',
         duration: 5000,
         isClosable: true,
         position: 'top-left',
       });
     }
+    Router.push("/")
   };
 
   const handleRegister = async () => {
     const response = await axios.post('/api/auth/', values);
     if (response.data.success == false) {
-      console.log('Failer')
+      console.log('Failed')
       toast({
         title: response.data.message,
         status: 'error',

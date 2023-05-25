@@ -9,7 +9,7 @@ const login = () => {
   return (
     <>
     {
-       router.query.signup ?<Signup/>: <Login onClose={() => {router.push("/")} }/>
+       router.query.signup ?<Signup onClose={() => {router.push("/login")} }/>: <Login onClose={() => {router.push("/")} }/>
     }
     </>
   );

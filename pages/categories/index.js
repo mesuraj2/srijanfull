@@ -44,7 +44,7 @@ const categories = () => {
           </p>
           <div className="grid md:grid-cols-2 11xl:grid-cols-4 lg:grid-cols-3 gap-x-5 gap-y-10 pb-[5rem] mx-auto">
           {categorieslist && categorieslist.map(category => 
-          <CatigoryCard name={category.name} description={category.description} image={category.image} link={category.name} handleClick={handleClick}/>)}
+          <CatigoryCard name={category.name} description={category.description} image={category.image} link={category.link} handleClick={handleClick}/>)}
           </div>
         </div>
       </div>
