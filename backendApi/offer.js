@@ -4,56 +4,64 @@ const Chat = require("../models/chat");
 const User = require("../models/users");
 const message = require("../models/Message");
 const offer = require("../models/offer");
+const categories = require("../models/categories");
 const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
 const { off } = require("../models/chat");
-const location = require("../models/location");
-// const querystring = require("querystring");
 
-// 26.40583
-// 83.83844
-
-const categories = [
-  {
-    name: "cloth",
-    image:
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2xvdGhzfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-    description: "Clothing collection you would want to have in your wardrobe",
-    link: "cloth",
-  },
-  {
-    name: "shoes",
-    description: "Awesome shoe collection",
-    link: "shoes",
-    image:
-      "https://media.wired.com/photos/6154ba291b38af32f7638ffd/1:1/w_1800,h_1800,c_limit/Gear-Barefoot-Shoes-Freet-Tanga-SOURCE-Freet.jpg",
-  },
-  {
-    name: "book",
-    description: "Books are nice!",
-    link: "book",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ3h04almsaxf756izRmUg-0nQ8_3ddgBX1iJRa7vLEg&usqp=CAU&ec=48600113",
-  },
-  {
-    name: "book",
-    description: "Books are nice!",
-    link: "book",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ3h04almsaxf756izRmUg-0nQ8_3ddgBX1iJRa7vLEg&usqp=CAU&ec=48600113",
-  },
-  {
-    name: "book",
-    description: "Books are nice!",
-    link: "book",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ3h04almsaxf756izRmUg-0nQ8_3ddgBX1iJRa7vLEg&usqp=CAU&ec=48600113",
-  },
-];
+router.post('/createcategory', async (req, res) => {
+  try {
+    const name = req.body.name
+    const description = req.body.description
+    const link = req.body.link
+    let data;
+    if (req.body.image) {
+      data = {
+        name: name,
+        description: description,
+        link: link,
+        image: req.body.image
+      }
+    }
+    else {
+      data = {
+        name: name,
+        description: description,
+        link: link,
+      }
+    }
+    if (name || description || link) {
+      let category = await categories.findOneAndUpdate({ name: name }, data)
+      if (category) {
+        res.json({ message: "Category updated successfully" })
+      } else {
+        let result = await categories.create({
+          name: name,
+          image: req.body.image,
+          description: description,
+          link: link
+        })
+        res.json({ id: result.id, message: "Category created successfully" })
+      }
+    }
+    else {
+      res.json({ message: "One or more required fields missing" })
+    }
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
 
 router.get("/categories", async (req, res) => {
-  res.json(categories);
-});
+  try {
+    let result = await categories.find()
+    res.json(result)
+  }
+  catch (err) {
+    console.log(err)
+  }
+})
 
 router.get("/searchoffers", async (req, res) => {
   try {
@@ -370,16 +378,34 @@ router.post("/offerdetail", async (req, res) => {
   }
 });
 
+
+
 // Create Offer
-router.post("createOffer", fetchuser, async (req, res) => {
-  let result = offer.createOne({
-    offername: req.body.name,
-    category: req.body.category,
-    brand: req.body.brand,
-    image: req.body.image,
-    quantity: req.body.quantity,
-    description: req.body.description,
-  });
-});
+
+router.post('/createoffer', fetchuser, async (req, res) => {
+  try {
+    if (req.user.id) {
+      let result = await offer.create({
+        offername: req.body.name,
+        category: req.body.category,
+        brand: req.body.brand,
+        image: req.body.image,
+        quantity: req.body.quantity,
+        description: req.body.description,
+        locationdescription: req.body.locationdescription,
+        chat_id: [req.user.id],
+        Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
+      })
+      res.json({ data: result, id: result._id, message: "Offer created successfully" })
+    }
+    else {
+      res.json({ message: "Authenticate to continue" })
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({ message: "Some Error occured" })
+  }
+})
+
 
 module.exports = router;

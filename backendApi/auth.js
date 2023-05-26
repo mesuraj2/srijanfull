@@ -147,6 +147,8 @@ router.post("/google", async (req, res) => {
                 name: user.name,
                 email: user.email,
                 pic: user.pic,
+                success: true,
+                message: "Logging you in.."
               });
             } else {
               // const salt = await bcrypt.genSalt(10);
@@ -175,7 +177,7 @@ router.post("/google", async (req, res) => {
               };
               //    console.log(data)
               var token = await jwt.sign(data, process.env.SECRET_KEY);
-              res.json({ token: token });
+              res.json({ token: token, success: true ,message: "Successfully created account"});
             }
           }
         });
@@ -191,7 +193,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.json({
-        message: "Email/Password is incorrect",
+        message: "Please signup to continue",
         success: false,
       });
     }
@@ -199,7 +201,7 @@ router.post("/login", async (req, res) => {
       return res.json({ message: "Email not verified", isverified: false });
     }
     if (user.password == "googleauth") {
-      return res.json({ message: "Please Sign in via Google", success: false });
+      return res.json({ message: "Please login in via Google", success: false });
     }
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) {
