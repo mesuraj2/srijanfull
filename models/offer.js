@@ -45,15 +45,8 @@ const Offerschema = mongoose.Schema(
         ref: "chat",
       },
     ],
-    Location: {
-      type: {
-        type: String,
-      },
-      coordinates: [Number],
-    },
   },
   { timestamps: true }
 );
-Offerschema.index({ Location: "2dsphere" });
 
 module.exports = mongoose.model("offer", Offerschema);

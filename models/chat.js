@@ -19,12 +19,6 @@ const Chatmodel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
-    Location: {
-      type: {
-        type: String,
-      },
-      coordinates: [Number],
-    },
     offerid:{
       type: mongoose.Schema.Types.ObjectId,
       ref: "offer",
@@ -35,5 +29,4 @@ const Chatmodel = mongoose.Schema(
   }
 );
 
-Chatmodel.index({ Location: "2dsphere" });
 module.exports = mongoose.model("chat", Chatmodel);

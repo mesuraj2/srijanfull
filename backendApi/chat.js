@@ -5,6 +5,7 @@ const User = require("../models/users");
 const message = require("../models/Message");
 const offer = require("../models/offer");
 const fetchuser = require("./fetchuser");
+const location = require("../models/location");
 
 //@description     Create or fetch One to One Chat
 router.post("/", fetchuser, async (req, res) => {
@@ -62,7 +63,7 @@ router.post("/", fetchuser, async (req, res) => {
 // @description     Create New offer Chat
 router.post("/offerchat", fetchuser, async (req, res) => {
   const { chatName, offerid, coordinate } = req.body;
-  let location = JSON.parse(coordinate);
+  let locationCoor = JSON.parse(coordinate);
   // console.log(chatName,offerid,location)
   try {
     const groupChat = await Chat.create({
@@ -70,12 +71,17 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       users: req.user.id,
       isOfferChat: true,
       isGroupChat: true,
-      Location: {
-        type: "Point",
-        coordinates: location,
-      },
       offerid: offerid,
     });
+
+    let locationres=await location.create({
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      },
+      chat:groupChat._id
+    })
+
     await offer.findByIdAndUpdate({ _id: offerid }, { chat_id: groupChat._id });
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
       "users",

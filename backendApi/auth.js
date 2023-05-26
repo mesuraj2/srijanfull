@@ -10,6 +10,7 @@ const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
+const location = require("../models/location");
 // const { response } = require("express");
 const GoogleClientId =
   "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
@@ -38,6 +39,15 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     password: pass,
   });
+
+  let locationRes = await location.create({
+    Location: {
+      type: "Point",
+      coordinates: [26.405817, 83.838554],
+    },
+    user: result._id,
+  });
+
   // console.log(result)
   let otp = `${Math.floor(1000 + Math.random() * 9000)}`;
   await userVerification.create({
@@ -60,7 +70,6 @@ router.post("/", async (req, res) => {
     message,
     "Account Verification - One-Time Password (OTP)"
   );
-
   const data = {
     user: {
       id: result.id,
@@ -110,8 +119,8 @@ router.post("/verifyId", async (req, res) => {
 //     res.send({ success: false, message: "Failed to Verify" });
 //   }
 // });
-
 // for google auth
+
 router.post("/google", async (req, res) => {
   const { tokenid } = req.body;
   client
@@ -150,6 +159,15 @@ router.post("/google", async (req, res) => {
                 pic: picture,
                 isverified: true,
               });
+
+              let locationRes = await location.create({
+                Location: {
+                  type: "Point",
+                  coordinates: [26.405817, 83.838554],
+                },
+                user: result._id,
+              });
+
               const data = {
                 user: {
                   id: result.id,
