@@ -72,11 +72,11 @@ export default function Login({ onClose }) {
 
   const onSuccess = async (response) => {
     console.log(response);
-    const { data } = await axios.post("/api/auth/google", {
+    const { data } = await axios.post('/api/auth/google', {
       tokenid: response.credential,
     });
-    secureLocalStorage.setItem("id", data._id);
-    localStorage.setItem("user", JSON.stringify(data));
+    secureLocalStorage.setItem('id', data._id);
+    localStorage.setItem('user', JSON.stringify(data));
     // setsess(true);
     // setUser(data);
     onClose();
@@ -106,29 +106,26 @@ export default function Login({ onClose }) {
     }));
 
   const handleLogin = async () => {
-    const response = await axios.post("api/auth/login",values
-    )
-    if(response.data.success == false){
+    const response = await axios.post('api/auth/login', values);
+    if (response.data.success == false) {
       toast({
         title: response.data.message,
-        status: "warning",
+        status: 'warning',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
-    }
-    else{
+    } else {
       toast({
-        title: "Login Successful",
-        status: "success",
+        title: 'Login Successful',
+        status: 'success',
         duration: 3000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
-      onClose()
+      onClose();
     }
-
-  }
+  };
 
   useEffect(() => {
     console.log(data);
@@ -137,15 +134,15 @@ export default function Login({ onClose }) {
   return (
     <div className="w-screen h-screen bg-[#B9E9FC] secondary_font">
       <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]">
-        <div className="w-[30rem] flex flex-col justify-center items-center gap-3">
-          <h1 className="text-left  text-[3rem] main__font tracking-wider">
+        <div className="w-screen 5xl:w-[30rem] flex flex-col justify-center items-center gap-3 mx-auto">
+          <h1 className="text-center 5xl:text-left text-[2.5rem] 5xl:text-[3rem] main__font tracking-wider">
             Pool & Save
           </h1>
-          <p className="text-left  text-[1rem] main__font tracking-wider">
+          <p className="text-center 5xl:text-left  text-[.9rem] 5xl:text-[1rem] main__font tracking-wider">
             Please enter your username and password to proceed.
           </p>
-          <div className="">
-            <div className="form-control w-[28rem]">
+          <div className="w-screen 5xl:w-full mx-auto">
+            <div className="form-control w-[90%] mx-auto 5xl:w-[28rem]">
               <label className="label">
                 <span className="label-text text-black/60">email*</span>
               </label>
@@ -155,8 +152,9 @@ export default function Login({ onClose }) {
                 onBlur={onBlur}
                 type="email"
                 name="email"
-                className={`${touched.email && !values.email ? 'bg-red-100' : 'bg-white'
-                  } input input-bordered w-[28rem]`}
+                className={`${
+                  touched.email && !values.email ? 'bg-red-100' : 'bg-white'
+                } input input-bordered w-full`}
               />
               {touched.email && !values.email && (
                 <span className="label-text-alt mt-1 text-red-600">
@@ -164,7 +162,7 @@ export default function Login({ onClose }) {
                 </span>
               )}
             </div>
-            <div className="form-control w-[28rem]">
+            <div className="form-control w-[90%] mx-auto 5xl:w-[28rem]">
               <label className="label">
                 <span className="label-text text-black/60">password*</span>
               </label>
@@ -174,10 +172,11 @@ export default function Login({ onClose }) {
                 onBlur={onBlur}
                 type="password"
                 name="password"
-                className={`${touched.password && !values.password
+                className={`${
+                  touched.password && !values.password
                     ? 'bg-red-100'
                     : 'bg-white'
-                  } input input-bordered w-[28rem]`}
+                } input input-bordered w-full`}
               />
               {touched.password && !values.password && (
                 <span className="label-text-alt mt-1 text-red-600">
@@ -188,8 +187,9 @@ export default function Login({ onClose }) {
           </div>
           <button
             disabled={!values.email || !values.password}
-            className={`${isLoading ? 'loading' : ''
-              }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+            className={`${
+              isLoading ? 'loading' : ''
+            }btn btn-active text-[1.1rem] w-[60%] 5xl:w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
             onClick={handleLogin}
           >
             Login
@@ -207,7 +207,7 @@ export default function Login({ onClose }) {
             New To Pool & Save?{' '}
             <button
               className="border-b-2 border-black ml-2"
-              onClick={()=>Router.push('/login?signup=true')}
+              onClick={() => Router.push('/login?signup=true')}
             >
               Sign up
             </button>

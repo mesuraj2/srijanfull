@@ -73,13 +73,13 @@ export default function Signup() {
         position: 'top-left',
       });
     }
-    Router.push("/")
+    Router.push('/');
   };
 
   const handleRegister = async () => {
     const response = await axios.post('/api/auth/', values);
     if (response.data.success == false) {
-      console.log('Failed')
+      console.log('Failed');
       toast({
         title: response.data.message,
         status: 'error',
@@ -87,9 +87,8 @@ export default function Signup() {
         isClosable: true,
         position: 'top-left',
       });
-    }
-    else {
-      console.log('Success')
+    } else {
+      console.log('Success');
       toast({
         title: response.data.message,
         status: 'success',
@@ -99,87 +98,97 @@ export default function Signup() {
       });
       Router.push('/login');
     }
-  }
+  };
   return (
     <>
       {/* UI FOR SIGNUP PAGE */}
       <div className="w-screen h-screen bg-[#B9E9FC] secondary_font">
         <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]">
-          <div className="w-[30rem] flex flex-col justify-center items-center gap-3">
-            <h1 className="text-left  text-[3rem] main__font tracking-wider">
+          <div className="w-screen 5xl:w-[30rem] flex flex-col justify-center items-center gap-3 mx-auto">
+            <h1 className="text-center 5xl:text-left text-[2.5rem] 5xl:text-[3rem] main__font tracking-wider">
               Pool & Save
             </h1>
-            <p className="text-left  text-[1rem] main__font tracking-wider">
+            <p className="text-center 5xl:text-left  text-[.9rem] 5xl:text-[1rem] main__font tracking-wider">
               Please fill in the required details to proceed.
             </p>
-            <div className="form-control w-[28rem]">
-              <label className="label">
-                <span className="label-text text-black/60">email*</span>
-              </label>
-              <input
-                value={values.email}
-                onChange={handleChange}
-                onBlur={onBlur}
-                type="email"
-                name="email"
-                className={`${touched.email && !values.email ? 'bg-red-100' : 'bg-white'
-                  } input input-bordered w-[28rem]`}
-              />
-              {/* FORM VALIDATION */}
-              {touched.email && !values.email && (
-                <span className="label-text-alt mt-1 text-red-600">
-                  Required
-                </span>
-              )}
-            </div>
-            <div className="form-control w-[28rem]">
-              <label className="label">
-                <span className="label-text text-black/60">new username*</span>
-              </label>
-              <input
-                value={values.uname}
-                onChange={handleChange}
-                onBlur={onBlur}
-                type="text"
-                name="uname"
-                className={`${touched.uname && !values.uname ? 'bg-red-100' : 'bg-white'
-                  } input input-bordered w-[28rem]`}
-              />
-              {/* FORM VALIDATION */}
-              {touched.uname && !values.uname && (
-                <span className="label-text-alt mt-1 text-red-600">
-                  Required
-                </span>
-              )}
-            </div>
+            <div className="w-screen 5xl:w-full mx-auto">
+              <div className="form-control w-[90%] mx-auto 5xl:w-[28rem]">
+                <label className="label">
+                  <span className="label-text text-black/60">email*</span>
+                </label>
+                <input
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={onBlur}
+                  type="email"
+                  name="email"
+                  className={`${
+                    touched.email && !values.email ? 'bg-red-100' : 'bg-white'
+                  } input input-bordered w-full`}
+                />
+                {/* FORM VALIDATION */}
+                {touched.email && !values.email && (
+                  <span className="label-text-alt mt-1 text-red-600">
+                    Required
+                  </span>
+                )}
+              </div>
+              <div className="form-control w-[90%] mx-auto 5xl:w-[28rem]">
+                <label className="label">
+                  <span className="label-text text-black/60">
+                    new username*
+                  </span>
+                </label>
+                <input
+                  value={values.uname}
+                  onChange={handleChange}
+                  onBlur={onBlur}
+                  type="text"
+                  name="uname"
+                  className={`${
+                    touched.uname && !values.uname ? 'bg-red-100' : 'bg-white'
+                  } input input-bordered w-full`}
+                />
+                {/* FORM VALIDATION */}
+                {touched.uname && !values.uname && (
+                  <span className="label-text-alt mt-1 text-red-600">
+                    Required
+                  </span>
+                )}
+              </div>
 
-            <div className="form-control w-[28rem]">
-              <label className="label">
-                <span className="label-text text-black/60">new password*</span>
-              </label>
-              <input
-                value={values.password}
-                onChange={handleChange}
-                onBlur={onBlur}
-                type="text"
-                name="password"
-                className={`${touched.password && !values.password
-                    ? 'bg-red-100'
-                    : 'bg-white'
-                  } input input-bordered w-[28rem]`}
-              />
-              {/* FORM VALIDATION */}
-              {touched.password && !values.password && (
-                <span className="label-text-alt mt-1 text-red-600">
-                  Required
-                </span>
-              )}
+              <div className="form-control w-[90%] mx-auto 5xl:w-[28rem]">
+                <label className="label">
+                  <span className="label-text text-black/60">
+                    new password*
+                  </span>
+                </label>
+                <input
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={onBlur}
+                  type="text"
+                  name="password"
+                  className={`${
+                    touched.password && !values.password
+                      ? 'bg-red-100'
+                      : 'bg-white'
+                  } input input-bordered w-full`}
+                />
+                {/* FORM VALIDATION */}
+                {touched.password && !values.password && (
+                  <span className="label-text-alt mt-1 text-red-600">
+                    Required
+                  </span>
+                )}
+              </div>
             </div>
 
             <button
               disabled={!values.uname || !values.password || !values.email}
-              className={`${isLoading ? 'loading' : ''
-                }btn btn-active text-[1.1rem] w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
+              className={`${
+                isLoading ? 'loading' : ''
+              }btn btn-active text-[1.1rem] w-[60%] 5xl:w-[28rem] mt-10 disabled:text-black/50 disabled:bg-black/10`}
               onClick={handleRegister}
             >
               Sign up!
@@ -196,7 +205,10 @@ export default function Signup() {
             {/* WHEN CLICKED REDICT TO SIGN-UP PAGE */}
             <div>
               Already user?{' '}
-              <button className="border-b-2 border-black ml-2" onClick={()=>Router.push('/login')}>
+              <button
+                className="border-b-2 border-black ml-2"
+                onClick={() => Router.push('/login')}
+              >
                 Log In
               </button>
             </div>
