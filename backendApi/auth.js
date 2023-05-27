@@ -76,7 +76,7 @@ router.post("/", async (req, res) => {
     },
   };
   var token = jwt.sign(data, process.env.SECRET_KEY);
-  res.json({ message: "OTP sent to your mail", token: token, success: true });
+  res.json({ message: "OTP sent to your mail", id: result.id, token: token, success: true });
 });
 // for verify is it correct id
 
@@ -85,13 +85,15 @@ router.post("/verifyOtp", async (req, res) => {
   try {
     const { userId, otp } = req.body;
     let data = await userVerification.findOne({ user: userId });
+    // need to check if the otp is present, if not tell to create again
+    console.log(data)
     if (otp == data.otp) {
       const user = await User.findById(userId);
       user.isverified = true;
       await user.save();
-      res.send("otp is verified");
+      res.json({ success: true, message: "OTP is verified" });
     } else {
-      res.send("inCorrect otp");
+      res.json({ success: true, message: "Incorrect OTP" });
     }
   } catch (error) {
     res.send("internal server error");
@@ -177,7 +179,7 @@ router.post("/google", async (req, res) => {
               };
               //    console.log(data)
               var token = await jwt.sign(data, process.env.SECRET_KEY);
-              res.json({ token: token, success: true ,message: "Successfully created account"});
+              res.json({ token: token, success: true, message: "Successfully created account" });
             }
           }
         });
@@ -229,11 +231,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
