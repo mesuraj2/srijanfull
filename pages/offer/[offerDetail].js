@@ -57,9 +57,9 @@ const index = ({ data }) => {
               </p>
               <div className="tracking-wider text-black/50 secondary_font text-[.9rem] flex flex-row items-center gap-2">
                 
-              {data.locationdesc? <div className='flex'><ImLocation />
+              {data.locationdescription? <div className='flex'><ImLocation />
                 <p>
-                   {data.locationdesc}
+                   {data.locationdescription}
                 </p></div>: ''}
               </div>
 
@@ -104,6 +104,7 @@ export async function getServerSideProps(context) {
       id: offerid
     }
   );
+  console.log(data)
   return {
     props: { data: data }, // will be passed to the page component as props
   };
