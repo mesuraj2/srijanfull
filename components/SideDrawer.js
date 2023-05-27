@@ -143,14 +143,14 @@ function SideDrawer() {
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           <Button variant="ghost" onClick={onOpen}>
-            <Text px={4}>
+            <div>
               <div className="flex flex-row gap-2 items-center justify-center">
                 <AiOutlineSearch />
                 <i className="fas fa-search font-[300] text-gray-500">
                   Search Users
                 </i>
               </div>
-            </Text>
+            </div>
           </Button>
         </Tooltip>
         <Menu>
