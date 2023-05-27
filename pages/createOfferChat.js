@@ -32,7 +32,14 @@ const createOfferChat = () => {
       },
     }));
 
-  useEffect(() => console.log(data), [data]);
+  useEffect(() => {
+    if (values.distance === 'custom') {
+      setSelectCustom(true);
+    } else {
+      setSelectCustom(false);
+    }
+    console.log(data);
+  }, [data, values.distance]);
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -45,7 +52,7 @@ const createOfferChat = () => {
             alt="image"
           />
           <select
-            className={`select ${selectCustom ? 'hidden' : ''} w-fit mx-auto`}
+            className={`select  w-fit mx-auto`}
             value={values.distance}
             onChange={handleChange}
             name={'distance'}
@@ -59,7 +66,7 @@ const createOfferChat = () => {
             <option value={1000}>1 km</option>
             <option value={2000}>2 km</option>
 
-            <option onClick={() => setSelectCustom(true)}>Custom</option>
+            <option value={'custom'}>Custom</option>
           </select>
           <div
             className={`flex-col ${!selectCustom ? 'hidden' : 'flex'} gap-3`}
@@ -70,6 +77,7 @@ const createOfferChat = () => {
                 type="range"
                 min="0"
                 max="20"
+                name="distance"
                 value={values.distance}
                 className="range range-xs"
                 step="4"
