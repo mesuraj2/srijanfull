@@ -106,7 +106,7 @@ export default function Signup() {
         <div className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]">
           <div className="w-screen 5xl:w-[30rem] flex flex-col justify-center items-center gap-3 mx-auto">
             <h1 className="text-center 5xl:text-left text-[2.5rem] 5xl:text-[3rem] main__font tracking-wider">
-              Pool & Save
+              Pica Pool
             </h1>
             <p className="text-center 5xl:text-left  text-[.9rem] 5xl:text-[1rem] main__font tracking-wider">
               Please fill in the required details to proceed.
