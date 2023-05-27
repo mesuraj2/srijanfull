@@ -96,7 +96,7 @@ export default function Signup() {
         isClosable: true,
         position: 'top-left',
       });
-      Router.push('/login');
+      Router.push(`/verification/${response.data.id}`);
     }
   };
   return (

@@ -40,6 +40,12 @@ const Offerschema = mongoose.Schema(
         ref: "chat",
       },
     ],
+    Location: {
+      type: {
+        type: String
+      },
+      coordinates: [Number]
+    }
   },
   { timestamps: true }
 );

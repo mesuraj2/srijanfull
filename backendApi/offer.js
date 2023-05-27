@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Chat = require("../models/chat");
-const User = require("../models/users");
 const message = require("../models/Message");
 const offer = require("../models/offer");
+const User = require("../models/users");
 const categories = require("../models/categories");
 const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
 const { off } = require("../models/chat");
+const nodeMailer = require("./nodeMailer");
 
 router.post('/createcategory', async (req, res) => {
   try {
@@ -88,24 +89,24 @@ router.get("/categoryoffers", async (req, res) => {
     let coordinte =
       req.query.lat && req.query.long
         ? [parseFloat(req.query.lat), parseFloat(req.query.long)]
-        : [26.405817, 83.838554];
+        : [17.42, 78.41];
     let location =
       radius > 0
         ? {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-                $maxDistance: radius,
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
+              $maxDistance: radius,
             },
-          }
+          },
+        }
         : {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
             },
-          };
+          },
+        };
     let searchquery = {
       description: {
         $text: {
@@ -117,7 +118,6 @@ router.get("/categoryoffers", async (req, res) => {
     // so there will be list of query parameters, some of the query parameters can be handled by
     // mongodb, like color=black etc, others like page , sort are not to be handled by mongodb
     let queryObj = { ...req.query };
-    console.log("from query", queryObj);
     const excludeFiels = [
       "page",
       "sort",
@@ -139,6 +139,7 @@ router.get("/categoryoffers", async (req, res) => {
     let query;
     let limit = req.query.limit ? req.query.limit : 16;
     console.log("query", queryObject);
+    console.log("final query")
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
@@ -153,6 +154,17 @@ router.get("/categoryoffers", async (req, res) => {
     res.send(error);
   }
 });
+
+router.get("/testoffers", async (req,res) => {
+  try{
+    let results= await offer.find()
+    console.log('New Request')
+    res.json(results)
+  }
+  catch(err){
+    console.log(err)
+  }
+})
 
 router.post("/", fetchuser, async (req, res) => {
   const {
@@ -385,18 +397,33 @@ router.post("/offerdetail", async (req, res) => {
 router.post('/createoffer', fetchuser, async (req, res) => {
   try {
     if (req.user.id) {
-      let result = await offer.create({
-        offername: req.body.name,
-        category: req.body.category,
-        brand: req.body.brand,
-        image: req.body.image,
-        quantity: req.body.quantity,
-        description: req.body.description,
-        locationdescription: req.body.locationdescription,
-        chat_id: [req.user.id],
-        Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
-      })
-      res.json({ data: result, id: result._id, message: "Offer created successfully" })
+      if (req.body.lat || req.body.long) {
+        let result = await offer.create({
+          offername: req.body.name,
+          category: req.body.category,
+          brand: req.body.brand,
+          image: req.body.image,
+          quantity: req.body.quantity,
+          description: req.body.description,
+          locationdescription: req.body.locationdescription,
+          chat_id: [req.user.id],
+          Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
+        })
+        // lets start mailing
+        const users = await User.find({},{email: 1})
+        const maillist = users.map(user => user.email)
+        console.log(maillist)
+        // rest stuff take fromm above. Prettfify this
+        let message = `<div>Hey Folks new new drop is here</div>
+        <div>Name: ${req.body.name}</div>
+        `
+        for (var i in  maillist) {
+          nodeMailer(maillist[i], message, "New Drop")
+        }
+        res.json({ data: result, id: result._id, message: "Offer created successfully" })
+      } else {
+        res.json({ success: false, error: 'location', message: "Please enalble location access" })
+      }
     }
     else {
       res.json({ message: "Authenticate to continue" })
