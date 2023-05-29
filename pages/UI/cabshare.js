@@ -37,9 +37,6 @@ const cabshare = () => {
               <span className="label-text">Cab Discription</span>
             </label>
             <textarea className="textarea w-full mx-auto" placeholder="" />
-            {touched.email && !values.email && (
-              <span className="label-text-alt mt-1 text-red-600">Required</span>
-            )}
           </div>
         </div>
 
