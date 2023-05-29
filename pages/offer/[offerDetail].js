@@ -9,11 +9,6 @@ import { ImLocation } from 'react-icons/im';
 import axios from 'axios';
 
 const index = ({ data }) => {
-  const imageLinks = {
-    offerName: 'https://i.ytimg.com/vi/cBU87-41urA/maxresdefault.jpg',
-    offerImag1:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkOYMM5349QtMehTFrnjxJ2QZeTbejMs6dDoEsBNz5GJ5iSqBEo9qIfkL3VWuFQdPkbKI&usqp=CAU',
-  };
   let imglinks = new Object();
   if(data.image){
   for(var i = 0; i < data.image.length; i++) {
@@ -21,10 +16,6 @@ const index = ({ data }) => {
     imglinks[i] = data.image[i];
   }
 }
-  console.log(imglinks)
-  console.log(imageLinks)
-  console.log(typeof imglinks)
-  console.log(typeof imageLinks)
   const router = useRouter();
   // const badgeList = ['puma', 'discount', 'hot', 'shoes', 'Sneakers'];
   return (

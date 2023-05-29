@@ -50,7 +50,14 @@ const JoinChatPanel = ({ setchatoption, chatdata }) => {
   );
 };
 
-const CreateChatForm = ({ setchatoption }) => {
+const CreateChatForm = ({ setchatoption, router }) => {
+  const [chatname, setchatname] = useState('')
+  const [chatdescription, setchatdescription] = useState('')
+  const [chatexpiry, setchatexpiry ] = useState('')
+  const handleCreate = async() => {
+    const response = await axios.post('/api/chat/offerchat',{chatName: chatname, offerid: router.query.radar, coordinate: '[17.48,78.42]' })
+    console.log(response)
+  }
   return (
     <div className="rounded-md p-5 bg-white/70 ">
       <div className='flex cursor-pointer' onClick={() => { setchatoption(true) }}>
@@ -67,6 +74,8 @@ const CreateChatForm = ({ setchatoption }) => {
           type="text"
           placeholder=""
           className="input input-bordered w-full max-w-xs"
+          value={chatname}
+          onChange={(e)=>{setchatname(e.target.value)}}
         />
 
         <label className="label">
@@ -75,21 +84,23 @@ const CreateChatForm = ({ setchatoption }) => {
         <textarea
           className="textarea textarea-bordered h-24"
           placeholder=""
+          value={chatdescription}
+          onChange={(e)=>{setchatdescription(e.target.value)}}
         ></textarea>
         <label>
           <span className="label-text">Expires in</span>
         </label>
-        <select className="select w-full max-w-xs">
+        <select className="select w-full max-w-xs" onChange={(e)=> {setchatexpiry(e.target.value)}}>
           <option disabled selected>
             10 minutes
           </option>
-          <option>5 minutes</option>
-          <option>10 minutes</option>
-          <option>30 minutes</option>
-          <option>45 minutes</option>
-          <option>1 hour</option>
+          <option value='5'>5 minutes</option>
+          <option value='10'>10 minutes</option>
+          <option value='30'>30 minutes</option>
+          <option value='45'>45 minutes</option>
+          <option value='60'>1 hour</option>
         </select>
-        <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1rem]  w-full">
+        <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1rem]  w-full" onClick={handleCreate} >
           Create Chat
         </button>
       </div>
@@ -126,7 +137,7 @@ const radar = ({ data }) => {
             {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
               Search
             </button> */}
-            {chatoption ? <JoinChatPanel setchatoption={setchatoption} chatdata={data}/> : <CreateChatForm setchatoption={setchatoption} />}
+            {chatoption ? <JoinChatPanel setchatoption={setchatoption} chatdata={data}/> : <CreateChatForm setchatoption={setchatoption} router={router} />}
           </div>
         </div>
       </div>
