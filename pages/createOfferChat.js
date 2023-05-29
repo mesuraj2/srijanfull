@@ -1,3 +1,4 @@
+import { el } from 'date-fns/locale';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import FooterT2 from '../components/FooterT2';
@@ -6,6 +7,7 @@ import NavbarT2 from '../components/NavbarT2';
 
 const createOfferChat = () => {
   const [selectCustom, setSelectCustom] = useState(false);
+  const [customDistance, setCustomDistance] = useState(4);
   const initValues = {
     distance: 4000,
     cname: '',
@@ -31,6 +33,19 @@ const createOfferChat = () => {
         [target.name]: target.value,
       },
     }));
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (values.distance === 'custom') {
+      setData((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          ['distance']: customDistance,
+        },
+      }));
+    }
+  };
 
   useEffect(() => {
     if (values.distance === 'custom') {
@@ -71,19 +86,19 @@ const createOfferChat = () => {
           <div
             className={`flex-col ${!selectCustom ? 'hidden' : 'flex'} gap-3`}
           >
-            <p>Search under {values.distance} m</p>
+            <p>Search under {customDistance} km</p>
             <div>
               <input
                 type="range"
                 min="0"
-                max="20"
+                max="10"
                 name="distance"
-                value={values.distance}
+                value={customDistance}
                 className="range range-xs"
-                step="4"
-                onChange={handleChange}
+                step="0.1"
+                onChange={(e) => setCustomDistance(e.target.value)}
               />
-              <div className="w-full flex justify-between text-xs px-2">
+              <div className="w-[30rem] flex justify-between text-xs px-2">
                 <span>|</span>
                 <span>|</span>
                 <span>|</span>
@@ -156,7 +171,10 @@ const createOfferChat = () => {
           </div>
         </div>
         <div className="flex items-center pb-[5rem]">
-          <button className="btn btn-error text-white secondary_font bg-red-500 6xl:mt-5 mx-auto text-[1.2rem] w-[15rem] 6xl:w-[20rem]">
+          <button
+            className="btn btn-error text-white secondary_font bg-red-500 6xl:mt-5 mx-auto text-[1.2rem] w-[15rem] 6xl:w-[20rem]"
+            onClick={(e) => submitHandler(e)}
+          >
             Start Pooling
           </button>
         </div>
