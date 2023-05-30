@@ -82,7 +82,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       chat:groupChat._id
     })
 
-    await offer.findByIdAndUpdate({ _id: offerid }, { chat_id: groupChat._id });
+    await offer.findByIdAndUpdate({ _id: offerid }, {$push: { chat_id: groupChat._id }});
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
       "users",
       "-password"

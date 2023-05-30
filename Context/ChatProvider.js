@@ -22,7 +22,7 @@ const ChatProvider = ({ children }) => {
     
     if(localStorage.getItem("coordinates")){
       let coordinate=JSON.parse(localStorage.getItem("coordinates"))
-      setlatitude(coordinate[0])
+      setlatitude(coordinate[0])  
       setlongitude(coordinate[1])
     }
     else{

@@ -420,7 +420,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
         for (var i in  maillist) {
           nodeMailer(maillist[i], message, "New Drop")
         }
-        res.json({ data: result, id: result._id, message: "Offer created successfully" })
+        res.json({ success: true, data: result, id: result._id, message: "Offer created successfully" })
       } else {
         res.json({ success: false, error: 'location', message: "Please enalble location access" })
       }

@@ -76,7 +76,7 @@ const UserPanel = ({setsignedin}) => {
               </a>
             </li>
             <li>
-              <a>Chat Room</a>
+              <a href='/chat'>Chat Room</a>
             </li>
             <li>
               <a>Notifications</a>
