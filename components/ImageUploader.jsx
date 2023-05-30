@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 const ImageUploader = ({ setImages }) => {
-
   const onDrop = (acceptedFiles) => {
+    console.log(acceptedFiles);
     if (acceptedFiles.length <= 5) {
       setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
     } else {
