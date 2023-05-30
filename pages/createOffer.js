@@ -7,7 +7,7 @@ import NavbarT2 from '../components/NavbarT2';
 const createOffer = () => {
   const [images, setImages] = useState([]);
   const [offerName, setofferName] = useState('');
-  const [offerdescription, setofferDescription] = useState('')
+  const [offerdescription, setofferDescription] = useState('');
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -36,14 +36,21 @@ const createOffer = () => {
               placeholder=""
               className="input input-bordered w-[30rem]"
               value={offerName}
-              onChange={(e)=> setofferName(e.target.value)}
+              onChange={(e) => setofferName(e.target.value)}
             />
           </div>
           <div className="">
             <label className="label">
               <span className="label-text">Offer Discription</span>
             </label>
-            <textarea className="textarea w-[30rem]" placeholder="" value={offerdescription} onChange={(e) => {setofferDescription(e.targer.value)}}/>
+            <textarea
+              className="textarea w-[30rem]"
+              placeholder=""
+              value={offerdescription}
+              onChange={(e) => {
+                setofferDescription(e.target.value);
+              }}
+            />
           </div>
         </div>
 
