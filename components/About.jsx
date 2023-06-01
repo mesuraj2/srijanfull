@@ -94,6 +94,7 @@ const About = () => {
           {featuresData.map((item, index) => {
             return (
               <li
+                key={index}
                 className={`${
                   tabSelected === item.name
                     ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
@@ -113,10 +114,11 @@ const About = () => {
           })}
         </div>
         <div className="mt-[2rem]">
-          {featuresData.map((item) => {
+          {featuresData.map((item, index) => {
             if (item.name === tabSelected)
               return (
                 <Carousel
+                  key={index}
                   imageLinks={item.imgLinks}
                   className={
                     'mx-auto w-[90%] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'

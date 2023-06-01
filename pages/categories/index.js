@@ -7,28 +7,26 @@ import axios from 'axios';
 import { ChatState } from '../../Context/ChatProvider';
 
 const categories = () => {
-  
   const router = useRouter();
   const handleClick = (catigoryName) => {
-    let coordinate=JSON.parse(localStorage.getItem("coordinates"))
-    console.log(coordinate)
-    router.push(`/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`);
+    let coordinate = JSON.parse(localStorage.getItem('coordinates'));
+    console.log(coordinate);
+    router.push(
+      `/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`
+    );
   };
 
   // we will also impliment it with backend later
   const [categorieslist, setcategorieslist] = useState([]);
   const onLoad = () => {
-    const res = axios.get("/api/offer/categories")
-      .then((res) => {
-        setcategorieslist(res.data);
-      })
-
-  }
+    const res = axios.get('/api/offer/categories').then((res) => {
+      setcategorieslist(res.data);
+    });
+  };
 
   useEffect(() => {
     onLoad();
   }, []);
-  
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -43,8 +41,17 @@ const categories = () => {
             partners, so you can enjoy savings on the things you love most
           </p>
           <div className="grid md:grid-cols-2 11xl:grid-cols-4 lg:grid-cols-3 gap-x-5 gap-y-10 pb-[5rem] mx-auto">
-          {categorieslist && categorieslist.map(category => 
-          <CatigoryCard name={category.name} description={category.description} image={category.image} link={category.link} handleClick={handleClick}/>)}
+            {categorieslist &&
+              categorieslist.map((category, index) => (
+                <CatigoryCard
+                  key={index}
+                  name={category.name}
+                  description={category.description}
+                  image={category.image}
+                  link={category.link}
+                  handleClick={handleClick}
+                />
+              ))}
           </div>
         </div>
       </div>

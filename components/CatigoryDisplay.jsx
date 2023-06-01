@@ -37,7 +37,7 @@ const CatigoryDisplay = () => {
         </div>
         <button
           onClick={() => router.push('/categories')}
-          class="btn btn-outline tracking-wide text-[1.1rem] my-10"
+          className="btn btn-outline tracking-wide text-[1.1rem] my-10"
         >
           Explore More
         </button>

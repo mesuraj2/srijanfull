@@ -48,7 +48,7 @@ const Carousel = ({ imageLinks, className }) => {
       >
         {Object.keys(imageLinks).map((itemKey, index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <img
                 className={`${className}  rounded-md shadow-xl `}
                 src={imageLinks[itemKey]}

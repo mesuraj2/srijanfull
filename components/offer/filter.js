@@ -52,7 +52,13 @@ function MyAccordion({ filter, setfilter, Category, options }) {
   );
 }
 
-export default function Filter({ filter, setfilter, setfiltercategory, setChecked, checked }) {
+export default function Filter({
+  filter,
+  setfilter,
+  setfiltercategory,
+  setChecked,
+  checked,
+}) {
   const color = ['red', 'black', 'green'];
   const category = ['book', 'cloth'];
 
@@ -80,11 +86,11 @@ export default function Filter({ filter, setfilter, setfiltercategory, setChecke
 
   const handleCheck = (e, dis) => {
     if (e.target.checked === false) {
-      setChecked('')
+      setChecked('');
     } else {
-      setChecked(dis)
+      setChecked(dis);
     }
-  }
+  };
 
   const distances = ['200 m', '500 m', '1 km', '2 km', '5 km'];
   return (
@@ -162,8 +168,16 @@ export default function Filter({ filter, setfilter, setfiltercategory, setChecke
         <p className="text-[1.1rem] font-[500] my-3">Radius Under</p>
         {distances.map((dis, index) => {
           return (
-            <div className="flex ml-3 mt-1">
-              <input type="checkbox" className="checkbox" id={`${dis}`} onClick={(e) => { handleCheck(e, dis) }} checked={dis == checked} />
+            <div className="flex ml-3 mt-1" key={index}>
+              <input
+                type="checkbox"
+                className="checkbox"
+                id={`${dis}`}
+                onClick={(e) => {
+                  handleCheck(e, dis);
+                }}
+                checked={dis == checked}
+              />
               <label htmlFor={dis} className="mx-1 text-[1.1rem]">
                 {dis}
               </label>
