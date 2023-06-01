@@ -1,30 +1,89 @@
 import React, { useState } from 'react';
+import Carousel from './Carousel';
 
 const featuresData = [
   {
-    name: 'Feature 1',
+    name: 'Grocery',
     discription:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, iure.',
     gifUrl:
       'https://e0.pxfuel.com/wallpapers/520/1013/desktop-wallpaper-cool-landscape-night-minimal-art-laptop-minimalist-and-background-minimalist-laptop.jpg',
+    imgName: 'grocery',
+    imgLinks: {
+      1: '/assets/grocery/image_1.jpg',
+      2: '/assets/grocery/image_2.jpg',
+      3: '/assets/grocery/image_3.jpg',
+      4: '/assets/grocery/image_4.jpg',
+      5: '/assets/grocery/image_5.jpg',
+      6: '/assets/grocery/image_6.jpg',
+    },
   },
   {
-    name: 'Feature 2',
+    name: 'Clothing',
     discription:
       'Feature 2 discription is here adipisicing elit. Facere, aliquam!',
     gifUrl:
       'https://c4.wallpaperflare.com/wallpaper/87/851/622/laptop-backgrounds-nature-images-1920x1200-wallpaper-preview.jpg',
+    imgName: 'clothing',
+    imgLinks: {
+      1: '/assets/clothing/image_1.jpg',
+      2: '/assets/clothing/image_2.jpg',
+      3: '/assets/clothing/image_3.jpg',
+      4: '/assets/clothing/image_4.jpg',
+      5: '/assets/clothing/image_5.jpg',
+      6: '/assets/clothing/image_6.jpg',
+      7: '/assets/clothing/image_7.jpg',
+    },
   },
   {
-    name: 'Feature 3',
+    name: 'Cab Share',
     discription: 'Lorem, this is a different language Facere, aliquam!',
     gifUrl:
       'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?cs=srgb&dl=pexels-pok-rie-2049422.jpg&fm=jpg',
+    imgName: 'cab',
+    imgLinks: {
+      1: '/assets/cab/image_1.jpg',
+      2: '/assets/cab/image_2.jpg',
+      3: '/assets/cab/image_3.jpg',
+      4: '/assets/cab/image_4.jpg',
+      5: '/assets/cab/image_5.jpg',
+      6: '/assets/cab/image_6.jpg',
+    },
+  },
+  {
+    name: 'Food',
+    discription: 'Lorem, this is a different language Facere, aliquam!',
+    gifUrl:
+      'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?cs=srgb&dl=pexels-pok-rie-2049422.jpg&fm=jpg',
+    imgName: 'food',
+    imgLinks: {
+      1: '/assets/food/image_1.jpg',
+      2: '/assets/food/image_2.jpg',
+      3: '/assets/food/image_3.jpg',
+      4: '/assets/food/image_4.jpg',
+      5: '/assets/food/image_5.jpg',
+      6: '/assets/food/image_6.jpg',
+    },
+  },
+  {
+    name: 'Miscellaneous',
+    discription: 'Lorem, this is a different language Facere, aliquam!',
+    gifUrl:
+      'https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?cs=srgb&dl=pexels-pok-rie-2049422.jpg&fm=jpg',
+    imgName: 'cricket',
+    imgLinks: {
+      1: '/assets/cricket/image_1.jpg',
+      2: '/assets/cricket/image_2.jpg',
+      3: '/assets/cricket/image_3.jpg',
+      4: '/assets/cricket/image_4.jpg',
+      5: '/assets/cricket/image_5.jpg',
+      6: '/assets/cricket/image_6.jpg',
+    },
   },
 ];
 
 const About = () => {
-  const [tabSelected, setTabSelected] = useState('Feature 1');
+  const [tabSelected, setTabSelected] = useState('Grocery');
   return (
     <div className="w-screen py-[5rem] bg-[#B9E9FC]">
       <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider">
@@ -57,10 +116,11 @@ const About = () => {
           {featuresData.map((item) => {
             if (item.name === tabSelected)
               return (
-                <img
-                  src={item.gifUrl}
-                  alt=""
-                  className="mx-auto w-[90%] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md"
+                <Carousel
+                  imageLinks={item.imgLinks}
+                  className={
+                    'mx-auto w-[90%] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
+                  }
                 />
               );
             else false;
@@ -72,3 +132,11 @@ const About = () => {
 };
 
 export default About;
+
+{
+  /* <img
+  src={item.gifUrl}
+  alt=""
+  className=""
+/> */
+}
