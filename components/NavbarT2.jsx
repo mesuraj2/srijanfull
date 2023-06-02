@@ -54,10 +54,10 @@ const NavbarT2 = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link>Item 1</Link>
+                <Link href='#'>Item 1</Link>
               </li>
               <li tabIndex={0}>
-                <Link className="justify-between">
+                <Link  href='#' className="justify-between">
                   Parent
                   <svg
                     className="fill-current"
@@ -71,15 +71,15 @@ const NavbarT2 = () => {
                 </Link>
                 <ul className="p-2">
                   <li>
-                    <Link>Submenu 1</Link>
+                    <Link href='#'>Submenu 1</Link>
                   </li>
                   <li>
-                    <Link>Submenu 2</Link>
+                    <Link href='#'>Submenu 2</Link>
                   </li>
                 </ul>
               </li>
               <li>
-                <Link>Item 3</Link>
+                <Link href='#'>Item 3</Link>
               </li>
             </ul>
           </div>

@@ -71,7 +71,7 @@ const UserPanel = ({setsignedin}) => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link className="justify-between">
+              <Link href='#' className="justify-between">
                 Profile
                 {/* <span className="badge">New</span> */}
               </Link>
@@ -80,16 +80,16 @@ const UserPanel = ({setsignedin}) => {
               <Link href='/chat'>Chat Room</Link>
             </li>
             <li>
-              <Link>Notifications</Link>
+              <Link href='#'>Notifications</Link>
             </li>
             <li>
-              <Link>Your Cart</Link>
+              <Link href='#'>Your Cart</Link>
             </li>
             <li>
-              <Link>Settings</Link>
+              <Link href='#'>Settings</Link>
             </li>
             <li>
-              <Link onClick={handleLogout}>Logout</Link>
+              <Link href='/'><a onClick={handleLogout}>Logout</a></Link>
             </li>
           </ul>
         </div>
