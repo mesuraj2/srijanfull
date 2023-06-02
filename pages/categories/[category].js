@@ -8,7 +8,7 @@ import Filter from '../../components/offer/filter';
 import CatigoryOfferCard from '../../components/CatigoryOfferCard';
 import axios from 'axios';
 
-const index = ({ categoryoffers }) => {
+const Index = ({ categoryoffers }) => {
   // Explanation
   // 'checked' will give the current checked radius
   // if 'checked' is changed it will change the url with radius query as checked
@@ -44,7 +44,7 @@ const index = ({ categoryoffers }) => {
         </h1>
         <p className="text-[1.2rem] secondary_font tracking-wider text-center w-[75%] mx-auto ">
           Step up your style with our unbeatable selection of shoes! From sporty
-          sneakers to sleek dress shoes, we've got you covered for any occasion.
+          sneakers to sleek dress shoes, we&apos;ve got you covered for any occasion.
           Browse our categories and step out in style today!
         </p>
         <div className="flex items-center justify-center mx-auto  mt-10">
@@ -98,7 +98,7 @@ const index = ({ categoryoffers }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getServerSideProps(context) {
   const q = context.query;

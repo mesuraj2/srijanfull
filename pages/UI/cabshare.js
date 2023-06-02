@@ -4,7 +4,7 @@ import Footer from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
 
-const cabshare = () => {
+const Cabshare = () => {
   const router = useRouter();
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -58,4 +58,4 @@ const cabshare = () => {
   );
 };
 
-export default cabshare;
+export default Cabshare;

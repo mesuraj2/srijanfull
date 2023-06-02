@@ -4,7 +4,7 @@ import Login from '../components/login';
 import Signup from '../components/signup';
 import { useRouter } from 'next/router';
 
-const login = () => {
+const LoginPage = () => {
   const router =useRouter()
   return (
     <>
@@ -15,4 +15,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default LoginPage;

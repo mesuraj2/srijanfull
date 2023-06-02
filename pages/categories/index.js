@@ -6,7 +6,7 @@ import NavbarT2 from '../../components/NavbarT2';
 import axios from 'axios';
 import { ChatState } from '../../Context/ChatProvider';
 
-const categories = () => {
+const Categories = () => {
   const router = useRouter();
   const handleClick = (catigoryName) => {
     let coordinate = JSON.parse(localStorage.getItem('coordinates'));
@@ -60,4 +60,4 @@ const categories = () => {
   );
 };
 
-export default categories;
+export default Categories;

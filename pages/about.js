@@ -48,15 +48,15 @@ const about = () => {
           <div className="">
             <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-[90%]">
               The idea for pica pool was born out of a incident (One day, I
-              walked into a pizza store and noticed a tempting offer of "Buy 2,
-              Get 1 Free." The price of the pizza was around 360 rupees. It got
+              walked into a pizza store and noticed a tempting offer of &quot;Buy 2,
+              Get 1 Free.&quot; The price of the pizza was around 360 rupees. It got
               me thinking: If I could find two more people interested in the
               same pizza, we could each get pizza for only 240 rupees instead of
-              the original 360 rupees. That's a whopping 33.3% in savings!)
+              the original 360 rupees. That&apos;s a whopping 33.3% in savings!)
             </p>
             <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-[90%]">
               Inspired by this experience, I realized the immense potential of
-              pooling. It's not just limited to pizzas; it applies to every
+              pooling. It&apos;s not just limited to pizzas; it applies to every
               domain. We recognized that by bringing people together with
               similar product interests, we could create a community that
               harnesses collective buying power to unlock exclusive discounts

@@ -8,7 +8,7 @@ import SearchBar from '../../components/SearchBar';
 import { ImLocation } from 'react-icons/im';
 import axios from 'axios';
 
-const index = ({ data }) => {
+const Index = ({ data }) => {
   let imglinks = new Object();
   if(data.image){
   for(var i = 0; i < data.image.length; i++) {
@@ -85,7 +85,7 @@ const index = ({ data }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getServerSideProps(context) {
   const offerid = context.query.offerDetail

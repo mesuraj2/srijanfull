@@ -10,7 +10,7 @@ import NavbarT2 from '../components/NavbarT2';
 
 //  bg-cover bg-center main__header
 
-const home = () => {
+const Home = () => {
   const links = {
     HOME: '/',
     ABOUT: '/about',
@@ -83,4 +83,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;

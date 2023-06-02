@@ -103,9 +103,9 @@ const ChatCard = ({ name, users, chat_id, router }) => {
 const JoinChatPanel = ({ setchatoption, chatdata, router }) => {
   return (
     <div className="rounded-md p-5 bg-white/70">
-      {chatdata && chatdata.chat_id.map(chats => {
+      {chatdata && chatdata.chat_id.map((chats,index) => {
         return (
-          <ChatCard name={chats.chatName} users={`${chats.users.length}/${chatdata.quantity}`} chat_id={chats._id} router={router} />)
+          <ChatCard key={index} name={chats.chatName} users={`${chats.users.length}/${chatdata.quantity}`} chat_id={chats._id} router={router} />)
       })}
 
       <div className="divider">OR</div>
@@ -202,7 +202,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
 
 
 
-const radar = ({ data }) => {
+const Radar = ({ data }) => {
   const [chatoption, setchatoption] = useState(true)
   const router = useRouter();
   return (
@@ -239,7 +239,7 @@ const radar = ({ data }) => {
   );
 };
 
-export default radar;
+export default Radar;
 
 export async function getServerSideProps(context) {
   const offerid = context.query.radar
