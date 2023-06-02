@@ -22,6 +22,12 @@ const Chatmodel = mongoose.Schema(
     offerid:{
       type: mongoose.Schema.Types.ObjectId,
       ref: "offer",
+    },
+    Location: {
+      type: {
+        type: String
+      },
+      coordinates: [Number]
     }
   },
   {

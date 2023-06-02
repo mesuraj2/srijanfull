@@ -334,10 +334,9 @@ router.get("/allOffer/", async (req, res) => {
 // Gets Offer chat for a particualar offer
 router.post("/offerchats", async (req, res) => {
   try {
-    const radius = req.query.radius;
+    const radius = Number(req.body.radius);
 
-    let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)];
-    // (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
+    let coordinte = [parseFloat(req.body.lat), parseFloat(req.body.long)];
     const locationquery = {
       Location: {
         $near: {
@@ -346,13 +345,15 @@ router.post("/offerchats", async (req, res) => {
         },
       },
     };
-    // const { lat, long } = req.query;
     let query = { _id: req.body.id };
-    query = radius ? { ...query, ...locationquery } : query;
+    // query = radius ? { ...query, ...locationquery } : query;
+    if(radius){console.log('Radius is present')}
+    console.log('query check')
     console.log(query);
     let data = await offer
       .find(query)
       .populate("chat_id", "Location chatName users");
+    // console.log(data);
     res.status(200).json(data[0]);
   } catch (error) {
     res.send(error);
@@ -389,6 +390,36 @@ router.post("/offerdetail", async (req, res) => {
     res.send(error);
   }
 });
+
+
+// TODO: use locaiton collection later
+// router.post("/offerchats1", async (req, res) => {
+//   try {
+//     const radius = req.query.radius;
+
+//     let coordinte = [parseFloat(req.query.lat), parseFloat(req.query.long)];
+//     // (req.query.lat && req.query.long) ? ([parseFloat(req.query.lat), parseFloat(req.query.long)]) : [17.59909, 78.1261523];
+//     const locationquery = {
+//       Location: {
+//         $near: {
+//           $geometry: { type: "Point", coordinates: coordinte },
+//           $maxDistance: radius,
+//         },
+//       },
+//     };
+//     // const { lat, long } = req.query;
+//     let query = { _id: req.body.id };
+//     query = radius ? { ...query, ...locationquery } : query;
+//     console.log(query);
+//     let data = await offer
+//       .aggregate([query,
+//          {}])
+    
+//     res.status(200).json(data[0]);
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
 
 
 

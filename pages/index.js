@@ -27,10 +27,10 @@ const home = () => {
         </div>
         {/* <div className="flex flex-row justify-around items-center">
           <div className="flex flex-row gap-10 invisible">
-            <button class="btn  btn-active uppercase tracking-wider text-[1.1rem]">
+            <button className"btn  btn-active uppercase tracking-wider text-[1.1rem]">
               LogIn
             </button>
-            <button class="btn btn-outline tracking-wider text-[1.1rem]">
+            <button className"btn btn-outline tracking-wider text-[1.1rem]">
               Sign Up
             </button>
           </div>
@@ -40,13 +40,13 @@ const home = () => {
           <div className="flex flex-row gap-5 lg:gap-10 ">
             <Link
               href="/login"
-              class="btn btn-active uppercase tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal bg-black/90"
+              className"btn btn-active uppercase tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal bg-black/90"
             >
               LogIn
             </Link>
             <Link
               href={'/login?signup=true'}
-              class="btn btn-outline tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal"
+              className"btn btn-outline tracking-wider text-[1rem] 14xl:text-[1.1rem] secondary_font font-normal"
             >
               Sign Up
             </Link>

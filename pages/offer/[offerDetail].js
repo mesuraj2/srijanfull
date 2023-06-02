@@ -72,7 +72,7 @@ const index = ({ data }) => {
                 </svg>
               </button>
               <button
-                onClick={() => router.push(`/radar/${data._id}`)}
+                onClick={() => router.push(`/radar/${data._id}?location=${localStorage.getItem('coordinates')}`)}
                 className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]">
                 Pool Now
               </button>
