@@ -11,9 +11,8 @@ const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
 const location = require("../models/location");
-// const { response } = require("express");
-const GoogleClientId =
-  "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
+const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
+  // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
 // //Tests

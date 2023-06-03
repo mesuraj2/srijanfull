@@ -3,24 +3,24 @@
 // const SECRET_KEY = "Suraj_kumar";
 const nodemailer = require("nodemailer");
 
-var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "znsuraj7@gmail.com",
-      pass: "zgsrcafffgoobxmh",
-    },
-  });
-
 // var transporter = nodemailer.createTransport({
-//     service: "Godaddy",
-//     host: "smtpout.secureserver.net",
-//     secureConnection: true,
-//     port: 465,
+//     service: "gmail",
 //     auth: {
-//       user: "noreply@picapool.com",
-//       pass: "Think@9110",
+//       user: "znsuraj7@gmail.com",
+//       pass: "zgsrcafffgoobxmh",
 //     },
 //   });
+
+var transporter = nodemailer.createTransport({
+    service: "Godaddy",
+    host: "smtpout.secureserver.net",
+    secureConnection: true,
+    port: 465,
+    auth: {
+      user: "noreply@picapool.com",
+      pass: "Think@9110",
+    },
+  });
   
 
 const nodeMailer = (email,message,subject) => {

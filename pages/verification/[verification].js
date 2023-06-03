@@ -27,7 +27,11 @@ const Verification = () => {
     },
         [initValues])
     // handlers
-
+    useEffect(() => {
+        if (document.getElementsByName("one").length > 0) {
+            document.getElementsByName("one")[0].focus()
+        }
+    }, [])
     const handleVerify = async () => {
         const response = await axios.post('/api/auth/verifyOtp', {
             userId: router.query.verification,
@@ -65,6 +69,9 @@ const Verification = () => {
 
         if (!isNaN(value)) {
             // Check if the value is a number
+            if (target.parentNode.nextSibling != null) {
+                target.parentNode.nextSibling.firstChild.focus()
+            }
             return setData((prev) => ({
                 ...prev,
                 values: {
@@ -143,6 +150,7 @@ const Verification = () => {
                             !values.one || !values.two || !values.three || !values.four
                         }
                         onClick={handleVerify}
+                        id="verifybutton"
                         className={`${isLoading ? 'loading' : ''
                             }btn btn-active text-[1.1rem] w-[60%] 5xl:w-[15rem] mt-5 disabled:text-black/50 disabled:bg-black/10`}
                     // onClick={handleLogin}
