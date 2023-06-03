@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import FooterT2 from '../components/FooterT2';
-import ImageUploader from '../components/ImageUploader';
-import NavbarT2 from '../components/NavbarT2';
+import FooterT2 from '../../components/FooterT2';
+import ImageUploader from '../../components/ImageUploader';
+import NavbarT2 from '../../components/NavbarT2';
 
 const Inputfield = ({
   values,
