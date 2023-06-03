@@ -2,7 +2,7 @@ import React from 'react';
 
 const CatigoryCard = ({ name, description, image, link, handleClick }) => {
   return (
-    <div className="card card-compact flex flex-row md:flex-col w-[100%] md:w-[15rem] xl:w-[18rem] bg-base-100 shadow-xl items-center justify-center hover:-translate-y-2 transition-all">
+    <div className="card card-compact flex flex-row md:flex-col w-[100%] md:w-[15rem] xl:w-[18rem] bg-base-100 shadow-xl items-center justify-center hover:-translate-y-2 transition-all py-2 lg:py-0">
       <img
         src={image}
         alt={name}

@@ -22,7 +22,7 @@ import {
 } from 'swiper';
 import Image from 'next/image';
 
-const Carousel = ({ imageLinks, className }) => {
+const Carousel = ({ imageLinks, className = '' }) => {
   return (
     <div className={`${className}`}>
       <Swiper

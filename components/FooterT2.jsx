@@ -47,7 +47,7 @@ const Footer = () => {
         </div>
       </div>
       <div>
-        <p>Copyright © 2023 - All right reserved by Save & Pool</p>
+        <p>Copyright © 2023 - All right reserved by Pica Pool</p>
       </div>
     </footer>
   );
