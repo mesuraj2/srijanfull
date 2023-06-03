@@ -98,7 +98,7 @@ export default function MyChats({ fetchAgain }) {
                 <div
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:bg-[#b9e9fc]/40"
+                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:bg-[#b9e9fc]/40 h-[5rem] w-[85vw] rounded-md"
                 >
                   <div className="flex items-center justify-centr">
                     <Avatar
@@ -121,15 +121,12 @@ export default function MyChats({ fetchAgain }) {
 
                       <div>
                         {chat.latestMessage && (
-                          <div className="flex justify-start items-center pb-2 gap-1">
+                          <div className="flex  pb-2 gap-1 w-[12rem] xs:w-[15rem] 5xl:w-[20rem]">
                             <p className="text-gray-500 text-[.8rem]">
                               {chat.latestMessage.sender.name}:{' '}
                             </p>
-                            <p className="text-gray-500 text-[.8rem]">
-                              {chat.latestMessage.content.length > 50
-                                ? chat.latestMessage.content.substring(0, 51) +
-                                  '...'
-                                : chat.latestMessage.content}
+                            <p className="text-gray-500 text-[.8rem] truncate">
+                              {chat.latestMessage.content}
                             </p>
                           </div>
                         )}
@@ -161,3 +158,8 @@ export default function MyChats({ fetchAgain }) {
 //   borderRadius: '5px',
 //   boxShadow: 'rgba(0, 0, 0, 0.18) 0px 2px 4px',
 // }}
+
+// {chat.latestMessage.content.length > 50
+//   ? chat.latestMessage.content.substring(0, 51) +
+//     '...'
+//   : chat.latestMessage.content}
