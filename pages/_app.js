@@ -3,7 +3,7 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import { ChakraProvider } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/footer';
+import FooterT2 from '../components/FooterT2';
 import ChatProvider from '../Context/ChatProvider';
 import { useRouter } from 'next/router';
 import NextNProgress from 'nextjs-progressbar';
@@ -11,6 +11,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 import Script from 'next/script';
+import NavbarT2 from '../components/NavbarT2';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -47,8 +48,14 @@ page_path: window.location.pathname,
               {/* {router.pathname !== '/404' && router.pathname !== '/home' && (
                 <Navbar />
               )} */}
+              <div className="w-screen bg-[#B9E9FC]">
+                <div className="md:w-[90%] mx-auto">
+                  <NavbarT2 />
 
-              <Component {...pageProps} />
+                  <Component {...pageProps} />
+                </div>
+                <FooterT2 />
+              </div>
 
               {/* {router.pathname !== '/chat' &&
                 router.pathname !== '/home' &&

@@ -276,47 +276,43 @@ const Radar = ({ data }) => {
   const router = useRouter();
   return (
     <div className="w-screen bg-[#B9E9FC]">
-      <div className="md:w-[90%] mx-auto">
-        <NavbarT2 />
-        <div className="my-[5rem] flex flex-col 11xl:flex-row justify-center gap-10 15xl:gap-[5rem] items-center">
-          <div className="flex flex-col gap-5 ">
-            <MapComponent router={router} chats={data.chat_id} />
-            <select
-              className="select w-[90vw] 6xl:w-[32rem] md:w-[40rem] 11xl:w-[30rem] 14xl:w-[38rem] 15xl:w-[40rem]"
-              onChange={(e) => {
-                router.push({
-                  path: router.pathname,
-                  query: { ...router.query, radius: e.target.value },
-                });
-              }}
-            >
-              <option disabled selected>
-                Pick Radius
-              </option>
-              <option value={100}>100 m</option>
-              <option value={200}>200 m</option>
-              <option value={500}>500 m</option>
-              <option value={1000}>1 km</option>
-              <option value={2000}>2 km</option>
-            </select>
-          </div>
-          <div className="">
-            {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
+      <div className="my-[5rem] flex flex-col 11xl:flex-row justify-center gap-10 15xl:gap-[5rem] items-center">
+        <div className="flex flex-col gap-5 ">
+          <MapComponent router={router} chats={data.chat_id} />
+          <select
+            className="select w-[90vw] 6xl:w-[32rem] md:w-[40rem] 11xl:w-[30rem] 14xl:w-[38rem] 15xl:w-[40rem]"
+            onChange={(e) => {
+              router.push({
+                path: router.pathname,
+                query: { ...router.query, radius: e.target.value },
+              });
+            }}
+          >
+            <option disabled selected>
+              Pick Radius
+            </option>
+            <option value={100}>100 m</option>
+            <option value={200}>200 m</option>
+            <option value={500}>500 m</option>
+            <option value={1000}>1 km</option>
+            <option value={2000}>2 km</option>
+          </select>
+        </div>
+        <div className="">
+          {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
               Search
             </button> */}
-            {chatoption ? (
-              <JoinChatPanel
-                setchatoption={setchatoption}
-                chatdata={data}
-                router={router}
-              />
-            ) : (
-              <CreateChatForm setchatoption={setchatoption} router={router} />
-            )}
-          </div>
+          {chatoption ? (
+            <JoinChatPanel
+              setchatoption={setchatoption}
+              chatdata={data}
+              router={router}
+            />
+          ) : (
+            <CreateChatForm setchatoption={setchatoption} router={router} />
+          )}
         </div>
       </div>
-      <FooterT2 />
     </div>
   );
 };
