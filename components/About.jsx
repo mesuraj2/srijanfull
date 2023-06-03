@@ -85,21 +85,23 @@ const featuresData = [
 const About = () => {
   const [tabSelected, setTabSelected] = useState('Grocery');
   return (
-    <div className="w-screen py-[5rem] bg-[#B9E9FC]">
+    <div className="w-screen pb-[5rem] bg-[#B9E9FC]">
       <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider">
         Features
       </h1>
       <div className="flex flex-col justify-center items-center">
-        <ul className="flex flex-row w-ful justify-center gap-5 md:gap-10 secondary_font text-[1.2rem] md:text-[1.6rem] my-[1rem] tracking-wider  w-fit  p-3 mx-auto  px-5">
+        <ul className="flex flex-row w-full justify-center gap-5 md:gap-10 secondary_font text-[1rem] xs:text-[1.2rem] md:text-[1.6rem] my-[1rem] tracking-wider   p-3 mx-auto  px-5">
           {featuresData.map((item, index) => {
             return (
               <li
                 key={index}
                 className={`${
                   tabSelected === item.name
-                    ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
+                    ? 'border-b-black/80  border-b-4 font-[600] text-black/70 -translate-y-[2px]'
                     : ''
-                } cursor-pointer hover:-translate-y-1 transition-all `}
+                } cursor-pointer hover:-translate-y-1 transition-all ${
+                  index > 2 ? 'hidden lg:flex' : 'flex'
+                }`}
                 onClick={() => setTabSelected(item.name)}
               >
                 {item.name}
@@ -107,7 +109,7 @@ const About = () => {
             );
           })}
         </ul>
-        <div className="text-[1rem] md:text-[1.2rem] mt-[1rem] secondary_font tracking-widest  w-[90%] md:w-[80%] lg:w-auto text-center">
+        <div className="text-[1rem] md:text-[1.2rem] md:mt-[1rem] secondary_font tracking-widest  w-[95%] md:w-[80%] lg:w-auto text-center">
           {/* {featuresData.map((item) => {
             if (item.name === tabSelected) return item.discription;
             else false;
@@ -121,7 +123,7 @@ const About = () => {
                   key={index}
                   imageLinks={item.imgLinks}
                   className={
-                    'mx-auto w-[90%] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
+                    'mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
                   }
                 />
               );

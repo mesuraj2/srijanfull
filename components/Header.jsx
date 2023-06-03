@@ -24,11 +24,11 @@ const Header = () => {
             savings with <span className="font-[600]">Pica Pool</span> today.
           </p>
 
-          <div className="flex flex-row gap-10 mt-5 ">
-            <button className="btn btn- tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90">
+          <div className="flex flex-row gap-10 mt-5 mr-auto">
+            {/* <button className="btn btn- tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90">
               Download
-            </button>
-            <button className="btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
+            </button> */}
+            <button className="hidden lg:flex btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
               Explore
             </button>
           </div>

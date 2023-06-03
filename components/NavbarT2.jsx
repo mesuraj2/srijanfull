@@ -54,10 +54,10 @@ const NavbarT2 = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link href='#'>Item 1</Link>
+                <Link href="#">Item 1</Link>
               </li>
               <li tabIndex={0}>
-                <Link  href='#' className="justify-between">
+                <Link href="#" className="justify-between">
                   Parent
                   <svg
                     className="fill-current"
@@ -71,23 +71,23 @@ const NavbarT2 = () => {
                 </Link>
                 <ul className="p-2">
                   <li>
-                    <Link href='#'>Submenu 1</Link>
+                    <Link href="#">Submenu 1</Link>
                   </li>
                   <li>
-                    <Link href='#'>Submenu 2</Link>
+                    <Link href="#">Submenu 2</Link>
                   </li>
                 </ul>
               </li>
               <li>
-                <Link href='#'>Item 3</Link>
+                <Link href="#">Item 3</Link>
               </li>
             </ul>
           </div>
           <Link
             href="/"
-            className="btn btn-ghost normal-case text-[1.5rem] main__font tracking-wider font-bold"
+            className="btn btn-ghost normal-case text-[1.2rem] md:text-[1.5rem] main__font tracking-wider font-bold"
           >
-            Pool & Save
+            Pica Pool
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
