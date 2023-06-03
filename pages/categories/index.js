@@ -9,11 +9,22 @@ import { ChatState } from '../../Context/ChatProvider';
 const Categories = () => {
   const router = useRouter();
   const handleClick = (catigoryName) => {
-    let coordinate = JSON.parse(localStorage.getItem('coordinates'));
-    console.log(coordinate);
-    router.push(
-      `/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`
-    );
+    if(localStorage.getItem("coordinates")){
+      let coordinate = JSON.parse(localStorage.getItem('coordinates'));
+      console.log(coordinate);
+      router.push(
+        `/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`
+        );
+    }else{
+      navigator.geolocation.getCurrentPosition(
+        position => { 
+          let coordinate=[position.coords.latitude,position.coords.longitude]
+          localStorage.setItem("coordinates",JSON.stringify(coordinate))
+          router.push(href)
+        }, 
+        err => console.log(err)
+      );
+    }
   };
 
   // we will also impliment it with backend later

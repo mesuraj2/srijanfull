@@ -89,7 +89,7 @@ const UserPanel = ({setsignedin}) => {
               <Link href='#'>Settings</Link>
             </li>
             <li>
-              <Link href='/'><a onClick={handleLogout}>Logout</a></Link>
+              <Link legacyBehavior href='/'><a onClick={handleLogout}>Logout</a></Link>
             </li>
           </ul>
         </div>
