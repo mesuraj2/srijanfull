@@ -53,7 +53,7 @@ function MapComponent({ router, chats }) {
 
   return (
     <LoadScript
-    // googleMapsApiKey ="AIzaSyA5-1f-M5kxCKGgISp6Q0GT00SECxJRoXs"
+    googleMapsApiKey ="AIzaSyA5-1f-M5kxCKGgISp6Q0GT00SECxJRoXs"
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
