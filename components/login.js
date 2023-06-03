@@ -32,7 +32,7 @@ import axios from 'axios';
 export default function Login({ onClose }) {
   // const { register, handleSubmit } = useForm();
   // const [signup, setsignup] = useState(false);
-  // const { setUser, setsess } = ChatState();
+  const { setUser, setsess } = ChatState();
   // const CFaUserAlt = chakra(FaUserAlt);
   // const CFaLock = chakra(FaLock);
   // const [showPassword, setShowPassword] = useState(false);
@@ -78,7 +78,7 @@ export default function Login({ onClose }) {
     secureLocalStorage.setItem('id', data._id);
     localStorage.setItem('user', JSON.stringify(data));
     // setsess(true);
-    // setUser(data);
+    setUser(data);
     onClose();
   };
   const initValues = {

@@ -8,7 +8,7 @@ import Filter from '../../components/offer/filter';
 import CatigoryOfferCard from '../../components/CatigoryOfferCard';
 import axios from 'axios';
 
-const index = ({ categoryoffers }) => {
+const Index = ({ categoryoffers }) => {
   // Explanation
   // 'checked' will give the current checked radius
   // if 'checked' is changed it will change the url with radius query as checked
@@ -23,14 +23,17 @@ const index = ({ categoryoffers }) => {
     '1 km': 1000,
     '2 km': 2000,
     '5 km': 5000,
-  }
+  };
   //Updating this will change number of items in categories/categoryoffer
   const router = useRouter();
   const catigoryName = router.query.CatigoryOffers;
 
-  useEffect(()=>{
-    router.push({path: router.pathname, query : {...router.query, radius: distancedict[checked] }})
-  },[checked])
+  useEffect(() => {
+    router.push({
+      path: router.pathname,
+      query: { ...router.query, radius: distancedict[checked] },
+    });
+  }, [checked]);
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -41,7 +44,7 @@ const index = ({ categoryoffers }) => {
         </h1>
         <p className="text-[1.2rem] secondary_font tracking-wider text-center w-[75%] mx-auto ">
           Step up your style with our unbeatable selection of shoes! From sporty
-          sneakers to sleek dress shoes, we've got you covered for any occasion.
+          sneakers to sleek dress shoes, we&apos;ve got you covered for any occasion.
           Browse our categories and step out in style today!
         </p>
         <div className="flex items-center justify-center mx-auto  mt-10">
@@ -65,13 +68,18 @@ const index = ({ categoryoffers }) => {
                 </label>
               </div>
               <div className="grid grid-cols-2 gap-x-5  gap-y-5">
-                {categoryoffers && categoryoffers.map(item => {
-                  return <CatigoryOfferCard
-                    _id={item._id}
-                    name={item.offername}
-                    image={item.image[0]}
-                    description={item.description} />;
-                })}
+                {categoryoffers &&
+                  categoryoffers.map((item, i) => {
+                    return (
+                      <CatigoryOfferCard
+                        key={i}
+                        _id={item._id}
+                        name={item.offername}
+                        image={item.image[0]}
+                        description={item.description}
+                      />
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -90,10 +98,10 @@ const index = ({ categoryoffers }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getServerSideProps(context) {
-  const q = context.query
+  const q = context.query;
   // console.log(q)
   // q['category'] = context.query.CatigoryOffers
   const { data } = await axios.get(
@@ -102,7 +110,7 @@ export async function getServerSideProps(context) {
       params: q,
     }
   );
-    // console.log(data)
+  console.log(data);
   return {
     props: { categoryoffers: data }, // will be passed to the page component as props
   };

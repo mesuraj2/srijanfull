@@ -72,6 +72,10 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       isOfferChat: true,
       isGroupChat: true,
       offerid: offerid,
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      }
     });
 
     let locationres=await location.create({

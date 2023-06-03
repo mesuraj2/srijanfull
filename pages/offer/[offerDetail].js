@@ -8,7 +8,7 @@ import SearchBar from '../../components/SearchBar';
 import { ImLocation } from 'react-icons/im';
 import axios from 'axios';
 
-const index = ({ data }) => {
+const Index = ({ data }) => {
   let imglinks = new Object();
   if(data.image){
   for(var i = 0; i < data.image.length; i++) {
@@ -72,7 +72,7 @@ const index = ({ data }) => {
                 </svg>
               </button>
               <button
-                onClick={() => router.push(`/radar/${data._id}`)}
+                onClick={() => router.push(`/radar/${data._id}?location=${localStorage.getItem('coordinates')}`)}
                 className="btn btn-error text-white secondary_font bg-red-500 mt-5 w-fit mx-auto text-[1.2rem]">
                 Pool Now
               </button>
@@ -85,7 +85,7 @@ const index = ({ data }) => {
   );
 };
 
-export default index;
+export default Index;
 
 export async function getServerSideProps(context) {
   const offerid = context.query.offerDetail

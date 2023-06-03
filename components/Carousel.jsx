@@ -20,10 +20,11 @@ import {
   Navigation,
   EffectCreative,
 } from 'swiper';
+import Image from 'next/image';
 
-const Carousel = ({ imageLinks }) => {
+const Carousel = ({ imageLinks, className }) => {
   return (
-    <div>
+    <div className={`${className}`}>
       <Swiper
         effect={'creative'}
         loop={true}
@@ -47,9 +48,9 @@ const Carousel = ({ imageLinks }) => {
       >
         {Object.keys(imageLinks).map((itemKey, index) => {
           return (
-            <SwiperSlide>
+            <SwiperSlide key={index}>
               <img
-                className="14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] rounded-md shadow-xl"
+                className={`${className}  rounded-md shadow-xl `}
                 src={imageLinks[itemKey]}
               />
             </SwiperSlide>

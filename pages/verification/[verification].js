@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router';
 import { useToast } from '@chakra-ui/react';
 
-const verification = () => {
+const Verification = () => {
     const initValues = {
         one: '',
         two: '',
@@ -161,4 +161,4 @@ const verification = () => {
     );
 };
 
-export default verification;
+export default Verification;

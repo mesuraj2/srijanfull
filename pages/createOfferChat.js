@@ -5,7 +5,7 @@ import FooterT2 from '../components/FooterT2';
 import ImageUploader from '../components/ImageUploader';
 import NavbarT2 from '../components/NavbarT2';
 
-const createOfferChat = () => {
+const CreateOfferChat = () => {
   const [selectCustom, setSelectCustom] = useState(false);
   const [customDistance, setCustomDistance] = useState(4);
   const initValues = {
@@ -184,4 +184,4 @@ const createOfferChat = () => {
   );
 };
 
-export default createOfferChat;
+export default CreateOfferChat;

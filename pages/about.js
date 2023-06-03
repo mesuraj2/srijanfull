@@ -1,13 +1,25 @@
 import React from 'react';
+import Carousel from '../components/Carousel';
 import FooterT2 from '../components/FooterT2';
 import NavbarT2 from '../components/NavbarT2';
+
+const data = {
+  imgName: 'pizza',
+  imgLinks: {
+    1: '/assets/pizza/image_1.jpg',
+    2: '/assets/pizza/image_2.jpg',
+    3: '/assets/pizza/image_3.jpg',
+    4: '/assets/pizza/image_4.jpg',
+    5: '/assets/pizza/image_5.jpg',
+  },
+};
 
 const about = () => {
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="w-[90%] mx-auto">
         <NavbarT2 />
-        <div className="flex flex-col justify-center gap-10">
+        <div className="flex flex-col justify-center gap-10 pt-[2rem] pb-[5rem]">
           <h1 className="text-center text-[3rem] xl:text-[4rem]  main__font tracking-wider">
             Pica Pool
           </h1>
@@ -22,21 +34,29 @@ const about = () => {
             revolutionize the way people shop by providing a collaborative and
             cost-effective solution that benefits everyone involved.
           </p>
+          <div className="">
+            <Carousel
+              imageLinks={data.imgLinks}
+              className={
+                'mx-auto w-[90%] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
+              }
+            />
+          </div>
           <h3 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-black/70 underline">
             Our Story
           </h3>
           <div className="">
             <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-[90%]">
               The idea for pica pool was born out of a incident (One day, I
-              walked into a pizza store and noticed a tempting offer of "Buy 2,
-              Get 1 Free." The price of the pizza was around 360 rupees. It got
+              walked into a pizza store and noticed a tempting offer of &quot;Buy 2,
+              Get 1 Free.&quot; The price of the pizza was around 360 rupees. It got
               me thinking: If I could find two more people interested in the
               same pizza, we could each get pizza for only 240 rupees instead of
-              the original 360 rupees. That's a whopping 33.3% in savings!)
+              the original 360 rupees. That&apos;s a whopping 33.3% in savings!)
             </p>
             <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-[90%]">
               Inspired by this experience, I realized the immense potential of
-              pooling. It's not just limited to pizzas; it applies to every
+              pooling. It&apos;s not just limited to pizzas; it applies to every
               domain. We recognized that by bringing people together with
               similar product interests, we could create a community that
               harnesses collective buying power to unlock exclusive discounts

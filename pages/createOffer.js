@@ -34,7 +34,7 @@ const Inputfield = ({
   );
 };
 
-const createOffer = () => {
+const CreateOffer = () => {
   const [images, setImages] = useState([]);
 
   const initValues = {
@@ -190,4 +190,4 @@ const createOffer = () => {
   );
 };
 
-export default createOffer;
+export default CreateOffer;

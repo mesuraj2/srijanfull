@@ -167,13 +167,13 @@ export default function CategoryOfferDetail({ Offerdetail }) {
           <Offerdesign1 Offerdetail={Offerdetail} />
           <div className="flex justify-between w-[95%] py-3 m-auto">
             <button
-              class="bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-red-700 text-white font-bold py-2 px-4 rounded-full"
               onClick={handlePagePrevious}
             >
               <small> </small> Back
             </button>
             <button
-              class="bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              className="bg-red-700 text-white font-bold py-2 px-4 rounded-full"
               onClick={handlePageNext}
             >
               Next

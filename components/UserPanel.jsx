@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { deleteCookie } from "cookies-next";
+import Link from "next/link"
 import { useRouter } from 'next/router';
 import axios from 'axios';
 
@@ -70,25 +71,25 @@ const UserPanel = ({setsignedin}) => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
+              <Link href='#' className="justify-between">
                 Profile
                 {/* <span className="badge">New</span> */}
-              </a>
+              </Link>
             </li>
             <li>
-              <a href='/chat'>Chat Room</a>
+              <Link href='/chat'>Chat Room</Link>
             </li>
             <li>
-              <a>Notifications</a>
+              <Link href='#'>Notifications</Link>
             </li>
             <li>
-              <a>Your Cart</a>
+              <Link href='#'>Your Cart</Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link href='#'>Settings</Link>
             </li>
             <li>
-              <a onClick={handleLogout}>Logout</a>
+              <Link legacyBehavior href='/'><a onClick={handleLogout}>Logout</a></Link>
             </li>
           </ul>
         </div>

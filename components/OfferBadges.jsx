@@ -4,7 +4,7 @@ const OfferBadges = ({ badgeList }) => {
   return (
     <div className="flex flex-row gap-2">
       {badgeList.map((badge, index) => {
-        return <div className="badge text-[.8rem]">{badge.toUpperCase()}</div>;
+        return <div key={index} className="badge text-[.8rem]">{badge.toUpperCase()}</div>;
       })}
     </div>
   );
