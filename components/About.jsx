@@ -108,12 +108,12 @@ const About = () => {
           })}
         </ul>
         <div className="text-[1rem] md:text-[1.2rem] mt-[1rem] secondary_font tracking-widest  w-[90%] md:w-[80%] lg:w-auto text-center">
-          {featuresData.map((item) => {
+          {/* {featuresData.map((item) => {
             if (item.name === tabSelected) return item.discription;
             else false;
-          })}
+          })} */}
         </div>
-        <div className="mt-[2rem]">
+        <div className="mt-[2rem] w-screen">
           {featuresData.map((item, index) => {
             if (item.name === tabSelected)
               return (
