@@ -87,6 +87,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       });
     }
   };
+
+  useEffect(() => {
+    console.log(selectedChat)
+  }, [])
   // useEffect(() => {
   //   setUser(JSON.parse(secureLocalStorage.getItem('user')))
   //     const socket = io(ENDPOINT)

@@ -4,16 +4,17 @@ import React, { useState, useEffect } from 'react';
 import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import axios from 'axios';
+import { ChatState } from '../../Context/ChatProvider';
 import { GoogleMap, LoadScript, Circle, CircleF, Marker, MarkerF } from '@react-google-maps/api';
 
-const handleJoinChat = async ({ chat_id, router }) => {
+const handleJoinChat = async ({ chat_id, router,setSelectedChat }) => {
+  const chatdata = await axios.post('/api/chat/fetchgroupChat', { ChatId: chat_id })
   const { data } = await axios.put('/api/chat/groupaddOffer', { chatId: chat_id });
+  setSelectedChat(chatdata.data)
   if (data) {
     router.push('/chat')
   }
 }
-
-
 
 function MapComponent({ router, chats }) {
   // console.log(chats)
@@ -26,7 +27,6 @@ function MapComponent({ router, chats }) {
     width: '100%',
     height: '400px'
   };
-
 
   const options = {
     strokeColor: '#FF0000',
@@ -53,7 +53,7 @@ function MapComponent({ router, chats }) {
 
   return (
     <LoadScript
-    googleMapsApiKey ="AIzaSyA5-1f-M5kxCKGgISp6Q0GT00SECxJRoXs"
+      googleMapsApiKey="AIzaSyA5-1f-M5kxCKGgISp6Q0GT00SECxJRoXs"
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -79,6 +79,7 @@ function MapComponent({ router, chats }) {
 
 
 const ChatCard = ({ name, users, chat_id, router }) => {
+  const { setSelectedChat } = ChatState();
   return (
     <div className="flex flex-row bg-white py-3 px-5 justify-center items-center gap-8 m-3">
       <p>{name}</p>
@@ -95,7 +96,7 @@ const ChatCard = ({ name, users, chat_id, router }) => {
           </span>
         </div>
       </div>
-      <button className="btn" onClick={() => { handleJoinChat({ chat_id, router }) }}>Join Chat</button>
+      <button className="btn" onClick={() => { handleJoinChat({ chat_id, router, setSelectedChat }) }}>Join Chat</button>
     </div>
   );
 };
@@ -103,7 +104,7 @@ const ChatCard = ({ name, users, chat_id, router }) => {
 const JoinChatPanel = ({ setchatoption, chatdata, router }) => {
   return (
     <div className="rounded-md p-5 bg-white/70">
-      {chatdata && chatdata.chat_id.map((chats,index) => {
+      {chatdata && chatdata.chat_id.map((chats, index) => {
         return (
           <ChatCard key={index} name={chats.chatName} users={`${chats.users.length}/${chatdata.quantity}`} chat_id={chats._id} router={router} />)
       })}
@@ -203,6 +204,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
 
 
 const Radar = ({ data }) => {
+
   const [chatoption, setchatoption] = useState(true)
   const router = useRouter();
   return (
@@ -254,7 +256,7 @@ export async function getServerSideProps(context) {
   console.log(queries);
   const { data } = await axios.post(
     `${process.env.DOMAIN_URI}/api/offer/offerchats`,
-    {id: offerid}
+    { id: offerid }
   );
   return {
     props: { data },

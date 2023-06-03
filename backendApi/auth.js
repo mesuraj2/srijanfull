@@ -199,7 +199,7 @@ router.post("/login", async (req, res) => {
       });
     }
     if (!user.isverified) {
-      return res.json({ message: "Email not verified", isverified: false });
+      return res.json({ message: "Email not verified", isverified: false, success: false });
     }
     if (user.password == "googleauth") {
       return res.json({ message: "Please login in via Google", success: false });
