@@ -53,34 +53,18 @@ const NavbarT2 = () => {
               tabIndex={0}
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <Link href="#">Item 1</Link>
-              </li>
-              <li tabIndex={0}>
-                <Link href="#" className="justify-between">
-                  Parent
-                  <svg
-                    className="fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-                  </svg>
-                </Link>
-                <ul className="p-2">
-                  <li>
-                    <Link href="#">Submenu 1</Link>
-                  </li>
-                  <li>
-                    <Link href="#">Submenu 2</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link href="#">Item 3</Link>
-              </li>
+              {Object.keys(links).map((linkKey, index) => (
+                <li
+                  key={index}
+                  className={`${
+                    `${links[linkKey].toLowerCase()}` === router.pathname
+                      ? ' font-[600] text-black/70 bg-black/10 rounded-md'
+                      : ''
+                  } cursor-pointer hover:-translate-y-1 transition-all`}
+                >
+                  <Link href={links[linkKey]}>{linkKey}</Link>
+                </li>
+              ))}
             </ul>
           </div>
           <Link
