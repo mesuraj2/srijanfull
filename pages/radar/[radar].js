@@ -10,7 +10,7 @@ import axios from 'axios';
 // import 'leaflet-draw';
 
 const handleJoinChat = async ({ chat_id, router }) => {
-  console.log(chat_id)
+  // console.log(chat_id)
   const { data } = await axios.put('/api/chat/groupaddOffer', { chatId: chat_id });
   if (data) {
     router.push('/chat')
@@ -186,7 +186,7 @@ export default radar;
 
 export async function getServerSideProps(context) {
   const offerid = context.query.radar
-  console.log(offerid)
+  // console.log(offerid)
   // const { category, lat, long } = context.query;
   // delete context.query.categoryOfferDetail;
   const { data } = await axios.post(
@@ -195,7 +195,7 @@ export async function getServerSideProps(context) {
       id: offerid
     }
   );
-  console.log(data)
+  // console.log(data)
   return {
     props: { data }, // will be passed to the page component as props
   };

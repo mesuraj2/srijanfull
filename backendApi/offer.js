@@ -155,6 +155,7 @@ router.get("/categoryoffers", async (req, res) => {
   }
 });
 
+
 router.get("/testoffers", async (req,res) => {
   try{
     let results= await offer.find()
@@ -349,7 +350,7 @@ router.post("/offerchats", async (req, res) => {
     // const { lat, long } = req.query;
     let query = { _id: req.body.id };
     query = radius ? { ...query, ...locationquery } : query;
-    console.log(query);
+    // console.log(query);
     let data = await offer
       .find(query)
       .populate("chat_id", "Location chatName users");
