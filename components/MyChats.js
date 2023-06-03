@@ -92,7 +92,7 @@ export default function MyChats({ fetchAgain }) {
       </Box>
       <div className="bg-[#b9e9fc]/20">
         {chats ? (
-          <div className="flex flex-col w-full py-5 overflow-y-scrol ">
+          <div className="flex flex-col w-full py-5 overflow-y-scroll h-[60vh]">
             {chats &&
               chats.map((chat) => (
                 <div
