@@ -15,7 +15,6 @@ import {
   MarkerF,
 } from "@react-google-maps/api";
 import { AiOutlineUser } from "react-icons/ai";
-import { toast } from "react-toastify";
 
 const handleJoinChat = async ({ chat_id, router, setSelectedChat }) => {
   const chatdata = await axios.post("/api/chat/fetchgroupChat", {
@@ -162,7 +161,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
   const [chatexpiry, setchatexpiry] = useState("");
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
-  const { toast } = useToast();
+  const toast = useToast();
 
   useEffect(() => {
     if (localStorage.getItem("coordinates")) {
@@ -185,7 +184,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
     }
   });
 
-  const handleCreate = async () => {
+  const handleCreate = async ( setSelectedChat ) => {
     const { data } = await axios.post(`/api/chat/offerchat`, {
       chatName: chatname,
       offerid: router.query.radar,

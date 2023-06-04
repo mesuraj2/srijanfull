@@ -33,7 +33,7 @@ router.post("/", fetchuser, async (req, res) => {
     var chatdata = {
       chatName: "sender",
       isGroupChat: false,
-      admin:req.user.id,
+      admin: req.user.id,
       users: [req.user.id, UserId],
     };
 
@@ -68,46 +68,46 @@ router.post("/offerchat", fetchuser, async (req, res) => {
 
   // console.log(chatName,offerid,location)
   try {
-    const oldchat=await Chat.find({
-      admin:req.user.id,
-      isOfferChat:true,
-      offerid: offerid,
-    })
-    if(oldchat){
-      res.json({error:true,message:"User has already created chat for it"})
-    }
-    else{
+    // const oldchat = await Chat.find({
+    //   admin: req.user.id,
+    //   isOfferChat: true,
+    //   offerid: offerid,
+    // })
+    // if (oldchat) {
+      // res.json({ error: true, message: "User has already created chat for it" })
+    // }
+    // else {
 
-    const groupChat = await Chat.create({
-      chatName: chatName,
-      users: req.user.id,
-      isOfferChat: true,
-      isGroupChat: true,
-      admin:req.user.id,
-      offerid: offerid,
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      }
-    });
+      const groupChat = await Chat.create({
+        chatName: chatName,
+        users: req.user.id,
+        isOfferChat: true,
+        isGroupChat: true,
+        admin: req.user.id,
+        offerid: offerid,
+        Location: {
+          type: "Point",
+          coordinates: locationCoor,
+        }
+      });
 
-    let locationres=await location.create({
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      },
-      chat:groupChat._id
-    })
+      let locationres = await location.create({
+        Location: {
+          type: "Point",
+          coordinates: locationCoor,
+        },
+        chat: groupChat._id
+      })
 
-    await offer.findByIdAndUpdate({ _id: offerid }, {$push: { chat_id: groupChat._id }});
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-      "users",
-      "-password"
-    );
-    //   .populate("groupAdmin", "-password");
+      await offer.findByIdAndUpdate({ _id: offerid }, { $push: { chat_id: groupChat._id } });
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+        "users",
+        "-password"
+      );
+      //   .populate("groupAdmin", "-password");
 
-    res.status(200).json(fullGroupChat);
-    }
+      res.status(200).json(fullGroupChat);
+    
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -301,7 +301,7 @@ router.get("/getChatDistance", async (req, res) => {
   const data = await Chat.aggregate([
     {
       $geoNear: {
-        near: { coordinates: coordinate},
+        near: { coordinates: coordinate },
         distanceField: "ChatDistance",
         distanceMultiplier: 1 / 1000,
         $maxDistance: 15 * 000,
