@@ -96,7 +96,7 @@ export default Index;
 export async function getServerSideProps(context) {
   const offerid = context.query.offerDetail;
   const { data } = await axios.post(
-    `${process.env.DOMAIN_URI}/api/offer/offerchats`,
+    '/api/offer/offerchats',
     {
       id: offerid,
     }

@@ -333,7 +333,7 @@ export async function getServerSideProps(context) {
       };
   console.log(queries);
   const { data } = await axios.post(
-    `${process.env.DOMAIN_URI}/api/offer/offerchats`,
+    '/api/offer/offerchats',
     { id: offerid }
   );
   return {
