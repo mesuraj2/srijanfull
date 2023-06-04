@@ -189,7 +189,7 @@ export async function getServerSideProps(context) {
   const { category, lat, long } = context.query;
   delete context.query.categoryOfferDetail;
   const { data } = await axios.get(
-    `${process.env.DOMAIN_URI}/api/offer/allOffer`,
+    '/api/offer/allOffer',
     {
       params: context.query,
     }

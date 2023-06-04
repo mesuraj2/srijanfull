@@ -21,11 +21,8 @@ const Home = () => {
   const router = useRouter();
   return (
     <div className="bg-[#B9E9FC]">
-      <div className="flex flex-col  items-center justify-center mx-auto">
-        <div className="w-[90%]">
-          <NavbarT2 />
-        </div>
-        {/* <div className="flex flex-row justify-around items-center">
+      <div className="flex flex-col  items-center justify-center mx-auto"></div>
+      {/* <div className="flex flex-row justify-around items-center">
           <div className="flex flex-row gap-10 invisible">
             <button className"btn  btn-active uppercase tracking-wider text-[1.1rem]">
               LogIn
@@ -68,17 +65,15 @@ const Home = () => {
             ))}
           </ul>
         </div> */}
-        <div className="flex items-center justify-center mx-auto mt-10 lg:my-10">
-          <SearchBar
-            globalClassName={''}
-            inputClassName={'w-[100%] md:w-[35rem]'}
-          />
-        </div>
-        <Header />
-        <About />
-        <CatigoryDisplay />
-        <FooterT2 />
+      <div className="flex items-center justify-center mx-auto mt-10 lg:my-10">
+        <SearchBar
+          globalClassName={''}
+          inputClassName={'w-[100%] md:w-[35rem]'}
+        />
       </div>
+      <Header />
+      <About />
+      <CatigoryDisplay />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const CatigoryOfferCard = ({name, description, image,_id,chatlink}) => {
-    const router = useRouter();
+const CatigoryOfferCard = ({ name, description, image, _id, chatlink }) => {
+  const router = useRouter();
   return (
-    <div className="card card-side bg-base-100 shadow-xl  xl:w-[25rem] 14xl:w-[28rem]  flex-row md:flex-col w-[25rem] h-[15rem] md:h-[30rem] md:w-[20rem] xl:flex-row xl:h-[15rem]">
+    <div className="card card-side bg-base-100 shadow-xl    flex-col mx-auto h-[30rem] w-[20rem] ">
       <figure>
         <img
           src={image}

@@ -6,11 +6,7 @@ import NavbarT2 from '../../components/NavbarT2';
 const allowAccess = () => {
   return (
     <div className=" bg-[#B9E9FC]">
-      <div className="w-[90%]  mx-auto">
-        <NavbarT2 />
-        <AllowAccess />
-      </div>
-      <Footer />
+      <AllowAccess />
     </div>
   );
 };

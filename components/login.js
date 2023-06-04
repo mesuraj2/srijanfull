@@ -123,6 +123,7 @@ export default function Login({ onClose }) {
         isClosable: true,
         position: 'bottom',
       });
+      setUser(response.data)
       localStorage.setItem('user',JSON.stringify(response.data))
       onClose();
     }

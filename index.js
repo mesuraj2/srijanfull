@@ -48,7 +48,7 @@ app
     const io = require("socket.io")(server2, {
       pingTimeout: 60000,
       cors: {
-        origin: ["www.poolandsave.com", "poolandsave.com"],
+        origin: ["www.picapool.com", "picapool.com"],
         // credentials: true,
       },
     });
