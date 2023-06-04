@@ -38,9 +38,9 @@ const Cabshare = () => {
       </div>
 
       <div className="flex  flex-col items-center justify-center pb-[5rem] gap-5 pt-[2rem]">
-        <button className="btn  btn-outline secondary_font  mt-5  text-[1.2rem] w-[15rem] 6xl:w-[20rem]">
+        {/* <button className="btn  btn-outline secondary_font  mt-5  text-[1.2rem] w-[15rem] 6xl:w-[20rem]">
           Create New Offer
-        </button>
+        </button> */}
         <button
           onClick={() => router.push('/createOfferChat')}
           disabled={true}

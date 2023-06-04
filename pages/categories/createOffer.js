@@ -168,12 +168,12 @@ const CreateOffer = () => {
       </div>
 
       <div className="flex items-center justify-center pb-[5rem] gap-5 pt-[2rem]">
-        <button
+        {/* <button
           onClick={submitHandler}
           className="btn  btn-outline secondary_font  mt-5  text-[1.2rem] w-[20rem]"
         >
           Create New Offer
-        </button>
+        </button> */}
         <button
           disabled={true}
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
