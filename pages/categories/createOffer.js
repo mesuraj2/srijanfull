@@ -1,8 +1,11 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import FooterT2 from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
+import { useToast } from '@chakra-ui/react';
+import axios from 'axios'
 
 const Inputfield = ({
   values,
@@ -35,6 +38,8 @@ const Inputfield = ({
 };
 
 const CreateOffer = () => {
+  const router = useRouter();
+  const toast = useToast();
   const [images, setImages] = useState([]);
 
   const initValues = {
@@ -57,17 +62,37 @@ const CreateOffer = () => {
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
 
-  const handleChange = ({ target }) =>
+  const handleChange = ({ target }) => {
     setData((prev) => ({
       ...prev,
       values: {
         ...prev.values,
         [target.name]: target.value,
       },
-    }));
+    }))
+  };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    const uploadvalue = values
+    uploadvalue['lat'] = router.query.lat
+    uploadvalue['long'] = router.query.long
+    const { data } = await axios.post('/api/offer/createoffer', values)
+    toast({
+      title: data.message,
+      status: data.success ? "success" : "error",
+      duration: 5000,
+      isClosable: true,
+      position: 'top-left',
+    });
+    if (data.success) {
+      router.push(`/offer/${data.id}`)
+    }
+    else { router.push(href) }
+  }
+
+
+  useEffect(() => {
     setData((prev) => ({
       ...prev,
       values: {
@@ -75,9 +100,7 @@ const CreateOffer = () => {
         ['imageArr']: images,
       },
     }));
-
-    console.log(data);
-  };
+  }, [images])
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -175,16 +198,9 @@ const CreateOffer = () => {
           Create New Offer
         </button> */}
         <button
-          disabled={
-            !values.offerName ||
-            !values.imageArr ||
-            !values.category ||
-            !values.description ||
-            !values.quantity ||
-            !values.brand ||
-            !values.locationdescription
-          }
+          disabled={!Object.values(values).every(value => !!value)}
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
+          onClick={submitHandler}
         >
           Pool Now
         </button>

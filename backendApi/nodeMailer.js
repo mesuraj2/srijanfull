@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
     port: 465,
     auth: {
       user: "noreply@picapool.com",
-      pass: "Think@9110",
+      pass: "PicaPool@9110",
     },
   });
   

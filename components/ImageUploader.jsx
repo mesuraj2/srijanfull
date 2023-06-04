@@ -44,7 +44,7 @@ const ImageUploader = ({ setImages, images }) => {
         form.append("file", file);
         const { data } = await axios.post("/api/upload", form);
         console.log(data);
-        setImages([...images,data])
+        setImages([...images,data.url])
       })
       // setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
       console.log(images)

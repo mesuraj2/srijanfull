@@ -156,13 +156,13 @@ router.get("/categoryoffers", async (req, res) => {
 });
 
 
-router.get("/testoffers", async (req,res) => {
-  try{
-    let results= await offer.find()
+router.get("/testoffers", async (req, res) => {
+  try {
+    let results = await offer.find()
     console.log('New Request')
     res.json(results)
   }
-  catch(err){
+  catch (err) {
     console.log(err)
   }
 })
@@ -348,7 +348,7 @@ router.post("/offerchats", async (req, res) => {
     };
     let query = { _id: req.body.id };
     // query = radius ? { ...query, ...locationquery } : query;
-    if(radius){console.log('Radius is present')}
+    if (radius) { console.log('Radius is present') }
     console.log('query check')
     console.log(query);
     let data = await offer
@@ -415,7 +415,7 @@ router.post("/offerdetail", async (req, res) => {
 //     let data = await offer
 //       .aggregate([query,
 //          {}])
-    
+
 //     res.status(200).json(data[0]);
 //   } catch (error) {
 //     res.send(error);
@@ -431,10 +431,10 @@ router.post('/createoffer', fetchuser, async (req, res) => {
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
         let result = await offer.create({
-          offername: req.body.name,
+          offername: req.body.offerName,
           category: req.body.category,
           brand: req.body.brand,
-          image: req.body.image,
+          image: req.body.imageArr,
           quantity: req.body.quantity,
           description: req.body.description,
           locationdescription: req.body.locationdescription,
@@ -442,16 +442,30 @@ router.post('/createoffer', fetchuser, async (req, res) => {
           Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
         })
         // lets start mailing
-        const users = await User.find({},{email: 1})
+        const users = await User.find({}, { email: 1 })
         const maillist = users.map(user => user.email)
         console.log(maillist)
         // rest stuff take fromm above. Prettfify this
         let message = `<div>Hey Folks new new drop is here</div>
         <div>Name: ${req.body.name}</div>
         `
-        for (var i in  maillist) {
+        for (var i in maillist) {
           nodeMailer(maillist[i], message, "New Drop")
         }
+        categories.findOne({ name: req.body.category }).exec(async (err, category) => {
+          if (err) { } else {
+            if (category) {
+            } else {
+              let result = await categories.create({
+                name: req.body.category,
+                image: req.body.image[0],
+                description: `Latest Collection of ${req.body.category}`,
+                link: req.body.category
+              })
+            }
+
+          }
+        })
         res.json({ success: true, data: result, id: result._id, message: "Offer created successfully" })
       } else {
         res.json({ success: false, error: 'location', message: "Please enalble location access" })
