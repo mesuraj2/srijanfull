@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -33,12 +34,20 @@ const ImageUploader = ({ setImages, images }) => {
   //     }
   //   }
   // };
-  
 
-  const onDrop = (acceptedFiles) => {
-    console.log(acceptedFiles);
+
+  const onDrop = async (acceptedFiles) => {
+    // console.log(acceptedFiles);
     if (acceptedFiles.length <= 5) {
-      setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
+      acceptedFiles.map(async (file)=>{
+        const form = new FormData();
+        form.append("file", file);
+        const { data } = await axios.post("/api/upload", form);
+        console.log(data);
+        setImages([...images,data])
+      })
+      // setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
+      console.log(images)
     } else {
       alert('Maximum 5 images allowed.');
     }
