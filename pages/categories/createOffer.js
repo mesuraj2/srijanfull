@@ -79,6 +79,8 @@ const CreateOffer = () => {
     console.log(data);
   };
 
+  
+
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="flex flex-col items-center justify-center gap-5">
@@ -86,7 +88,7 @@ const CreateOffer = () => {
           <label className="label">
             <span className="label-text">Upload Images (max: 5)</span>
           </label>
-          <ImageUploader setImages={setImages} />
+          <ImageUploader setImages={setImages} images={images}/>
           {/* <input
                 type="file"
                 name="new-offer-images"

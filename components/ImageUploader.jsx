@@ -1,7 +1,40 @@
-import { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 
-const ImageUploader = ({ setImages }) => {
+const ImageUploader = ({ setImages, images }) => {
+
+
+  // this code is for cropping image
+  // const [newAvatarUrl, setNewAvatarUrl] = useState();
+  // const [cropper, setCropper] = useState();
+  // const [loading, setloading] = useState(false);
+
+  // const onDrop = (acceptedFiles) => {
+  //   if (acceptedFiles) {
+  //     setNewAvatarUrl(URL.createObjectURL(acceptedFiles));
+  //   }
+  // };
+
+  // const getCropData = async () => {
+  //   if (cropper) {
+  //     const file = await fetch(cropper.getCroppedCanvas().toDataURL())
+  //       .then((res) => res.blob())
+  //       .then((blob) => {
+  //         return new File([blob], "newAvatar.png", { type: "image/png" });
+  //       });
+  //     if (file) {
+  //       setloading(true);
+  //       const form = new FormData();
+  //       form.append("file", file);
+  //       const { data } = await axios.post("/api/upload", form);
+  //       setImages([...images, data]);
+  //       setNewAvatarUrl("");
+  //       setloading(false);
+  //     }
+  //   }
+  // };
+  
+
   const onDrop = (acceptedFiles) => {
     console.log(acceptedFiles);
     if (acceptedFiles.length <= 5) {
@@ -22,10 +55,29 @@ const ImageUploader = ({ setImages }) => {
       <div className="">
         <p className="text-[1rem] absolute top-[50%] -translate-y-[50%] px-5 text-gray-600">
           {isDragActive
-            ? 'Drop the files here'
-            : 'Drag and drop files here, or click to select files'}
+            ? "Drop the files here"
+            : "Drag and drop files here, or click to select files"}
         </p>
       </div>
+
+      {/* {newAvatarUrl && 
+        <div>
+          <Cropper
+            src={newAvatarUrl}
+            style={{ height: 400, width: 400 }}
+            initialAspectRatio={4 / 3}
+            minCropBoxHeight={100}
+            minCropBoxWidth={100}
+            cropBoxResizable={false}
+            guides={false}
+            checkOrientation={false}
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
+          />
+          <button onClick={getCropData}>Upload</button>
+        </div>
+      } */}
     </div>
   );
 };
