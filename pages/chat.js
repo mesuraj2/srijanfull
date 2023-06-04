@@ -25,12 +25,12 @@ export default function Chat() {
       <NextSeo title="Chat" description="This is user Chat Page" />
       <div className="flex flex-col  items-center justify-center mx-auto">
         <div className="py-[2rem] w-full">
-          {<SideDrawer />}
+          {/* {<SideDrawer />} */}
           <Box
             className="flex"
             justifyContent="space-between"
             w="100%"
-            h="73.5vh"
+            h="83.5vh"
             p="10px 0"
           >
             {<MyChats fetchAgain={fetchAgain} />}
