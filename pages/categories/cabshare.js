@@ -43,7 +43,7 @@ const Cabshare = () => {
         </button> */}
         <button
           onClick={() => router.push('/createOfferChat')}
-          disabled={true}
+          // disabled={true}
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[15rem] 6xl:w-[20rem]"
         >
           Pool Now

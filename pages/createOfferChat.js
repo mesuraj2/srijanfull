@@ -45,6 +45,8 @@ const CreateOfferChat = () => {
         },
       }));
     }
+    
+
   };
 
   useEffect(() => {
@@ -59,7 +61,7 @@ const CreateOfferChat = () => {
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="w-[90%] mx-auto">
-        <NavbarT2 />
+        {/* <NavbarT2 /> */}
         <div className="flex flex-col items-center justify-center gap-5 pt-[5rem] pb-[3rem]">
           <img
             src="/img/map.jpg"
@@ -179,7 +181,7 @@ const CreateOfferChat = () => {
           </button>
         </div>
       </div>
-      <FooterT2 />
+      {/* <FooterT2 /> */}
     </div>
   );
 };
