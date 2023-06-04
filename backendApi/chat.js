@@ -33,6 +33,7 @@ router.post("/", fetchuser, async (req, res) => {
     var chatdata = {
       chatName: "sender",
       isGroupChat: false,
+      admin:req.user.id,
       users: [req.user.id, UserId],
     };
 
@@ -64,13 +65,25 @@ router.post("/", fetchuser, async (req, res) => {
 router.post("/offerchat", fetchuser, async (req, res) => {
   const { chatName, offerid, coordinate } = req.body;
   let locationCoor = JSON.parse(coordinate);
+
   // console.log(chatName,offerid,location)
   try {
+    const oldchat=await Chat.find({
+      admin:req.user.id,
+      isOfferChat:true,
+      offerid: offerid,
+    })
+    if(oldchat){
+      res.json({error:true,message:"User has already created chat for it"})
+    }
+    else{
+
     const groupChat = await Chat.create({
       chatName: chatName,
       users: req.user.id,
       isOfferChat: true,
       isGroupChat: true,
+      admin:req.user.id,
       offerid: offerid,
       Location: {
         type: "Point",
@@ -94,6 +107,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
     //   .populate("groupAdmin", "-password");
 
     res.status(200).json(fullGroupChat);
+    }
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

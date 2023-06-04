@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import FooterT2 from "../../components/FooterT2";
 import NavbarT2 from "../../components/NavbarT2";
 import axios from "axios";
+import { useToast } from "@chakra-ui/react";
 import { ChatState } from "../../Context/ChatProvider";
 import {
   GoogleMap,
@@ -14,6 +15,7 @@ import {
   MarkerF,
 } from "@react-google-maps/api";
 import { AiOutlineUser } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const handleJoinChat = async ({ chat_id, router, setSelectedChat }) => {
   const chatdata = await axios.post("/api/chat/fetchgroupChat", {
@@ -160,6 +162,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
   const [chatexpiry, setchatexpiry] = useState("");
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (localStorage.getItem("coordinates")) {
@@ -183,14 +186,50 @@ const CreateChatForm = ({ setchatoption, router }) => {
   });
 
   const handleCreate = async () => {
-    const response = await axios.post("/api/chat/offerchat", {
+    const { data } = await axios.post(`/api/chat/offerchat`, {
       chatName: chatname,
       offerid: router.query.radar,
       coordinate: `[${latitude},${longitude}]`,
     });
-    if (response.data) {
-      router.push("/chat");
+
+    if (data.error) {
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    } else {
+      toast({
+        title: "successfull created",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+      const res2 = await fetch(`/api/chat/fetchgroupChat`, {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ChatId: data._id }),
+      });
+      let data2 = await res2.json();
+      // console.log(data2)
+      setSelectedChat(data2);
+      router.push({ pathname: "/chat" });
+      setchatname("");
     }
+
+    // const response = await axios.post("/api/chat/offerchat", {
+    //   chatName: chatname,
+    //   offerid: router.query.radar,
+    //   coordinate: `[${latitude},${longitude}]`,
+    // });
+    // if (response.data) {
+    //   router.push("/chat");
+    // }
   };
   return (
     <div className="rounded-md p-5 bg-white/70 ">
@@ -332,7 +371,10 @@ export async function getServerSideProps(context) {
         id: offerid,
       };
   // console.log(queries);
-  const { data } = await axios.post(`${process.env.DOMAIN_URI}/api/offer/offerchats`, { id: offerid });
+  const { data } = await axios.post(
+    `${process.env.DOMAIN_URI}/api/offer/offerchats`,
+    { id: offerid }
+  );
   return {
     props: { data },
   };
