@@ -79,8 +79,6 @@ const CreateOffer = () => {
     console.log(data);
   };
 
-  
-
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="flex flex-col items-center justify-center gap-5">
@@ -88,7 +86,7 @@ const CreateOffer = () => {
           <label className="label">
             <span className="label-text">Upload Images (max: 5)</span>
           </label>
-          <ImageUploader setImages={setImages} images={images}/>
+          <ImageUploader setImages={setImages} images={images} />
           {/* <input
                 type="file"
                 name="new-offer-images"
@@ -177,7 +175,15 @@ const CreateOffer = () => {
           Create New Offer
         </button> */}
         <button
-          disabled={true}
+          disabled={
+            !values.offerName ||
+            !values.imageArr ||
+            !values.category ||
+            !values.description ||
+            !values.quantity ||
+            !values.brand ||
+            !values.locationdescription
+          }
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
         >
           Pool Now

@@ -45,8 +45,6 @@ const CreateOfferChat = () => {
         },
       }));
     }
-    
-
   };
 
   useEffect(() => {
@@ -174,6 +172,10 @@ const CreateOfferChat = () => {
         </div>
         <div className="flex items-center pb-[5rem]">
           <button
+            disabled={
+              !values.distance ||
+              (!values.cdisc && !values.cname && !values.expTime)
+            }
             className="btn btn-error text-white secondary_font bg-red-500 6xl:mt-5 mx-auto text-[1.2rem] w-[15rem] 6xl:w-[20rem]"
             onClick={(e) => submitHandler(e)}
           >
