@@ -1,10 +1,10 @@
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
-import FooterT2 from '../../components/FooterT2';
-import NavbarT2 from '../../components/NavbarT2';
-import axios from 'axios';
-import { ChatState } from '../../Context/ChatProvider';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import FooterT2 from "../../components/FooterT2";
+import NavbarT2 from "../../components/NavbarT2";
+import axios from "axios";
+import { ChatState } from "../../Context/ChatProvider";
 import {
   GoogleMap,
   LoadScript,
@@ -12,19 +12,19 @@ import {
   CircleF,
   Marker,
   MarkerF,
-} from '@react-google-maps/api';
-import { AiOutlineUser } from 'react-icons/ai';
+} from "@react-google-maps/api";
+import { AiOutlineUser } from "react-icons/ai";
 
 const handleJoinChat = async ({ chat_id, router, setSelectedChat }) => {
-  const chatdata = await axios.post('/api/chat/fetchgroupChat', {
+  const chatdata = await axios.post("/api/chat/fetchgroupChat", {
     ChatId: chat_id,
   });
-  const { data } = await axios.put('/api/chat/groupaddOffer', {
+  const { data } = await axios.put("/api/chat/groupaddOffer", {
     chatId: chat_id,
   });
   setSelectedChat(chatdata.data);
   if (data) {
-    router.push('/chat');
+    router.push("/chat");
   }
 };
 
@@ -36,15 +36,15 @@ function MapComponent({ router, chats }) {
   };
 
   const containerStyle = {
-    width: '100%',
-    height: '400px',
+    width: "100%",
+    height: "400px",
   };
 
   const options = {
-    strokeColor: '#FF0000',
+    strokeColor: "#FF0000",
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: '#FF0000',
+    fillColor: "#FF0000",
     fillOpacity: 0.35,
     clickable: false,
     draggable: false,
@@ -92,7 +92,7 @@ const ChatCard = ({ name, users, chat_id, router }) => {
         <p className="w-[5rem] text-center">{name}</p>
         <div
           className="radial-progress hidden md:inline-grid"
-          style={{ '--value': eval(users) * 100 }}
+          style={{ "--value": eval(users) * 100 }}
         >
           {users}
         </div>
@@ -114,9 +114,9 @@ const ChatCard = ({ name, users, chat_id, router }) => {
           <div className="text-black/70">
             <p>Chat expires in</p>
             <span className="countdown font-mono text-2xl">
-              <span style={{ '--value': 10 }}></span>:
-              <span style={{ '--value': 24 }}></span>:
-              <span style={{ '--value': 3 }}></span>
+              <span style={{ "--value": 10 }}></span>:
+              <span style={{ "--value": 24 }}></span>:
+              <span style={{ "--value": 3 }}></span>
             </span>
           </div>
         </div>
@@ -155,15 +155,15 @@ const JoinChatPanel = ({ setchatoption, chatdata, router }) => {
 };
 
 const CreateChatForm = ({ setchatoption, router }) => {
-  const [chatname, setchatname] = useState('');
-  const [chatdescription, setchatdescription] = useState('');
-  const [chatexpiry, setchatexpiry] = useState('');
+  const [chatname, setchatname] = useState("");
+  const [chatdescription, setchatdescription] = useState("");
+  const [chatexpiry, setchatexpiry] = useState("");
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
 
   useEffect(() => {
-    if (localStorage.getItem('coordinates')) {
-      let coordinate = JSON.parse(localStorage.getItem('coordinates'));
+    if (localStorage.getItem("coordinates")) {
+      let coordinate = JSON.parse(localStorage.getItem("coordinates"));
       setlatitude(coordinate[0]);
       setlongitude(coordinate[1]);
     } else {
@@ -175,7 +175,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
             position.coords.latitude,
             position.coords.longitude,
           ];
-          localStorage.setItem('coordinates', JSON.stringify(coordinate));
+          localStorage.setItem("coordinates", JSON.stringify(coordinate));
         },
         (err) => console.log(err)
       );
@@ -183,13 +183,13 @@ const CreateChatForm = ({ setchatoption, router }) => {
   });
 
   const handleCreate = async () => {
-    const response = await axios.post('/api/chat/offerchat', {
+    const response = await axios.post("/api/chat/offerchat", {
       chatName: chatname,
       offerid: router.query.radar,
       coordinate: `[${latitude},${longitude}]`,
     });
     if (response.data) {
-      router.push('/chat');
+      router.push("/chat");
     }
   };
   return (
@@ -331,11 +331,8 @@ export async function getServerSideProps(context) {
     : {
         id: offerid,
       };
-  console.log(queries);
-  const { data } = await axios.post(
-    '/api/offer/offerchats',
-    { id: offerid }
-  );
+  // console.log(queries);
+  const { data } = await axios.post(`${process.env.DOMAIN_URI}/api/offer/offerchats`, { id: offerid });
   return {
     props: { data },
   };

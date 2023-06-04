@@ -79,7 +79,8 @@ export default function Login({ onClose }) {
     localStorage.setItem('user', JSON.stringify(data));
     // setsess(true);
     setUser(data);
-    onClose();
+    Router.back()
+    // onClose();
   };
   const initValues = {
     email: '',

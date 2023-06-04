@@ -3,15 +3,17 @@ import { deleteCookie } from "cookies-next";
 import Link from "next/link"
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
 
 const UserPanel = ({setsignedin}) => {
   const router = useRouter();
-  const [userimage, setuserimage] = useState('');
+  // const [userimage, setuserimage] = useState('');
+  const {user,setUser}=ChatState()
 
-  const getUser = async () => {
-    const res = await axios.get('http://localhost:3000/api/auth/getUser');
-    setuserimage(res.data.pic);
-  }
+  // const getUser = async () => {
+  //   const res = await axios.get('http://localhost:3000/api/auth/getUser');
+  //   setuserimage(res.data.pic);
+  // }
 
   const handleLogout = () => {
     deleteCookie('authtoken');
@@ -19,9 +21,9 @@ const UserPanel = ({setsignedin}) => {
     router.push('/')
   }
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
 
   return (
     <div>
@@ -63,7 +65,7 @@ const UserPanel = ({setsignedin}) => {
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full ">
-              <img src={userimage ? userimage : 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'} />
+              <img src={user ? user.pic : 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'} />
             </div>
           </label>
           <ul

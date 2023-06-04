@@ -5,6 +5,7 @@ import GetStarted from './GetStarted';
 import UserPanel from './UserPanel';
 import { getCookie } from 'cookies-next';
 import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
 
 const NavbarT2 = () => {
   const links = {
@@ -16,6 +17,7 @@ const NavbarT2 = () => {
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
+  const {user,setUser}=ChatState()
 
   useEffect(() => {
     // axios.get('')
@@ -24,7 +26,7 @@ const NavbarT2 = () => {
     } else {
       setsignedin(false);
     }
-  }, [signedin]);
+  }, [user]);
   return (
     <div>
       {/* <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[4rem]  main__font tracking-wider">
