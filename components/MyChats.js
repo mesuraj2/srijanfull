@@ -90,15 +90,15 @@ export default function MyChats({ fetchAgain }) {
           </Button>
         </GroupChatModal>
       </Box>
-      <div className="bg-[#b9e9fc]/20">
+      <div className=" b-[#b9e9fc]/20">
         {chats ? (
-          <div className="flex flex-col w-full py-5 overflow-y-scroll h-[60vh]">
+          <div className="flex flex-col w-full py-5 overflow-y-scroll h-[80vh]">
             {chats &&
               chats.map((chat) => (
                 <div
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:bg-[#b9e9fc]/40 h-[5rem] w-[85vw] rounded-md"
+                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:b-[#b9e9fc]/40 h-[5rem]  rounded-md "
                 >
                   <div className="flex items-center justify-centr">
                     <Avatar

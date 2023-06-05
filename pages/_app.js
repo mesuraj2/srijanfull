@@ -45,21 +45,18 @@ page_path: window.location.pathname,
             </Head>
             <NextNProgress color={'#E0425C'} />
             <Provider store={store}>
-              {/* {router.pathname !== '/404' && router.pathname !== '/home' && (
-                <Navbar />
-              )} */}
               <div className="w-screen bg-[#B9E9FC]">
-                <div className="md:w-[90%] mx-auto">
-                  <NavbarT2 />
+                <div className="mx-auto">
+                  {router.pathname !== '/404' &&
+                    router.pathname !== '/chat' &&
+                    router.pathname !== '/login' && <NavbarT2 />}
 
                   <Component {...pageProps} />
                 </div>
-                <FooterT2 />
+                {router.pathname !== '/404' &&
+                  router.pathname !== '/chat' &&
+                  router.pathname !== '/login' && <FooterT2 />}
               </div>
-
-              {/* {router.pathname !== '/chat' &&
-                router.pathname !== '/home' &&
-                router.pathname !== '/404' && <Footer />} */}
             </Provider>
           </ChatProvider>
         </ChakraProvider>

@@ -28,9 +28,9 @@ const Header = () => {
             {/* <button className="btn btn- tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90">
               Download
             </button> */}
-            <button className="hidden lg:flex btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
+            {/* <button className="hidden lg:flex btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
               Explore
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] rounded-md">
