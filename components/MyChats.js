@@ -57,9 +57,10 @@ export default function MyChats({ fetchAgain }) {
       className={selectedChat ? 'selecof' : 'selecon'}
       flexDir="column"
       alignItems="center"
-      p={3}
+      py={3}
+      px={1}
       bg="white"
-      w={{ base: '100%', md: '31%' }}
+      w={{ base: '100%', md: '35%' }}
       borderRadius="lg"
       // borderWidth="1px"
     >
@@ -95,12 +96,12 @@ export default function MyChats({ fetchAgain }) {
           <div className="flex flex-col w-full py-5 overflow-y-scroll h-[80vh]">
             {chats &&
               chats.map((chat) => (
-                <div
+                <button
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:b-[#b9e9fc]/40 h-[5rem]  rounded-md "
+                  className=" cursor-pointer  h-[5rem]  rounded-md  btn btn-outline  mx-auto normal-case"
                 >
-                  <div className="flex items-center justify-centr">
+                  <div className="flex items-center justify-center">
                     <Avatar
                       mr={2}
                       size="sm"
@@ -116,7 +117,7 @@ export default function MyChats({ fetchAgain }) {
                             ? getSender(loggedUser, chat.users)
                             : chat.chatName}
                         </p>
-                        <p className="text-gray-500 text-[.8rem]">18:14</p>
+                        <p className="text-gray-500 text-[.8rem]">18:14 pm</p>
                       </div>
 
                       <div>
@@ -133,7 +134,7 @@ export default function MyChats({ fetchAgain }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
           </div>
         ) : (

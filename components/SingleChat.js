@@ -215,7 +215,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             px={2}
             w="100%"
             d="flex"
+            // gap="1rem"
             alignItems="center"
+            justifyContent={'space-between'}
             display={'flex'}
           >
             <IconButton
@@ -233,7 +235,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </div>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  {selectedChat.chatName}
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
@@ -247,7 +249,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="rgba(185,233,252, .2)"
+            // bg="rgba(185,233,252, .2)"
             w="100%"
             h="91%"
             borderRadius="lg"
