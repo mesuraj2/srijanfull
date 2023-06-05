@@ -27,9 +27,6 @@ app
     server.use(Express.json());
     // server.use(fileupload());
 
-    
-    
-
     server.use("/api/auth", User);
     server.use("/api/upload", upload);
     server.use("/api/chat", Chat);
@@ -61,6 +58,7 @@ app
         socket.emit("connected");
       });
 
+
       socket.on("join chat", (room) => {
         socket.join(room);
         // console.log("User Joined Room: " + room);
@@ -71,7 +69,6 @@ app
       socket.on("new message", (newMessageRecieved) => {
         // console.log(newMessageRecieved)
         var chat = newMessageRecieved.chat;
-
         if (!chat.users) return console.log("chat.users not defined");
         chat.users.forEach((user) => {
           // console.log(user._id);

@@ -15,6 +15,10 @@ import {
   MarkerF,
 } from "@react-google-maps/api";
 import { AiOutlineUser } from "react-icons/ai";
+import io from "socket.io-client";
+
+const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+var socket, selectedChatCompare;
 
 const handleJoinChat = async ({ chat_id, router, setSelectedChat }) => {
   const chatdata = await axios.post("/api/chat/fetchgroupChat", {
@@ -184,13 +188,22 @@ const CreateChatForm = ({ setchatoption, router }) => {
     }
   });
 
-  const handleCreate = async ( setSelectedChat ) => {
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+    socket = io(ENDPOINT);
+    socket.emit("setup", secureLocalStorage.getItem("id"));
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
+    // eslint-disable-next-line
+  }, []);
+
+  const handleCreate = async (setSelectedChat) => {
     const { data } = await axios.post(`/api/chat/offerchat`, {
       chatName: chatname,
       offerid: router.query.radar,
       coordinate: `[${latitude},${longitude}]`,
     });
-
     if (data.error) {
       toast({
         title: data.message,
@@ -207,6 +220,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
         isClosable: true,
         position: "top",
       });
+
       const res2 = await fetch(`/api/chat/fetchgroupChat`, {
         method: "POST", // or 'PUT'
         headers: {

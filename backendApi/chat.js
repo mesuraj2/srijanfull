@@ -74,40 +74,44 @@ router.post("/offerchat", fetchuser, async (req, res) => {
     //   offerid: offerid,
     // })
     // if (oldchat) {
-      // res.json({ error: true, message: "User has already created chat for it" })
+    // res.json({ error: true, message: "User has already created chat for it" })
     // }
     // else {
 
-      const groupChat = await Chat.create({
-        chatName: chatName,
-        users: req.user.id,
-        isOfferChat: true,
-        isGroupChat: true,
-        admin: req.user.id,
-        offerid: offerid,
-        Location: {
-          type: "Point",
-          coordinates: locationCoor,
-        }
-      });
+    const groupChat = await Chat.create({
+      chatName: chatName,
+      users: req.user.id,
+      isOfferChat: true,
+      isGroupChat: true,
+      admin: req.user.id,
+      offerid: offerid,
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      },
+    });
 
-      let locationres = await location.create({
-        Location: {
-          type: "Point",
-          coordinates: locationCoor,
-        },
-        chat: groupChat._id
-      })
-
-      await offer.findByIdAndUpdate({ _id: offerid }, { $push: { chat_id: groupChat._id } });
-      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-        "users",
-        "-password"
-      );
-      //   .populate("groupAdmin", "-password");
-
-      res.status(200).json(fullGroupChat);
     
+
+    let locationres = await location.create({
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      },
+      chat: groupChat._id,
+    });
+
+    await offer.findByIdAndUpdate(
+      { _id: offerid },
+      { $push: { chat_id: groupChat._id } }
+    );
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+      "users",
+      "-password"
+    );
+    //   .populate("groupAdmin", "-password");
+
+    res.status(200).json(fullGroupChat);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
