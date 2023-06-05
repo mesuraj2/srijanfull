@@ -57,7 +57,7 @@ export default function CropperImg() {
         />
       )}
 
-      <Button onClick={getCropData}>Upload</Button>
+      <button onClick={getCropData}>Upload</button>
     </div>
   );
 }
