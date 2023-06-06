@@ -219,12 +219,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             alignItems="center"
             justifyContent={'space-between'}
             display={'flex'}
+            color="white"
+            borderBottom="1px solid white"
           >
-            <IconButton
-              d={{ base: 'flex', md: 'none' }}
-              icon={<ArrowBackIcon />}
-              onClick={() => setSelectedChat('')}
-            />
+            <button className="btn" onClick={() => setSelectedChat('')}>
+              <ArrowBackIcon />
+            </button>
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <div className="flex flex-row">
@@ -265,12 +265,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="flex flex-col ">
-                <button
-                  className="btn btn-outline"
-                  loading={loading2}
-                  onClick={makePage}
-                >
-                  Load More
+                <button className="btn" loading={loading2} onClick={makePage}>
+                  Load MOre
                 </button>
                 <ScrollableChat messages={messages} />
                 <div ref={messagesEndRef} />
@@ -299,7 +295,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               <div className="flex flex-row gap-2 items-center justify-center">
                 <Input
                   variant="filled"
-                  bg="#E0E0E0"
+                  bg="white"
                   placeholder="Enter a message.."
                   value={newMessage}
                   onChange={typingHandler}
@@ -332,7 +328,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               src="https://media.giphy.com/media/gwuuaOAadXMp2JdHET/giphy.gif"
               alt="message icon"
             />
-            <p className="text-gray-500 text-center">Please select a chat</p>
+            <p className="text-white text-center">Please select a chat</p>
           </div>
         </div>
       )}

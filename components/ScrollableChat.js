@@ -27,8 +27,13 @@ const ScrollableChat = ({ messages }) => {
       {messages &&
         messages.map((m, i) => (
           <div key={m._id}>
-            <div className={`chat ${getSender ? 'chat-start' : 'chat-end'}`}>
+            <div
+              className={`chat ${
+                m.sender._id === user._id ? 'chat-end' : 'chat-start'
+              }`}
+            >
               <div className="chat-image avatar">
+                {console.log(messages)}
                 <div className="w-10 rounded-full">
                   {(isSameSender(messages, m, i, user._id) ||
                     isLastMessage(messages, i, user._id)) && (
@@ -54,25 +59,25 @@ const ScrollableChat = ({ messages }) => {
                 className="chat-bubble"
                 style={{
                   backgroundColor: `${
-                    m.sender._id === user._id ? '#1F2937' : '#1F2937'
+                    m.sender._id === user._id ? 'white' : 'white'
                   }`,
                   borderLeft: `${
                     m.sender._id === user._id
                       ? '10px solid green'
-                      : '10px solid #B9E9FC'
+                      : '10px solid #10a7e2'
                   }`,
-                  color: `${m.sender._id === user._id ? 'white' : 'white'}`,
+                  color: `${m.sender._id === user._id ? 'black' : 'black'}`,
                 }}
               >
                 <div>
                   <div
                     className={`${
                       m.sender._id === user._id
-                        ? 'text-green-500'
-                        : 'text-[#B9E9FC]'
+                        ? 'text-green-700'
+                        : 'text-[#10a7e2]'
                     } chat-header flex gap-5`}
                   >
-                    username
+                    {m.sender.name}
                   </div>
                   <p className="max-w-[10rem]">
                     {m.content}
@@ -85,9 +90,13 @@ const ScrollableChat = ({ messages }) => {
                   </p>
                 </div>
               </div>
-              <div className=" flex justify-between w-[10rem]">
+              <div className=" flex  w-[10rem]">
                 {/* <div className="chat-footer opacity-50">Delivered</div> */}
-                <time className="text-xs opacity-70">
+                <time
+                  className={`text-xs text-white ${
+                    m.sender._id === user._id ? 'ml-auto' : 'mr-auto'
+                  } `}
+                >
                   {format(parseISO(m.createdAt), 'h:mm:aa')}
                 </time>
               </div>

@@ -194,7 +194,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
   return (
     <>
-      <button onClick={onOpen} className="text-[1.3rem] mt-1 text-gray-700">
+      <button onClick={onOpen} className="btn text-[1.3rem] mt-1 ">
         <AiFillSetting />
       </button>
       {/* <IoSettingsSharp /> */}

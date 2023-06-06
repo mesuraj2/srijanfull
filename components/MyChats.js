@@ -12,6 +12,7 @@ import secureLocalStorage from 'react-secure-storage';
 import Router from 'next/router';
 import { ClassNames } from '@emotion/react';
 import { getCookie, deleteCookie } from 'cookies-next';
+import ChatSearch from './ChatSearch';
 
 export default function MyChats({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState([]);
@@ -57,14 +58,14 @@ export default function MyChats({ fetchAgain }) {
       className={selectedChat ? 'selecof' : 'selecon'}
       flexDir="column"
       alignItems="center"
-      py={3}
-      px={1}
+      // py={3}
+      // px={1}
       bg="white"
       w={{ base: '100%', md: '35%' }}
-      borderRadius="lg"
+      borderRadius="sm"
       // borderWidth="1px"
     >
-      <Box
+      {/* <Box
         pb={3}
         px={3}
         fontSize={{ base: '28px', md: '30px' }}
@@ -90,8 +91,11 @@ export default function MyChats({ fetchAgain }) {
             Create Group
           </Button>
         </GroupChatModal>
-      </Box>
-      <div className=" b-[#b9e9fc]/20">
+      </Box> */}
+      <div className=" flex flex-col justify-center items-center w-full ">
+        <div className="bg-gray-300 w-full flex flex-col items-center py-3">
+          <ChatSearch />
+        </div>
         {chats ? (
           <div className="flex flex-col w-full py-5 overflow-y-scroll h-[80vh]">
             {chats &&
@@ -99,9 +103,11 @@ export default function MyChats({ fetchAgain }) {
                 <button
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className=" cursor-pointer  h-[5rem]  rounded-md  btn btn-outline  mx-auto normal-case"
+                  className={`cursor-pointer  h-[5rem]   btn btn-ghost btn-ouline  mx-auto normal-case border-b-gray-400 border-b-2 rounded-none  ${
+                    chat === selectedChat ? 'btn-active' : ''
+                  }`}
                 >
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center w-[24rem]">
                     <Avatar
                       mr={2}
                       size="sm"

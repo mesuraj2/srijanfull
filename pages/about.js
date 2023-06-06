@@ -17,7 +17,7 @@ const data = {
 const about = () => {
   return (
     <div className="w-screen bg-[#B9E9FC]">
-      <div className="flex flex-col justify-center items-center gap-10 pt-[2rem] pb-[5rem] mx-auto">
+      <div className="flex flex-col justify-center items-center gap-10 pt-[2rem] pb-[5rem] mx-auto px-4 md:px-0">
         {/* <h1 className="text-center text-[3rem] xl:text-[4rem]  main__font tracking-wider">
           Pica Pool
         </h1> */}
@@ -34,7 +34,7 @@ const about = () => {
         </p>
         <div className="">
           <Carousel
-            // nav={true}
+            nav={true}
             imageLinks={data.imgLinks}
             className={
               'mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'

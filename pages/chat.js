@@ -34,6 +34,7 @@ export default function Chat() {
             p="10px 0"
           >
             {<MyChats fetchAgain={fetchAgain} />}
+
             {<Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
           </Box>
         </div>
