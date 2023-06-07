@@ -24,14 +24,14 @@ export default function Chat() {
     <div className="bg-[#B9E9FC] h-screen mx-auto  ">
       <NextSeo title="Chat" description="This is user Chat Page" />
       <div className="">
-        <div className=" w-[80vw] mx-auto pt-5">
+        <div className="w-[100vw] 11xl:w-[80vw] mx-auto 11xl:pt-5">
           {/* {<SideDrawer />} */}
           <Box
             className="flex"
             justifyContent="space-between"
             w="100%"
-            h="93.5vh"
-            p="10px 0"
+            h={{ base: '100vh', md: '93.5vh' }}
+            p={{ base: '0', md: '10px 0' }}
           >
             {<MyChats fetchAgain={fetchAgain} />}
 

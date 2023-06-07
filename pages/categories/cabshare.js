@@ -72,6 +72,28 @@ const Cabshare = () => {
             value={values.currentLoc}
             className="input input-bordered w-full mx-auto"
           />
+          {/* <div className="">
+            <select className="">
+              <option disabled selected>
+                Pick your favorite Simpson
+              </option>
+              <option>Homer</option>
+              <option>Marge</option>
+              <option>Bart</option>
+              <option>Lisa</option>
+              <option>Maggie</option>
+              <option>Homer</option>
+              <option>Marge</option>
+              <option>Bart</option>
+              <option>Lisa</option>
+              <option>Maggie</option>
+              <option>Homer</option>
+              <option>Marge</option>
+              <option>Bart</option>
+              <option>Lisa</option>
+              <option>Maggie</option>
+            </select>
+          </div> */}
           {touched['currentLoc'] && !values['currentLoc'] && (
             <span className="label-text-alt mt-1 text-red-600">Required</span>
           )}

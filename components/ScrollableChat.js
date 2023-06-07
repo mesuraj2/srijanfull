@@ -18,9 +18,9 @@ const ScrollableChat = ({ messages }) => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [messages]);
 
   return (
     <ScrollableFeed className="flex flex-col-reverse py-10 h-screen">
@@ -79,7 +79,7 @@ const ScrollableChat = ({ messages }) => {
                   >
                     {m.sender.name}
                   </div>
-                  <p className="max-w-[10rem]">
+                  <p className="max-w-[10rem] 5xl:max-w-[12rem] 11xl:max-w-[10rem]">
                     {m.content}
                     {m.content}
                     {m.content}
