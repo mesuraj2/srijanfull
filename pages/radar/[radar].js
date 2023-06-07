@@ -16,6 +16,8 @@ import {
 } from "@react-google-maps/api";
 import { AiOutlineUser } from "react-icons/ai";
 import io from "socket.io-client";
+import { getCookie } from "cookies-next";
+import secureLocalStorage from "react-secure-storage";
 
 const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
@@ -160,12 +162,21 @@ const JoinChatPanel = ({ setchatoption, chatdata, router }) => {
 };
 
 const CreateChatForm = ({ setchatoption, router }) => {
+  const { setSelectedChat } = ChatState();
   const [chatname, setchatname] = useState("");
   const [chatdescription, setchatdescription] = useState("");
   const [chatexpiry, setchatexpiry] = useState("");
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
   const toast = useToast();
+
+  useEffect(() => {
+    if (getCookie("authtoken")) {
+      socket = io(ENDPOINT);
+      socket.emit("setup", secureLocalStorage.getItem("id"));
+    }
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("coordinates")) {
@@ -188,17 +199,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
     }
   });
 
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
-    socket = io(ENDPOINT);
-    socket.emit("setup", secureLocalStorage.getItem("id"));
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-    // eslint-disable-next-line
-  }, []);
-
-  const handleCreate = async (setSelectedChat) => {
+  const handleCreate = async () => {
     const { data } = await axios.post(`/api/chat/offerchat`, {
       chatName: chatname,
       offerid: router.query.radar,
@@ -220,6 +221,13 @@ const CreateChatForm = ({ setchatoption, router }) => {
         isClosable: true,
         position: "top",
       });
+
+      axios
+        .get("/api/auth/getNearUser")
+        .then((response) => {
+          socket.emit("new offerchat", response.data, data._id,secureLocalStorage.getItem("id"));
+        })
+        .catch((error) => console.log(error));
 
       const res2 = await fetch(`/api/chat/fetchgroupChat`, {
         method: "POST", // or 'PUT'

@@ -3,22 +3,6 @@ import Carousel from './Carousel';
 
 const featuresData = [
   {
-    name: 'Grocery',
-    discription:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, iure.',
-    gifUrl:
-      'https://e0.pxfuel.com/wallpapers/520/1013/desktop-wallpaper-cool-landscape-night-minimal-art-laptop-minimalist-and-background-minimalist-laptop.jpg',
-    imgName: 'grocery',
-    imgLinks: {
-      1: '/assets/grocery/image_1.jpg',
-      2: '/assets/grocery/image_2.jpg',
-      3: '/assets/grocery/image_3.jpg',
-      4: '/assets/grocery/image_4.jpg',
-      5: '/assets/grocery/image_5.jpg',
-      6: '/assets/grocery/image_6.jpg',
-    },
-  },
-  {
     name: 'Clothing',
     discription:
       'Feature 2 discription is here adipisicing elit. Facere, aliquam!',
@@ -66,6 +50,22 @@ const featuresData = [
     },
   },
   {
+    name: 'Grocery',
+    discription:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi, iure.',
+    gifUrl:
+      'https://e0.pxfuel.com/wallpapers/520/1013/desktop-wallpaper-cool-landscape-night-minimal-art-laptop-minimalist-and-background-minimalist-laptop.jpg',
+    imgName: 'grocery',
+    imgLinks: {
+      1: '/assets/grocery/image_1.jpg',
+      2: '/assets/grocery/image_2.jpg',
+      3: '/assets/grocery/image_3.jpg',
+      4: '/assets/grocery/image_4.jpg',
+      5: '/assets/grocery/image_5.jpg',
+      6: '/assets/grocery/image_6.jpg',
+    },
+  },
+  {
     name: 'Miscellaneous',
     discription: 'Lorem, this is a different language Facere, aliquam!',
     gifUrl:
@@ -83,9 +83,9 @@ const featuresData = [
 ];
 
 const About = () => {
-  const [tabSelected, setTabSelected] = useState('Grocery');
+  const [tabSelected, setTabSelected] = useState('Clothing');
   return (
-    <div className="w-screen pb-[5rem] bg-[#B9E9FC]">
+    <div className="w-screen bg-[#B9E9FC]">
       <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider">
         Features
       </h1>
@@ -120,11 +120,10 @@ const About = () => {
             if (item.name === tabSelected)
               return (
                 <Carousel
+                  nav={true}
                   key={index}
                   imageLinks={item.imgLinks}
-                  className={
-                    'mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
-                  }
+                  className={''}
                 />
               );
             else false;

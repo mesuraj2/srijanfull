@@ -53,11 +53,10 @@ app
     io.on("connection", (socket) => {
       // console.log("Connected to via locally");
       socket.on("setup", (userData) => {
-        // console.log(userData);
+        console.log(userData);
         socket.join(userData);
         socket.emit("connected");
       });
-
 
       socket.on("join chat", (room) => {
         socket.join(room);
@@ -66,9 +65,21 @@ app
       socket.on("typing", (room) => socket.in(room).emit("typing"));
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
+      socket.on("new offerchat", (newMessageRecieved, offerid,userId) => {
+        let str={
+          offerid,
+          Message:`new chat create in you location`
+        }
+        newMessageRecieved.forEach((user)=>{
+          if(user.user == userId) return; 
+          socket.in(user.user).emit("newChatNotification",str);
+        })
+      });
+
       socket.on("new message", (newMessageRecieved) => {
         // console.log(newMessageRecieved)
         var chat = newMessageRecieved.chat;
+
         if (!chat.users) return console.log("chat.users not defined");
         chat.users.forEach((user) => {
           // console.log(user._id);

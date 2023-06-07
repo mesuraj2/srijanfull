@@ -254,4 +254,18 @@ router.get("/getuser", fetchuser, async (req, res) => {
   }
 });
 
+router.get("/getNearUser",  async (req, res) => {
+  console.log("suraj")
+    const user = await location.find({
+      Location: {
+        $near: {
+          $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+          $maxDistance: 20*1000,
+        },
+      },
+      user:{$ne:null}
+    },{"user":1})
+    res.send(user);
+});
+
 module.exports = router;

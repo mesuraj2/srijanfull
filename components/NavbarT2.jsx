@@ -17,7 +17,7 @@ const NavbarT2 = () => {
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
-  const {user,setUser}=ChatState()
+  const { user, setUser } = ChatState();
 
   useEffect(() => {
     // axios.get('')
@@ -32,7 +32,7 @@ const NavbarT2 = () => {
       {/* <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[4rem]  main__font tracking-wider">
         Pica Pool
       </h1> */}
-      <div className="navbar bg-transparent">
+      <div className="navbar bg-transparent w-[90%] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">

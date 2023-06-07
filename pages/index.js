@@ -7,8 +7,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import SearchBar from '../components/SearchBar';
 import NavbarT2 from '../components/NavbarT2';
+import { getCookie } from 'cookies-next';
 
 //  bg-cover bg-center main__header
+import io from 'socket.io-client'
+import { useEffect } from 'react';
+import secureLocalStorage from 'react-secure-storage';
+import Notification from '../components/notification';
+
+
+const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+var socket;
 
 const Home = () => {
   const links = {
@@ -19,6 +28,17 @@ const Home = () => {
     'CONTACT US': '/contact',
   };
   const router = useRouter();
+
+
+  useEffect(() => {
+    if(getCookie('authtoken')){
+    // setUser(JSON.parse(localStorage.getItem("user")));
+    socket = io(ENDPOINT);
+    socket.emit("setup", secureLocalStorage.getItem("id"));
+    }
+    // eslint-disable-next-line
+  }, []);
+  
   return (
     <div className="bg-[#B9E9FC]">
       <div className="flex flex-col  items-center justify-center mx-auto"></div>
@@ -65,7 +85,7 @@ const Home = () => {
             ))}
           </ul>
         </div> */}
-      <div className="flex items-center justify-center mx-auto mt-10 lg:my-10">
+      <div className="flex items-center justify-center mx-auto mt-10 lg:mb-[8rem] lg:mt-10">
         <SearchBar
           globalClassName={''}
           inputClassName={'w-[100%] md:w-[35rem]'}
@@ -73,6 +93,7 @@ const Home = () => {
       </div>
       <Header />
       <About />
+      <Notification/>
       <CatigoryDisplay />
     </div>
   );

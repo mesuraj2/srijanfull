@@ -17,10 +17,10 @@ const data = {
 const about = () => {
   return (
     <div className="w-screen bg-[#B9E9FC]">
-      <div className="flex flex-col justify-center gap-10 pt-[2rem] pb-[5rem] mx-auto">
-        <h1 className="text-center text-[3rem] xl:text-[4rem]  main__font tracking-wider">
+      <div className="flex flex-col justify-center items-center gap-10 pt-[2rem] pb-[5rem] mx-auto px-4 md:px-0">
+        {/* <h1 className="text-center text-[3rem] xl:text-[4rem]  main__font tracking-wider">
           Pica Pool
-        </h1>
+        </h1> */}
         <h3 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-black/70 underline">
           Welcome to pica pool
         </h3>
@@ -34,6 +34,7 @@ const about = () => {
         </p>
         <div className="">
           <Carousel
+            nav={true}
             imageLinks={data.imgLinks}
             className={
               'mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-[55rem] lg:h-[30rem] rounded-md'
@@ -43,7 +44,7 @@ const about = () => {
         <h3 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-black/70 underline">
           Our Story
         </h3>
-        <div className="">
+        <div className="flex flex-col items-center justify-center">
           <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-full lg:w-[90%]">
             The idea for pica pool was born out of a incident (One day, I walked
             into a pizza store and noticed a tempting offer of &quot;Buy 2, Get

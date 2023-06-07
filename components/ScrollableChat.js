@@ -23,12 +23,17 @@ const ScrollableChat = ({ messages }) => {
   }, [messages]);
 
   return (
-    <ScrollableFeed className="flex flex-col-reverse">
+    <ScrollableFeed className="flex flex-col-reverse py-10 h-screen">
       {messages &&
         messages.map((m, i) => (
           <div key={m._id}>
-            <div className={`chat ${getSender ? 'chat-start' : 'chat-end'}`}>
+            <div
+              className={`chat ${
+                m.sender._id === user._id ? 'chat-end' : 'chat-start'
+              }`}
+            >
               <div className="chat-image avatar">
+                {console.log(messages)}
                 <div className="w-10 rounded-full">
                   {(isSameSender(messages, m, i, user._id) ||
                     isLastMessage(messages, i, user._id)) && (
@@ -49,28 +54,52 @@ const ScrollableChat = ({ messages }) => {
                   )}
                 </div>
               </div>
-              <div className="chat-header">
-                username
-                <time className="text-xs opacity-50">
-                  {format(parseISO(m.createdAt), 'h:mm:aa')}
-                </time>
-              </div>
+
               <div
                 className="chat-bubble"
                 style={{
                   backgroundColor: `${
+                    m.sender._id === user._id ? 'white' : 'white'
+                  }`,
+                  borderLeft: `${
                     m.sender._id === user._id
-                      ? 'rgba(185,233,252)'
-                      : 'rgba(0, 0, 0, .4)'
+                      ? '10px solid green'
+                      : '10px solid #10a7e2'
                   }`,
-                  color: `${
-                    m.sender._id === user._id ? 'rgba(0, 0, 0, .8)' : 'white'
-                  }`,
+                  color: `${m.sender._id === user._id ? 'black' : 'black'}`,
                 }}
               >
-                {m.content}
+                <div>
+                  <div
+                    className={`${
+                      m.sender._id === user._id
+                        ? 'text-green-700'
+                        : 'text-[#10a7e2]'
+                    } chat-header flex gap-5`}
+                  >
+                    {m.sender.name}
+                  </div>
+                  <p className="max-w-[10rem]">
+                    {m.content}
+                    {m.content}
+                    {m.content}
+                    {m.content}
+                    {m.content}
+                    {m.content}
+                    {m.content}
+                  </p>
+                </div>
               </div>
-              <div className="chat-footer opacity-50">Delivered</div>
+              <div className=" flex  w-[10rem]">
+                {/* <div className="chat-footer opacity-50">Delivered</div> */}
+                <time
+                  className={`text-xs text-white ${
+                    m.sender._id === user._id ? 'ml-auto' : 'mr-auto'
+                  } `}
+                >
+                  {format(parseISO(m.createdAt), 'h:mm:aa')}
+                </time>
+              </div>
             </div>
           </div>
         ))}
