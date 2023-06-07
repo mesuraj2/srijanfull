@@ -215,14 +215,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             px={2}
             w="100%"
             d="flex"
+            // gap="1rem"
             alignItems="center"
+            justifyContent={'space-between'}
             display={'flex'}
+            color="white"
+            borderBottom="1px solid white"
           >
-            <IconButton
-              d={{ base: 'flex', md: 'none' }}
-              icon={<ArrowBackIcon />}
-              onClick={() => setSelectedChat('')}
-            />
+            <button className="btn" onClick={() => setSelectedChat('')}>
+              <ArrowBackIcon />
+            </button>
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <div className="flex flex-row">
@@ -233,7 +235,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 </div>
               ) : (
                 <>
-                  {selectedChat.chatName.toUpperCase()}
+                  {selectedChat.chatName}
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}
@@ -247,7 +249,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="rgba(185,233,252, .2)"
+            // bg="rgba(185,233,252, .2)"
             w="100%"
             h="91%"
             borderRadius="lg"
@@ -263,12 +265,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="flex flex-col ">
-                <button
-                  className="btn btn-outline"
-                  loading={loading2}
-                  onClick={makePage}
-                >
-                  Load More
+                <button className="btn" loading={loading2} onClick={makePage}>
+                  Load MOre
                 </button>
                 <ScrollableChat messages={messages} />
                 <div ref={messagesEndRef} />
@@ -294,14 +292,30 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="#E0E0E0"
-                placeholder="Enter a message.."
-                value={newMessage}
-                onChange={typingHandler}
-                autoComplete="off"
-              />
+              <div className="flex flex-row gap-2 items-center justify-center">
+                <Input
+                  variant="filled"
+                  bg="white"
+                  placeholder="Enter a message.."
+                  value={newMessage}
+                  onChange={typingHandler}
+                  autoComplete="off"
+                  sx={{
+                    paddingY: 6,
+                  }}
+                />
+                <button type="button" class="btn">
+                  <span class="font-bold">Send</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    class="h-6 w-6 ml-2 transform rotate-90"
+                  >
+                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                  </svg>
+                </button>
+              </div>
             </FormControl>
           </Box>
         </>
@@ -314,7 +328,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               src="https://media.giphy.com/media/gwuuaOAadXMp2JdHET/giphy.gif"
               alt="message icon"
             />
-            <p className="text-gray-500 text-center">Please select a chat</p>
+            <p className="text-white text-center">Please select a chat</p>
           </div>
         </div>
       )}

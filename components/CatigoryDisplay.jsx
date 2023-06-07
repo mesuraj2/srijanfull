@@ -6,7 +6,7 @@ const CatigoryDisplay = () => {
   return (
     <div className="w-screen md:pt-[4rem]  mb-[8rem] bg-[#B9E9FC] flex flex-col gap-10">
       <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider mt-10">
-        categories
+        Categories
       </h1>
       <p className="text-[1rem] md:text-[1.2rem] secondary_font tracking-wider text-center w-[90%] md:w-[75%] mx-auto ">
         Our carefully selected offers come from the best brands and trusted
@@ -15,24 +15,24 @@ const CatigoryDisplay = () => {
       <div className="w-[90%] md:w-[80%] flex flex-col mx-auto items-center">
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-10">
           <img
-            src="https://thypix.com/wp-content/uploads/2022/07/fruit-phone-wallpaper-thypix-5-394x700.jpg"
+            src="https://images.pexels.com/photos/3812433/pexels-photo-3812433.jpeg?cs=srgb&dl=pexels-markus-winkler-3812433.jpg&fm=jpg"
             alt=""
-            className="w-[15rem] rounded-md shadow-md"
+            className="6xl:w-[15rem] w-[13rem] h-full xl:h-[22rem] rounded-md shadow-md "
           />
           <img
-            src="https://thypix.com/wp-content/uploads/2022/07/fruit-phone-wallpaper-thypix-68-394x700.jpg"
+            src="https://wallpapercave.com/wp/wp1898190.jpg"
             alt=""
-            className="w-[15rem] rounded-md shadow-md"
+            className="6xl:w-[15rem] w-[13rem] h-full xl:h-[22rem] rounded-md shadow-md"
           />
           <img
-            src="https://thypix.com/wp-content/uploads/2022/06/orange-phone-wallpaper-51-394x700.jpg"
+            src="https://cdn.wallpapersafari.com/65/56/28VdRZ.jpg"
             alt=""
-            className="w-[15rem] rounded-md shadow-md"
+            className="6xl:w-[15rem] w-[13rem] h-full xl:h-[22rem] rounded-md shadow-md"
           />
           <img
-            src="https://thypix.com/wp-content/uploads/2022/07/fruit-phone-wallpaper-thypix-79-394x700.jpg"
+            src="https://c0.wallpaperflare.com/preview/38/743/765/aisle-buy-cart-food.jpg"
             alt=""
-            className="w-[15rem] rounded-md shadow-md"
+            className="6xl:w-[15rem] w-[13rem] h-full xl:h-[22rem] rounded-md shadow-md"
           />
         </div>
         <button

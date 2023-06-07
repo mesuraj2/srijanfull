@@ -12,6 +12,7 @@ import secureLocalStorage from 'react-secure-storage';
 import Router from 'next/router';
 import { ClassNames } from '@emotion/react';
 import { getCookie, deleteCookie } from 'cookies-next';
+import ChatSearch from './ChatSearch';
 
 export default function MyChats({ fetchAgain }) {
   const [loggedUser, setLoggedUser] = useState([]);
@@ -57,13 +58,14 @@ export default function MyChats({ fetchAgain }) {
       className={selectedChat ? 'selecof' : 'selecon'}
       flexDir="column"
       alignItems="center"
-      p={3}
+      // py={3}
+      // px={1}
       bg="white"
-      w={{ base: '100%', md: '31%' }}
-      borderRadius="lg"
+      w={{ base: '100%', md: '35%' }}
+      borderRadius="sm"
       // borderWidth="1px"
     >
-      <Box
+      {/* <Box
         pb={3}
         px={3}
         fontSize={{ base: '28px', md: '30px' }}
@@ -89,18 +91,23 @@ export default function MyChats({ fetchAgain }) {
             Create Group
           </Button>
         </GroupChatModal>
-      </Box>
-      <div className="bg-[#b9e9fc]/20">
+      </Box> */}
+      <div className=" flex flex-col justify-center items-center w-full ">
+        <div className="bg-gray-300 w-full flex flex-col items-center py-3">
+          <ChatSearch />
+        </div>
         {chats ? (
-          <div className="flex flex-col w-full py-5 overflow-y-scroll h-[60vh]">
+          <div className="flex flex-col w-full py-5 overflow-y-scroll h-[80vh]">
             {chats &&
               chats.map((chat) => (
-                <div
+                <button
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className="border-b border-black/10 cursor-pointer py-2 px-2 hover:bg-[#b9e9fc]/40 h-[5rem] w-[85vw] rounded-md"
+                  className={`cursor-pointer  h-[5rem]   btn btn-ghost btn-ouline  mx-auto normal-case border-b-gray-400 border-b-2 rounded-none  ${
+                    chat === selectedChat ? 'btn-active' : ''
+                  }`}
                 >
-                  <div className="flex items-center justify-centr">
+                  <div className="flex items-center justify-center w-[24rem]">
                     <Avatar
                       mr={2}
                       size="sm"
@@ -116,7 +123,7 @@ export default function MyChats({ fetchAgain }) {
                             ? getSender(loggedUser, chat.users)
                             : chat.chatName}
                         </p>
-                        <p className="text-gray-500 text-[.8rem]">18:14</p>
+                        <p className="text-gray-500 text-[.8rem]">18:14 pm</p>
                       </div>
 
                       <div>
@@ -133,7 +140,7 @@ export default function MyChats({ fetchAgain }) {
                       </div>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
           </div>
         ) : (

@@ -21,19 +21,20 @@ export default function Chat() {
   }, []);
 
   return (
-    <div className="bg-[#B9E9FC]">
+    <div className="bg-[#B9E9FC] h-screen mx-auto  ">
       <NextSeo title="Chat" description="This is user Chat Page" />
-      <div className="flex flex-col  items-center justify-center mx-auto">
-        <div className="py-[2rem] w-full">
+      <div className="">
+        <div className=" w-[80vw] mx-auto pt-5">
           {/* {<SideDrawer />} */}
           <Box
             className="flex"
             justifyContent="space-between"
             w="100%"
-            h="83.5vh"
+            h="93.5vh"
             p="10px 0"
           >
             {<MyChats fetchAgain={fetchAgain} />}
+
             {<Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />}
           </Box>
         </div>

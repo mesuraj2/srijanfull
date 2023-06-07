@@ -1,4 +1,4 @@
-import { ViewIcon } from "@chakra-ui/icons";
+import { ViewIcon } from '@chakra-ui/icons';
 import {
   Modal,
   ModalOverlay,
@@ -15,18 +15,20 @@ import {
   Box,
   IconButton,
   Spinner,
-} from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
-import { ChatState } from "../../Context/ChatProvider";
-import UserBadgeItem from "../userAvatar/UserBadgeItem";
-import UserListItem from "../userAvatar/UserListItem";
-import  secureLocalStorage  from  "react-secure-storage";
+} from '@chakra-ui/react';
+import axios from 'axios';
+import { useState } from 'react';
+import { ChatState } from '../../Context/ChatProvider';
+import UserBadgeItem from '../userAvatar/UserBadgeItem';
+import UserListItem from '../userAvatar/UserListItem';
+import secureLocalStorage from 'react-secure-storage';
+
+import { AiFillSetting } from 'react-icons/ai';
 
 const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [renameloading, setRenameLoading] = useState(false);
@@ -42,24 +44,24 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
     try {
       setLoading(true);
-      const res =await fetch(`/api/auth/searchUser?search=${search}`, {
+      const res = await fetch(`/api/auth/searchUser?search=${search}`, {
         method: 'GET', // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
-          'auth-token':secureLocalStorage.getItem('token')
+          'auth-token': secureLocalStorage.getItem('token'),
         },
-      })
-      let data=await res.json()
+      });
+      let data = await res.json();
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: "Failed to Load the Search Results",
-        status: "error",
+        title: 'Error Occured!',
+        description: 'Failed to Load the Search Results',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom-left",
+        position: 'bottom-left',
       });
       setLoading(false);
     }
@@ -70,19 +72,18 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
     try {
       setRenameLoading(true);
-      const res =await fetch('/api/chat/rename', {
+      const res = await fetch('/api/chat/rename', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':secureLocalStorage.getItem('token')
+          'auth-token': secureLocalStorage.getItem('token'),
         },
-        body:JSON.stringify({
+        body: JSON.stringify({
           chatId: selectedChat._id,
           chatName: groupChatName,
-            }
-          ),
-      })
-      let data=await res.json()
+        }),
+      });
+      let data = await res.json();
 
       console.log(data._id);
       setSelectedChat(data);
@@ -90,59 +91,58 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       setRenameLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: 'Error Occured!',
         description: error.response.data.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setRenameLoading(false);
     }
-    setGroupChatName("");
+    setGroupChatName('');
   };
 
   const handleAddUser = async (user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
       toast({
-        title: "User Already in group!",
-        status: "error",
+        title: 'User Already in group!',
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       return;
     }
     try {
       setLoading(true);
-      const res =await fetch('/api/chat/groupadd', {
+      const res = await fetch('/api/chat/groupadd', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':secureLocalStorage.getItem('token')
+          'auth-token': secureLocalStorage.getItem('token'),
         },
-        body:JSON.stringify({
-              chatId: selectedChat._id,
-              userId: user1._id,
-            }
-          ),
-      })
-      let data=await res.json();
+        body: JSON.stringify({
+          chatId: selectedChat._id,
+          userId: user1._id,
+        }),
+      });
+      let data = await res.json();
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: 'Error Occured!',
         // description: error.response.data.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
     }
-    setGroupChatName("");
+    setGroupChatName('');
   };
 
   const handleRemove = async (user1) => {
@@ -162,41 +162,42 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       //   config
       // );
 
-
-      const res =await fetch('/api/chat/groupremove', {
+      const res = await fetch('/api/chat/groupremove', {
         method: 'PUT', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'auth-token':secureLocalStorage.getItem('token')
+          'auth-token': secureLocalStorage.getItem('token'),
         },
-        body:JSON.stringify({
-              chatId: selectedChat._id,
-              userId: user1._id,
-            }
-          ),
-      })
-      let data=await res.json()
+        body: JSON.stringify({
+          chatId: selectedChat._id,
+          userId: user1._id,
+        }),
+      });
+      let data = await res.json();
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       fetchMessages();
       setLoading(false);
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: 'Error Occured!',
         description: error.response.data.message,
-        status: "error",
+        status: 'error',
         duration: 5000,
         isClosable: true,
-        position: "bottom",
+        position: 'bottom',
       });
       setLoading(false);
     }
-    setGroupChatName("");
+    setGroupChatName('');
   };
 
   return (
     <>
-      <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+      <button onClick={onOpen} className="btn text-[1.3rem] mt-1 ">
+        <AiFillSetting />
+      </button>
+      {/* <IoSettingsSharp /> */}
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
