@@ -18,10 +18,12 @@ import {
   LoadScript,
   CircleF,
   MarkerF,
+  useLoadScript,
 } from "@react-google-maps/api";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
+  clearSuggestions
 } from "use-places-autocomplete";
 
 
@@ -64,6 +66,11 @@ function MapComponent({ router }) {
 }
 
 const Cabshare = () => {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.GoogleMapApiKey,
+    libraries: ["places"],
+  });
+
   const initValues = {
     currentLoc: '',
     destination: '',
@@ -83,16 +90,17 @@ const Cabshare = () => {
   const {
     ready,
     value,
-    suggestions: { status, data: placesData },
-    setValue,
-  } = usePlacesAutocomplete();
+    suggestions: { status, placesdata },
+    setValuePlaces,
+  } = usePlacesAutocomplete()
+
 
   const handleInput = (e) => {
     setValue(e.target.value);
   };
 
   const handleSelect = (val) => {
-    setValue(val, false);
+    setValuePlaces(val, false);
   };
 
   // handlers
@@ -112,7 +120,7 @@ const Cabshare = () => {
           },
         }))
       }
-      else{
+      else {
         setData((prev) => ({
           ...prev,
           values: {
@@ -164,7 +172,7 @@ const Cabshare = () => {
           <label className="label">
             <span className="label-text">Current Location</span>
           </label>
-          <input
+          {/* <input
             type="text"
             placeholder=""
             name="currentLoc"
@@ -172,17 +180,18 @@ const Cabshare = () => {
             onBlur={onBlur}
             value={values.currentLoc}
             className="input input-bordered w-full mx-auto"
-          />
-          <Combobox onSelect={handleSelect} aria-labelledby="demo">
+          /> */}
+          <Combobox onSelect={handleSelect} aria-labelledby="demo" >
             <ComboboxInput
+              className="input input-bordered w-full mx-auto"
               value={value}
-              onChange={handleInput}
+              onChange={(e) => setValuePlaces(e.target.value)}
               disabled={!ready}
             />
             <ComboboxPopover>
               <ComboboxList>
                 {status === 'OK' &&
-                  data.map(({ place_id, description }) => (
+                  placesdata.map(({ place_id, description }) => (
                     <ComboboxOption key={place_id} value={description} />
                   ))}
               </ComboboxList>

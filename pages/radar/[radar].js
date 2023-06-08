@@ -167,7 +167,6 @@ const CreateChatForm = ({ setchatoption, router }) => {
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
   const toast = useToast();
-  const { setSelectedChat } = ChatState();
 
   useEffect(() => {
     if (getCookie("authtoken")) {
