@@ -154,12 +154,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   useEffect(() => {
-    socket.on("newChatNotification", (newMessageRecieved) => {
+    socket.on('newChatNotification', (newMessageRecieved) => {
       setNotification([newMessageRecieved, ...notification]);
-      console.log(newMessageRecieved,'from newChatNotification')
-  });
-  
-    socket.on("message recieved", (newMessageRecieved) => {
+      console.log(newMessageRecieved, 'from newChatNotification');
+    });
+
+    socket.on('message recieved', (newMessageRecieved) => {
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== newMessageRecieved.chat._id
@@ -233,14 +233,16 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {messages &&
               (!selectedChat.isGroupChat ? (
                 <div className="flex flex-row">
-                  <p className="mx-5">{getSender(user, selectedChat.users)}</p>
+                  <p className="mx-5 ">{getSender(user, selectedChat.users)}</p>
                   <ProfileModal
                     user={getSenderFull(user, selectedChat.users)}
                   />
                 </div>
               ) : (
                 <>
-                  {selectedChat.chatName}
+                  <p className="text-[1rem] md:text-[1.4rem]">
+                    {selectedChat.chatName}
+                  </p>
                   <UpdateGroupChatModal
                     fetchMessages={fetchMessages}
                     fetchAgain={fetchAgain}

@@ -20,7 +20,7 @@ const Chatbox = ({ fetchAgain, setFetchAgain }) => {
           'https://st2.depositphotos.com/1866209/7180/v/950/depositphotos_71807575-stock-illustration-doodle-icons-seamless-travel-pattern.jpg'
         )`,
       }}
-      w={{ base: '100vh', md: '64%' }}
+      w={{ base: '100vw', lg: '64%' }}
       borderRadius="sm"
       borderWidth="1px"
     >

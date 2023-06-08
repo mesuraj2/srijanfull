@@ -1,0 +1,15 @@
+/* Custom styles for Swiper navigation arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  width: 30px; /* Adjust the width as per your preference */
+  height: 30px; /* Adjust the height as per your preference */
+}
+
+/* Optional: Adjust the position of the arrows */
+.swiper-button-prev {
+  left: 10px; /* Adjust the left position as per your preference */
+}
+
+.swiper-button-next {
+  right: 10px; /* Adjust the right position as per your preference */
+}

@@ -3,6 +3,7 @@ import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
+import styles from '../styles/swiper.module.css';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -85,7 +86,10 @@ const Carousel = ({ imageLinks, className = '', nav = false }) => {
       >
         {Object.keys(imageLinks).map((itemKey, index) => {
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide
+              key={index}
+              // className={`${styles['swiper-button-prev']}`}
+            >
               <img
                 className={`mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-full lg:h-full rounded-md   shadow-xl `}
                 src={imageLinks[itemKey]}

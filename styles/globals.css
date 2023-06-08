@@ -23,6 +23,16 @@ a {
 * {
   box-sizing: border-box;
 }
+.swiper-button-next {
+  background-image: url('https://w7.pngwing.com/pngs/803/760/png-transparent-arrow-back-left-prev-previous-arrows-elements-outline-icon.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+
+.swiper-button-next::after {
+  display: none;
+}
 
 /* Home page stying */
 .main__header {

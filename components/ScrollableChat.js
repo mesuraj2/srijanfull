@@ -81,12 +81,6 @@ const ScrollableChat = ({ messages }) => {
                   </div>
                   <p className="max-w-[10rem] 5xl:max-w-[12rem] 11xl:max-w-[10rem]">
                     {m.content}
-                    {m.content}
-                    {m.content}
-                    {m.content}
-                    {m.content}
-                    {m.content}
-                    {m.content}
                   </p>
                 </div>
               </div>
