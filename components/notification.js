@@ -26,6 +26,7 @@ export default function Notification() {
     if (getCookie("authtoken")) {
     socket.on("newChatNotification", (newMessageRecieved) => {
       console.log(newMessageRecieved,'from newChatNotification')
+      setNotification([newMessageRecieved, ...notification]);
   });
 }
 })

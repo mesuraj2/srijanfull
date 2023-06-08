@@ -225,7 +225,12 @@ const CreateChatForm = ({ setchatoption, router }) => {
       axios
         .get("/api/auth/getNearUser")
         .then((response) => {
-          socket.emit("new offerchat", response.data, data._id,secureLocalStorage.getItem("id"));
+          socket.emit(
+            "new offerchat",
+            response.data,
+            data._id,
+            secureLocalStorage.getItem("id")
+          );
         })
         .catch((error) => console.log(error));
 

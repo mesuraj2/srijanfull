@@ -65,15 +65,15 @@ app
       socket.on("typing", (room) => socket.in(room).emit("typing"));
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
-      socket.on("new offerchat", (newMessageRecieved, offerid,userId) => {
-        let str={
+      socket.on("new offerchat", (newMessageRecieved, offerid, userId) => {
+        let str = {
           offerid,
-          Message:`new chat create in you location`
-        }
-        newMessageRecieved.forEach((user)=>{
-          if(user.user == userId) return; 
-          socket.in(user.user).emit("newChatNotification",str);
-        })
+          Message: `new chat create in you location`,
+        };
+        newMessageRecieved.forEach((user) => {
+          if (user.user == userId) return;
+          socket.in(user.user).emit("newChatNotification", str);
+        });
       });
 
       socket.on("new message", (newMessageRecieved) => {

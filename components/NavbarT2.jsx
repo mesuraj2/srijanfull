@@ -17,7 +17,7 @@ const NavbarT2 = () => {
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
-  const { user, setUser } = ChatState();
+  const { user, setUser,notification } = ChatState();
 
   useEffect(() => {
     // axios.get('')

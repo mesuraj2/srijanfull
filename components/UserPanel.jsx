@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { deleteCookie } from "cookies-next";
-import Link from "next/link"
-import { useRouter } from 'next/router';
-import axios from 'axios';
-import { ChatState } from '../Context/ChatProvider';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { ChatState } from "../Context/ChatProvider";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { BellIcon } from "@chakra-ui/icons";
 
-const UserPanel = ({setsignedin}) => {
+const UserPanel = ({ setsignedin }) => {
   const router = useRouter();
   // const [userimage, setuserimage] = useState('');
-  const {user,setUser}=ChatState()
+  const { user, setUser, notification, setNotification,setSelectedChat } = ChatState();
 
   // const getUser = async () => {
   //   const res = await axios.get('http://localhost:3000/api/auth/getUser');
@@ -16,14 +18,29 @@ const UserPanel = ({setsignedin}) => {
   // }
 
   const handleLogout = () => {
-    deleteCookie('authtoken');
-    setsignedin(false)
-    router.push('/')
-  }
+    deleteCookie("authtoken");
+    setsignedin(false);
+    router.push("/");
+  };
 
   // useEffect(() => {
   //   getUser();
   // }, []);
+
+  const joinChat = async (id) => {
+    // console.log(id, "from join chat in notification");
+    const res2 = await fetch(`/api/chat/fetchgroupChat`, {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ChatId: id }),
+    });
+    let data2 = await res2.json();
+    // console.log(data2)
+    setSelectedChat(data2);
+    router.push({ pathname: "/chat" });
+  };
 
   return (
     <div>
@@ -62,10 +79,49 @@ const UserPanel = ({setsignedin}) => {
             </div>
           </div>
         </div>
+        <Menu>
+            <MenuButton p={1}>
+              {/* <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              /> */}
+
+              <BellIcon fontSize="2xl" m={1} />
+              <div className="badge">{notification.length}</div>
+            </MenuButton>
+            <MenuList pl={2}>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif, index) => (
+                // <MenuItem
+                //   key={notif._id}
+                //   onClick={() => {
+                //     setSelectedChat(notif.chat);
+                //     setNotification(notification.filter((n) => n !== notif));
+                //   }}
+                // >
+                //   {notif.chat.isGroupChat
+                //     ? `New Message in ${notif.chat.chatName}`
+                //     : `New Message from ${getSender(user, notif.chat.users)}`}
+                // </MenuItem>
+                <div key={index}>
+                  <p>{notif.Message}{index}</p>
+                  <button onClick={() => joinChat(notif.offerid)}>
+                    join Chat
+                  </button>
+                </div>
+              ))}
+            </MenuList>
+          </Menu>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full ">
-              <img src={user ? user.pic : 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'} />
+              <img
+                src={
+                  user
+                    ? user.pic
+                    : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+                }
+              />
             </div>
           </label>
           <ul
@@ -73,25 +129,27 @@ const UserPanel = ({setsignedin}) => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link href='#' className="justify-between">
+              <Link href="#" className="justify-between">
                 Profile
                 {/* <span className="badge">New</span> */}
               </Link>
             </li>
             <li>
-              <Link href='/chat'>Chat Room</Link>
+              <Link href="/chat">Chat Room</Link>
             </li>
             <li>
-              <Link href='#'>Notifications</Link>
+              <Link href="#">Notifications</Link>
             </li>
             <li>
-              <Link href='#'>Your Cart</Link>
+              <Link href="#">Your Cart</Link>
             </li>
             <li>
-              <Link href='#'>Settings</Link>
+              <Link href="#">Settings</Link>
             </li>
             <li>
-              <Link legacyBehavior href='/'><a onClick={handleLogout}>Logout</a></Link>
+              <Link legacyBehavior href="/">
+                <a onClick={handleLogout}>Logout</a>
+              </Link>
             </li>
           </ul>
         </div>
