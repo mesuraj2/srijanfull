@@ -23,7 +23,7 @@ const Categories = () => {
             position.coords.longitude,
           ];
           localStorage.setItem('coordinates', JSON.stringify(coordinate));
-          router.push(href);
+          window.location.reload();
         },
         (err) => console.log(err)
       );
