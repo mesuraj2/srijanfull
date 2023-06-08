@@ -125,6 +125,7 @@ export default function Login({ onClose }) {
         position: 'bottom',
       });
       setUser(response.data)
+      secureLocalStorage.setItem('id', response.data._id);
       localStorage.setItem('user',JSON.stringify(response.data))
       onClose();
     }

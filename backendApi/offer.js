@@ -138,8 +138,8 @@ router.get("/categoryoffers", async (req, res) => {
     }
     let query;
     let limit = req.query.limit ? req.query.limit : 16;
-    console.log("query", queryObject);
-    console.log("final query")
+    // console.log("query", queryObject);
+    // console.log("final query")
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
