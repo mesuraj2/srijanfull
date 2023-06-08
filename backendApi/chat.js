@@ -266,6 +266,10 @@ router.put("/groupremove", fetchuser, async (req, res) => {
       new: true,
     }
   ).populate("users", "-password");
+  
+  if(removed.users.length < 1){
+    await Chat.deleteOne({_id: chatId})
+  }
 
   if (!removed) {
     res.status(404);
