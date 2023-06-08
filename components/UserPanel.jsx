@@ -6,11 +6,13 @@ import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BellIcon } from "@chakra-ui/icons";
+import Notification from "./notification";
 
 const UserPanel = ({ setsignedin }) => {
   const router = useRouter();
   // const [userimage, setuserimage] = useState('');
-  const { user, setUser, notification, setNotification,setSelectedChat } = ChatState();
+  const { user, setUser, notification, setNotification, setSelectedChat } =
+    ChatState();
 
   // const getUser = async () => {
   //   const res = await axios.get('http://localhost:3000/api/auth/getUser');
@@ -27,21 +29,7 @@ const UserPanel = ({ setsignedin }) => {
   //   getUser();
   // }, []);
 
-  const joinChat = async (id) => {
-    // console.log(id, "from join chat in notification");
-    const res2 = await fetch(`/api/chat/fetchgroupChat`, {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ChatId: id }),
-    });
-    let data2 = await res2.json();
-    // console.log(data2)
-    setSelectedChat(data2);
-    router.push({ pathname: "/chat" });
-  };
-
+  
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
@@ -79,39 +67,7 @@ const UserPanel = ({ setsignedin }) => {
             </div>
           </div>
         </div>
-        <Menu>
-            <MenuButton p={1}>
-              {/* <NotificationBadge
-                count={notification.length}
-                effect={Effect.SCALE}
-              /> */}
-
-              <BellIcon fontSize="2xl" m={1} />
-              <div className="badge">{notification.length}</div>
-            </MenuButton>
-            <MenuList pl={2}>
-              {!notification.length && "No New Messages"}
-              {notification.map((notif, index) => (
-                // <MenuItem
-                //   key={notif._id}
-                //   onClick={() => {
-                //     setSelectedChat(notif.chat);
-                //     setNotification(notification.filter((n) => n !== notif));
-                //   }}
-                // >
-                //   {notif.chat.isGroupChat
-                //     ? `New Message in ${notif.chat.chatName}`
-                //     : `New Message from ${getSender(user, notif.chat.users)}`}
-                // </MenuItem>
-                <div key={index}>
-                  <p>{notif.Message}{index}</p>
-                  <button onClick={() => joinChat(notif.offerid)}>
-                    join Chat
-                  </button>
-                </div>
-              ))}
-            </MenuList>
-          </Menu>
+        <Notification/>
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full ">
