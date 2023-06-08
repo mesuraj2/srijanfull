@@ -80,7 +80,7 @@ export default function Notification() {
       <MenuList pl={2}>
         {!notification.length && "No New Messages"}
         {notification.map((notif, index) => (
-          <div className="bg-white p-5 rounded-2xl">
+          <div className="bg-white p-5 rounded-2xl" key={index} >
             {console.log(notif)}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
