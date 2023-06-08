@@ -6,11 +6,11 @@ import NavbarT2 from '../components/NavbarT2';
 const data = {
   imgName: 'pizza',
   imgLinks: {
-    1: '/assets/pizza/image_1.jpg',
-    2: '/assets/pizza/image_2.jpg',
-    3: '/assets/pizza/image_3.jpg',
-    4: '/assets/pizza/image_4.jpg',
-    5: '/assets/pizza/image_5.jpg',
+    1: 'https://picapool.nyc3.digitaloceanspaces.com/pizza/image_1.jpg',
+    2: 'https://picapool.nyc3.digitaloceanspaces.com/pizza/image_2.jpg',
+    3: 'https://picapool.nyc3.digitaloceanspaces.com/pizza/image_3.jpg',
+    4: 'https://picapool.nyc3.digitaloceanspaces.com/pizza/image_4.jpg',
+    5: 'https://picapool.nyc3.digitaloceanspaces.com/pizza/image_5.jpg',
   },
 };
 

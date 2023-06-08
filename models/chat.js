@@ -11,8 +11,8 @@ const Chatmodel = mongoose.Schema(
     isOfferChat: { type: Boolean, default: false },
     isCabChat: { type: Boolean, default: false },
     place: {
-      from: {type: String, required: true},
-      to: {type: String, required: true}
+      from: {type: String},
+      to: {type: String}
     },
     admin:{
       type: mongoose.Schema.Types.ObjectId,

@@ -206,7 +206,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
     if (data.error) {
       toast({
         title: data.message,
-        status: "success",
+        status: "error",
         duration: 5000,
         isClosable: true,
         position: "top",
@@ -294,7 +294,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
           }}
         />
 
-        <label className="label">
+        {/* <label className="label">
           <span className="label-text">Chat Discription</span>
         </label>
         <textarea
@@ -304,7 +304,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
           onChange={(e) => {
             setchatdescription(e.target.value);
           }}
-        ></textarea>
+        ></textarea> */}
         <label>
           <span className="label-text">Expires in</span>
         </label>
