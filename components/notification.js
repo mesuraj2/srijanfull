@@ -12,6 +12,7 @@ const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://w
 var socket;
 import { useRouter } from "next/router";
 import axios from "axios";
+import { format, parseISO } from "date-fns";
 
 export default function Notification() {
   const [socketConnected, setSocketConnected] = useState(false);
@@ -88,7 +89,7 @@ export default function Notification() {
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
                 <p>Chat Name</p>
-                <p>10:45 PM</p>
+                <p>{format(parseISO(notif.createdAt), 'h:mm:aa')}</p>
               </div>
               <div className="flex flex-row items-center gap-3">
                 <p className="w-[12rem] truncate">{notif.message}</p>
