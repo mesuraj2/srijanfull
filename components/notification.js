@@ -5,7 +5,7 @@ import io from "socket.io-client";
 import { ChatState } from "../Context/ChatProvider";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList, Toast } from "@chakra-ui/react";
 import { BellIcon } from "@chakra-ui/icons";
 
 const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
@@ -35,10 +35,16 @@ export default function Notification() {
     }
   });
 
-  const joinChat = async (id,_idp) => {
-    const newNotif=notification.filter((noti)=>noti._id !== _idp)
-    setNotification(newNotif)
-    console.log(id, "from join chat in notification");
+  const joinChat = async (id, _idp) => {
+    const newNotif = notification.filter((noti) => noti._id !== _idp);
+    setNotification(newNotif);
+
+    const { data } = await axios.post("/api/noti/seen", {
+      _id: _idp,
+    });
+    if (!data.success) {
+      return alert("server side error");
+    }
     const res2 = await fetch(`/api/chat/fetchgroupChat`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -53,18 +59,15 @@ export default function Notification() {
     router.push({ pathname: "/chat" });
   };
 
-
-  const fetchNotifi=async ()=>{
-    const {data}=await axios.get('/api/noti')
-  
-    setNotification([data,...notification])
-  }
+  const fetchNotifi = async () => {
+    const { data } = await axios.get("/api/noti");
+    setNotification(data);
+  };
   useEffect(() => {
     if (getCookie("authtoken")) {
-    fetchNotifi()
+      fetchNotifi();
     }
-  }, [])
-  
+  }, []);
 
   return (
     <Menu>
@@ -78,9 +81,9 @@ export default function Notification() {
         <div className="badge">{notification.length}</div>
       </MenuButton>
       <MenuList pl={2}>
-        {!notification.length && "No New Messages"}
+        {notification.length == 0 && "No New Messages"}
         {notification.map((notif, index) => (
-          <div className="bg-white p-5 rounded-2xl" key={index} >
+          <div className="bg-white p-5 rounded-2xl" key={index}>
             {console.log(notif)}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
@@ -88,11 +91,11 @@ export default function Notification() {
                 <p>10:45 PM</p>
               </div>
               <div className="flex flex-row items-center gap-3">
-                <p className="w-[12rem] truncate">
-                  {notif.message}
-                  {index}
-                </p>
-                <button className="btn" onClick={() => joinChat(notif.chatId,notif._id)}>
+                <p className="w-[12rem] truncate">{notif.message}</p>
+                <button
+                  className="btn"
+                  onClick={() => joinChat(notif.chatId, notif._id)}
+                >
                   Join Chat
                 </button>
               </div>
