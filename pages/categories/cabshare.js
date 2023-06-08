@@ -7,12 +7,13 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox';
-
+import axios from 'axios';
 import '@reach/combobox/styles.css';
-
+import { useToast } from "@chakra-ui/react";
 import Footer from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
+import { ChatState } from "../../Context/ChatProvider";
 import {
   GoogleMap,
   LoadScript,
@@ -66,6 +67,8 @@ function MapComponent({ router }) {
 }
 
 const Cabshare = () => {
+  const { setSelectedChat } = ChatState();
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.GoogleMapApiKey,
     libraries: ["places"],
@@ -86,22 +89,21 @@ const Cabshare = () => {
   const { values, isLoading, error } = data;
   const [selectCustom, setSelectCustom] = useState(false);
   const [customDistance, setCustomDistance] = useState(4000);
-
-  const {
-    ready,
-    value,
-    suggestions: { status, placesdata },
-    setValuePlaces,
-  } = usePlacesAutocomplete()
+  const toast = useToast();
 
 
-  const handleInput = (e) => {
-    setValue(e.target.value);
-  };
+  //us e Places Autocomplete Code Here
 
-  const handleSelect = (val) => {
-    setValuePlaces(val, false);
-  };
+  // const {
+  //   ready,
+  //   value,
+  //   suggestions: { status, placesdata },
+  //   setValuePlaces,
+  // } = usePlacesAutocomplete()
+
+  // const handleSelect = (val) => {
+  //   setValuePlaces(val, false);
+  // };
 
   // handlers
 
@@ -142,16 +144,55 @@ const Cabshare = () => {
     }
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    if (values.distance === 'custom') {
-      setData((prev) => ({
-        ...prev,
-        values: {
-          ...prev.values,
-          ['distance']: customDistance,
+
+    const { data } = await axios.post(`/api/chat/cabsharechat`, {
+      from: values.currentLoc,
+      to: values.destination,
+      coordinate: localStorage.getItem("coordinates"),
+    });
+
+    if (data.error) {
+      toast({
+        title: data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+    } else {
+      toast({
+        title: "successfull created",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      });
+
+      axios
+        .get("/api/auth/getNearUser")
+        .then((response) => {
+          socket.emit(
+            "new offerchat",
+            response.data,
+            data._id,
+            secureLocalStorage.getItem("id")
+          );
+        })
+        .catch((error) => console.log(error));
+
+      const res2 = await fetch(`/api/chat/fetchgroupChat`, {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
         },
-      }));
+        body: JSON.stringify({ ChatId: data._id }),
+      });
+      let data2 = await res2.json();
+      // console.log(data2)
+      setSelectedChat(data2);
+      router.push({ pathname: "/chat" });
     }
   };
 
@@ -172,7 +213,7 @@ const Cabshare = () => {
           <label className="label">
             <span className="label-text">Current Location</span>
           </label>
-          {/* <input
+          <input
             type="text"
             placeholder=""
             name="currentLoc"
@@ -180,8 +221,8 @@ const Cabshare = () => {
             onBlur={onBlur}
             value={values.currentLoc}
             className="input input-bordered w-full mx-auto"
-          /> */}
-          <Combobox onSelect={handleSelect} aria-labelledby="demo" >
+          />
+          {/* <Combobox onSelect={handleSelect} aria-labelledby="demo" >
             <ComboboxInput
               className="input input-bordered w-full mx-auto"
               value={value}
@@ -196,7 +237,7 @@ const Cabshare = () => {
                   ))}
               </ComboboxList>
             </ComboboxPopover>
-          </Combobox>
+          </Combobox> */}
           {touched['currentLoc'] && !values['currentLoc'] && (
             <span className="label-text-alt mt-1 text-red-600">Required</span>
           )}
@@ -218,7 +259,7 @@ const Cabshare = () => {
             <span className="label-text-alt mt-1 text-red-600">Required</span>
           )}
         </div>
-        <div className="w-[90%] 6xl:w-[30rem]">
+        {/* <div className="w-[90%] 6xl:w-[30rem]">
           <label className="label">
             <span className="label-text">Discription</span>
           </label>
@@ -233,15 +274,15 @@ const Cabshare = () => {
           {touched['description'] && !values['description'] && (
             <span className="label-text-alt mt-1 text-red-600">Required</span>
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col items-center justify-center gap-5 pb-[3rem] pt-[1rem]">
-        <img
+        {/* <img
           src="/img/map.jpg"
           className="w-[90vw] 6xl:w-[30rem]"
           alt="image"
-        />
+        /> */}
         <select
           className={`select  w-fit mx-auto`}
           value={values.distance}
@@ -313,12 +354,11 @@ const Cabshare = () => {
         <button
           disabled={
             !values.distance ||
-            !values.description ||
             !values.destination ||
             !values.currentLoc
           }
           className="btn btn-error text-white secondary_font bg-red-500 6xl:mt-5 mx-auto text-[1.2rem] w-[15rem] 6xl:w-[20rem]"
-          onClick={(e) => submitHandler(e)}
+          onClick={submitHandler}
         >
           Start Pooling
         </button>

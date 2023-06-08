@@ -54,12 +54,6 @@ router.post("/", fetchuser, async (req, res) => {
       throw new Error(error.message);
     }
   }
-
-  // const result=await Chat.create({
-
-  // })
-  // console.log(result)
-  // res.send(result._id)
 });
 
 //@Description create new cabshare chat
@@ -67,20 +61,43 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   const oldchat = await Chat.find({
     admin: req.user.id,
     isCabChat: true,
-    chatNmae: 'Cab Share'
+    chatName: 'Cab Share'
   })
   console.log(oldchat)
-  if (oldchat) {
-    res.json({ success: "false", message: "Cab Share chat already exists" })
+  console.log(req.body)
+  if (oldchat.length > 0) {
+    res.json({ chatexists: true, chatdetails: oldchat[0], error: true, message: "Cab Share chat already exists" })
   }
   else {
-    ChatState.create({
+    const cabsharechat = await Chat.create({
       chatName: 'Cab Share',
       users: req.user.id,
+      isGroupChat: true,
+      isOfferChat: true,
       isCabChat: true,
-      admin: req.user.admin,
-      
+      admin: req.user.id,
+      place: {
+        from: req.body.from,
+        to: req.body.to
+      },
+      offerid: '6480cd6b94cfd5f7ce76397c',
+      Location: {
+        type: "Point",
+        coordinates: JSON.parse(req.body.coordinate),
+      },
     })
+    let locationres = await location.create({
+      Location: {
+        type: "Point",
+        coordinates: JSON.parse(req.body.coordinate),
+      },
+      chat: cabsharechat._id
+    })
+    const fullCabShareChat = await Chat.findOne({ _id: cabsharechat._id }).populate(
+      "users",
+      "-password"
+    );
+    res.status(200).json(fullCabShareChat);
   }
 
 })
@@ -97,22 +114,22 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       offerid: offerid,
     })
     console.log(oldchat)
-    if (req.body.random) {
-      res.json({ error: true, message: "User has already created chat for it" })
+    if (oldchat.length > 0) {
+      res.json({ chatexists: true, chatdetails: oldchat[0], error: true, message: "User has already created chat for it" })
     }
     else {
-    const groupChat = await Chat.create({
-      chatName: chatName,
-      users: req.user.id,
-      isOfferChat: true,
-      isGroupChat: true,
-      admin: req.user.id,
-      offerid: offerid,
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      },
-    });
+      const groupChat = await Chat.create({
+        chatName: chatName,
+        users: req.user.id,
+        isOfferChat: true,
+        isGroupChat: true,
+        admin: req.user.id,
+        offerid: offerid,
+        Location: {
+          type: "Point",
+          coordinates: locationCoor,
+        },
+      });
       let locationres = await location.create({
         Location: {
           type: "Point",

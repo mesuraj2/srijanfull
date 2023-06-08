@@ -88,7 +88,7 @@ const CreateOffer = () => {
     if (data.success) {
       router.push(`/offer/${data.id}`)
     }
-    else { router.push(href) }
+    else { window.location.reload(); }
   }
 
 
