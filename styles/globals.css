@@ -24,13 +24,35 @@ a {
   box-sizing: border-box;
 }
 .swiper-button-next {
-  background-image: url('https://w7.pngwing.com/pngs/803/760/png-transparent-arrow-back-left-prev-previous-arrows-elements-outline-icon.png');
+  background-image: url('https://picapool.nyc3.cdn.digitaloceanspaces.com/carousel-icons/pngegg-removebg-preview.png');
+  /* background-color: white; */
+  padding: 30px;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+.swiper-button-prev {
+  background-image: url('https://picapool.nyc3.cdn.digitaloceanspaces.com/carousel-icons/Previous-Button-PNG-Images-removebg-preview.png');
+  /* background-color: white; */
+  padding: 30px;
   background-repeat: no-repeat;
   background-size: 100% auto;
   background-position: center;
 }
 
+@media only screen and (max-width: 700px) {
+  .swiper-button-prev {
+    padding: 0px;
+  }
+  .swiper-button-next {
+    padding: 0px;
+  }
+}
+
 .swiper-button-next::after {
+  display: none;
+}
+.swiper-button-prev::after {
   display: none;
 }
 
