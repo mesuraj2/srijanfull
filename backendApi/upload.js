@@ -9,14 +9,14 @@ const { v4: uuidv4 } = require("uuid");
 const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
-  accessKeyId: "DO00MRMDZ6KC22QMF9LY",
-  secretAccessKey: "o8S+tlNmVRvDNB5I/OmXfwEASNAdqAYCFD81cUlhOVU",
+  accessKeyId: "DO00XANWZAYBMX9X2VEH",
+  secretAccessKey: "PIKP0JOdEvlBUBzs4kHZx6an/OztJd11ACFgMaVyZaU",
 });
 
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "poolandsave",
+    bucket: "picapool",
     acl: "public-read",
     key: function (req, file, cb) {
       // console.log(file);
