@@ -5,7 +5,7 @@ import FooterT2 from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
 import { useToast } from '@chakra-ui/react';
-import axios from 'axios'
+import axios from 'axios';
 
 const Inputfield = ({
   values,
@@ -17,7 +17,7 @@ const Inputfield = ({
   type = 'text',
 }) => {
   return (
-    <div className="form-control  mx-auto ">
+    <div className="form-control  mx-auto w-[90%] 6xl:w-[30rem]">
       <label className="label">
         <span className="label-text">{title}</span>
       </label>
@@ -25,7 +25,7 @@ const Inputfield = ({
         type={type}
         placeholder=""
         name={name}
-        className="input input-bordered w-[30rem]"
+        className="input input-bordered"
         value={values[name]}
         onChange={handleChange}
         onBlur={onBlur}
@@ -41,6 +41,8 @@ const CreateOffer = () => {
   const router = useRouter();
   const toast = useToast();
   const [images, setImages] = useState([]);
+  const [uploadsNumber, setUploadsNumber] = useState(0);
+  const [readyToUpload, setReadyToUpload] = useState(false);
 
   const initValues = {
     offerName: '',
@@ -69,28 +71,28 @@ const CreateOffer = () => {
         ...prev.values,
         [target.name]: target.value,
       },
-    }))
+    }));
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const uploadvalue = values
-    uploadvalue['lat'] = router.query.lat
-    uploadvalue['long'] = router.query.long
-    const { data } = await axios.post('/api/offer/createoffer', values)
+    const uploadvalue = values;
+    uploadvalue['lat'] = router.query.lat;
+    uploadvalue['long'] = router.query.long;
+    const { data } = await axios.post('/api/offer/createoffer', values);
     toast({
       title: data.message,
-      status: data.success ? "success" : "error",
+      status: data.success ? 'success' : 'error',
       duration: 5000,
       isClosable: true,
       position: 'top-left',
     });
     if (data.success) {
-      router.push(`/offer/${data.id}`)
+      router.push(`/offer/${data.id}`);
+    } else {
+      window.location.reload();
     }
-    else { window.location.reload(); }
-  }
-
+  };
 
   useEffect(() => {
     setData((prev) => ({
@@ -100,16 +102,35 @@ const CreateOffer = () => {
         ['imageArr']: images,
       },
     }));
-  }, [images])
+  }, [images]);
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
       <div className="flex flex-col items-center justify-center gap-5">
         <div className="">
           <label className="label">
-            <span className="label-text">Upload Images (max: 5)</span>
+            <span className="label-text mx-auto">
+              Upload Images {uploadsNumber}/5
+            </span>
           </label>
-          <ImageUploader setImages={setImages} images={images} />
+          {!readyToUpload ? (
+            <button
+              className="btn"
+              disabled={uploadsNumber >= 5}
+              onClick={() => setReadyToUpload(true)}
+            >
+              Add Images
+            </button>
+          ) : (
+            <ImageUploader
+              setImages={setImages}
+              uploadsNumber={uploadsNumber}
+              setUploadsNumber={setUploadsNumber}
+              images={images}
+              setReadyToUpload={setReadyToUpload}
+            />
+          )}
+
           {/* <input
                 type="file"
                 name="new-offer-images"
@@ -150,12 +171,12 @@ const CreateOffer = () => {
           handleChange={handleChange}
           onBlur={onBlur}
         />
-        <div className="">
+        <div className="w-[90%] 6xl:w-[30rem]">
           <label className="label">
             <span className="label-text">Offer Description</span>
           </label>
           <textarea
-            className="textarea w-[30rem]"
+            className="textarea w-full"
             placeholder=""
             name="description"
             onChange={handleChange}
@@ -198,7 +219,7 @@ const CreateOffer = () => {
           Create New Offer
         </button> */}
         <button
-          disabled={!Object.values(values).every(value => !!value)}
+          disabled={!Object.values(values).every((value) => !!value)}
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
           onClick={submitHandler}
         >

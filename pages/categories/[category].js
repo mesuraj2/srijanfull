@@ -36,7 +36,7 @@ const Index = ({ categoryoffers }) => {
   }, [checked]);
 
   return (
-    <div className="w-screen bg-[#B9E9FC]">
+    <div className="w-[90vw] bg-[#B9E9FC]">
       <h1 className="text-center text-[4rem] main__font tracking-wider mt-10">
         {catigoryName}
       </h1>

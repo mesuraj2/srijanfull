@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { deleteCookie } from "cookies-next";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { ChatState } from "../Context/ChatProvider";
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { BellIcon } from "@chakra-ui/icons";
-import Notification from "./notification";
+import React, { useState, useEffect } from 'react';
+import { deleteCookie } from 'cookies-next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
+import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { BellIcon } from '@chakra-ui/icons';
+import Notification from './notification';
 
 const UserPanel = ({ setsignedin }) => {
   const router = useRouter();
@@ -20,21 +20,20 @@ const UserPanel = ({ setsignedin }) => {
   // }
 
   const handleLogout = () => {
-    deleteCookie("authtoken");
+    deleteCookie('authtoken');
     setsignedin(false);
-    router.push("/");
+    router.push('/');
   };
 
   // useEffect(() => {
   //   getUser();
   // }, []);
 
-  
   return (
     <div>
       <div className="flex items-center justify-center gap-2">
         {/* <button className="btn btn-outline">Your offers</button> */}
-        <div className="dropdown dropdown-end">
+        {/* <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <div className="indicator">
               <svg
@@ -66,8 +65,8 @@ const UserPanel = ({ setsignedin }) => {
               </div>
             </div>
           </div>
-        </div>
-        <Notification/>
+        </div> */}
+        <Notification />
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar ">
             <div className="w-10 rounded-full ">
@@ -75,7 +74,7 @@ const UserPanel = ({ setsignedin }) => {
                 src={
                   user
                     ? user.pic
-                    : "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+                    : 'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'
                 }
               />
             </div>

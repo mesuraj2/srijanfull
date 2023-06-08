@@ -1,10 +1,14 @@
-import axios from "axios";
-import { useState } from "react";
-import { useDropzone } from "react-dropzone";
+import axios from 'axios';
+import { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
-const ImageUploader = ({ setImages, images }) => {
-
-
+const ImageUploader = ({
+  setImages,
+  images,
+  uploadsNumber,
+  setUploadsNumber,
+  setReadyToUpload,
+}) => {
   // this code is for cropping image
   // const [newAvatarUrl, setNewAvatarUrl] = useState();
   // const [cropper, setCropper] = useState();
@@ -35,19 +39,23 @@ const ImageUploader = ({ setImages, images }) => {
   //   }
   // };
 
-
   const onDrop = async (acceptedFiles) => {
     // console.log(acceptedFiles);
+    if (uploadsNumber >= 5) return setReadyToUpload(false);
     if (acceptedFiles.length <= 5) {
-      acceptedFiles.map(async (file)=>{
+      setReadyToUpload(false);
+      acceptedFiles.map(async (file) => {
+        setUploadsNumber((prev) => prev + 1);
+        console.log('hiii');
         const form = new FormData();
-        form.append("file", file);
-        const { data } = await axios.post("/api/upload", form);
+        form.append('file', file);
+        const { data } = await axios.post('/api/upload', form);
         console.log(data);
-        setImages([...images,data.url])
-      })
+
+        setImages([...images, data.url]);
+      });
       // setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
-      console.log(images)
+      console.log(images);
     } else {
       alert('Maximum 5 images allowed.');
     }
@@ -64,8 +72,8 @@ const ImageUploader = ({ setImages, images }) => {
       <div className="">
         <p className="text-[1rem] absolute top-[50%] -translate-y-[50%] px-5 text-gray-600">
           {isDragActive
-            ? "Drop the files here"
-            : "Drag and drop files here, or click to select files"}
+            ? 'Drop the files here'
+            : 'Drag and drop files here, or click to select files'}
         </p>
       </div>
 

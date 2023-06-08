@@ -8,9 +8,9 @@ const Header = () => {
     plant: 'https://hackaday.com/wp-content/uploads/2021/04/wood-pc-800.jpg',
   };
   return (
-    <div className="my-[2rem]">
+    <div className="mt-[2rem] md:my-[2rem]">
       <div className="flex flex-col lg:flex-row gap-[2rem]  justify-center mt-5 items-center w-[90%] 14xl:w-[80%] mx-auto">
-        <div className="w-[95%] md:w-[80%] lg:w-[60%] xl:w-[45%] 14xl:w-[50%] flex flex-col gap-5 lg:items-start items-center justify-center lg:mb-auto mx-auto mb-10 md:mb-0 ">
+        <div className="w-[95%] md:w-[80%] lg:w-[60%] xl:w-[45%] 14xl:w-[50%] flex flex-col gap-5 lg:items-start items-center justify-center lg:mb-auto mx-auto mb-5 md:mb-0 md:mt-[1rem] mt-[3rem]">
           <h1 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-black/70 ">
             Redefining the Art of Saving
           </h1>
@@ -34,8 +34,8 @@ const Header = () => {
           </div>
         </div>
         {/* 14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] */}
-        <div className="w-[16rem] md:w-[30%] mx-auto">
-          {/* <Carousel imageLinks={imageLinks} /> */}
+        {/* <Carousel imageLinks={imageLinks} /> */}
+        <div className="w-[16rem] md:w-[30%] mx-auto hidden lg:block">
           <img
             src="https://picapool.nyc3.cdn.digitaloceanspaces.com/logo/IMG_3340__1_-removebg-preview%20(1)%20(1).png"
             alt="pica-pool-logo"

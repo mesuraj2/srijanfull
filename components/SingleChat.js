@@ -110,30 +110,53 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // eslint-disable-next-line
   }, []);
 
+
+  const sendMessageSocket = async () => {
+    const config = {
+      headers: {
+        'Content-type': 'application/json',
+      },
+    };
+    setNewMessage('');
+    // console.log(selectedChat._id)
+    const res = await fetch(`/api/message`, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        content: newMessage,
+        chatId: selectedChat._id,
+      }),
+    });
+    let dat = await res.json();
+    socket.emit('new message', dat);
+    setMessages([dat, ...messages]);
+  }
+
+  const sendMessageButton = () => {
+    if (newMessage) {
+      try {
+        sendMessageSocket()
+      }
+      catch (error) {
+        toast({
+          title: 'Error Occured!',
+          description: 'Failed to send the Message',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'bottom',
+        });
+      }
+    }
+  }
+
   const sendMessage = async (event) => {
     if (event.key === 'Enter' && newMessage) {
       socket.emit('stop typing', selectedChat._id);
       try {
-        const config = {
-          headers: {
-            'Content-type': 'application/json',
-          },
-        };
-        setNewMessage('');
-        // console.log(selectedChat._id)
-        const res = await fetch(`/api/message`, {
-          method: 'POST', // or 'PUT'
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            content: newMessage,
-            chatId: selectedChat._id,
-          }),
-        });
-        let dat = await res.json();
-        socket.emit('new message', dat);
-        setMessages([dat, ...messages]);
+        sendMessageSocket()
       } catch (error) {
         toast({
           title: 'Error Occured!',
@@ -274,7 +297,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             ) : (
               <div className="flex flex-col ">
                 <button className="btn" loading={loading2} onClick={makePage}>
-                  Load MOre
+                  Load More
                 </button>
                 <ScrollableChat messages={messages} />
                 <div ref={messagesEndRef} />
@@ -314,7 +337,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     paddingY: 6,
                   }}
                 />
-                <button type="button" class="btn">
+                <button type="button" class="btn" onClick={sendMessageButton}>
                   <span class="font-bold">Send</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
