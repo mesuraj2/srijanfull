@@ -61,16 +61,20 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   const oldchat = await Chat.find({
     admin: req.user.id,
     isCabChat: true,
-    chatName: 'Cab Share'
-  })
-  console.log(oldchat)
-  console.log(req.body)
+    chatName: "Cab Share",
+  });
+  console.log(oldchat);
+  console.log(req.body);
   if (oldchat.length > 0) {
-    res.json({ chatexists: true, chatdetails: oldchat[0], error: true, message: "Cab Share chat already exists" })
-  }
-  else {
+    res.json({
+      chatexists: true,
+      chatdetails: oldchat[0],
+      error: true,
+      message: "Cab Share chat already exists",
+    });
+  } else {
     const cabsharechat = await Chat.create({
-      chatName: 'Cab Share',
+      chatName: "Cab Share",
       users: req.user.id,
       isGroupChat: true,
       isOfferChat: true,
@@ -78,29 +82,27 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       admin: req.user.id,
       place: {
         from: req.body.from,
-        to: req.body.to
+        to: req.body.to,
       },
-      offerid: '6480cd6b94cfd5f7ce76397c',
+      offerid: "6480cd6b94cfd5f7ce76397c",
       Location: {
         type: "Point",
         coordinates: JSON.parse(req.body.coordinate),
       },
-    })
+    });
     let locationres = await location.create({
       Location: {
         type: "Point",
         coordinates: JSON.parse(req.body.coordinate),
       },
-      chat: cabsharechat._id
-    })
-    const fullCabShareChat = await Chat.findOne({ _id: cabsharechat._id }).populate(
-      "users",
-      "-password"
-    );
+      chat: cabsharechat._id,
+    });
+    const fullCabShareChat = await Chat.findOne({
+      _id: cabsharechat._id,
+    }).populate("users", "-password");
     res.status(200).json(fullCabShareChat);
   }
-
-})
+});
 
 // @description     Create New offer Chat
 router.post("/offerchat", fetchuser, async (req, res) => {
@@ -112,41 +114,79 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       admin: req.user.id,
       isOfferChat: true,
       offerid: offerid,
-    })
-    console.log(oldchat)
-    if (oldchat.length > 0) {
-      res.json({ chatexists: true, chatdetails: oldchat[0], error: true, message: "User has already created chat for it" })
-    }
-    else {
-      const groupChat = await Chat.create({
-        chatName: chatName,
-        users: req.user.id,
-        isOfferChat: true,
-        isGroupChat: true,
-        admin: req.user.id,
-        offerid: offerid,
-        Location: {
-          type: "Point",
-          coordinates: locationCoor,
-        },
-      });
-      let locationres = await location.create({
-        Location: {
-          type: "Point",
-          coordinates: locationCoor,
-        },
-        chat: groupChat._id
-      })
+    });
+    console.log(oldchat);
+    const groupChat = await Chat.create({
+      chatName: chatName,
+      users: req.user.id,
+      isOfferChat: true,
+      isGroupChat: true,
+      admin: req.user.id,
+      offerid: offerid,
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      },
+    });
+    let locationres = await location.create({
+      Location: {
+        type: "Point",
+        coordinates: locationCoor,
+      },
+      chat: groupChat._id,
+    });
 
-      await offer.findByIdAndUpdate({ _id: offerid }, { $push: { chat_id: groupChat._id } });
-      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-        "users",
-        "-password"
-      );
-      //   .populate("groupAdmin", "-password");
+    await offer.findByIdAndUpdate(
+      { _id: offerid },
+      { $push: { chat_id: groupChat._id } }
+    );
+    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+      "users",
+      "-password"
+    );
+    //   .populate("groupAdmin", "-password");
 
-      res.status(200).json(fullGroupChat);
-    }
+    res.status(200).json(fullGroupChat);
+    // if (oldchat.length > 0) {
+    //   res.json({
+    //     chatexists: true,
+    //     chatdetails: oldchat[0],
+    //     error: true,
+    //     message: "User has already created chat for it",
+    //   });
+    // } else {
+    //   const groupChat = await Chat.create({
+    //     chatName: chatName,
+    //     users: req.user.id,
+    //     isOfferChat: true,
+    //     isGroupChat: true,
+    //     admin: req.user.id,
+    //     offerid: offerid,
+    //     Location: {
+    //       type: "Point",
+    //       coordinates: locationCoor,
+    //     },
+    //   });
+    //   let locationres = await location.create({
+    //     Location: {
+    //       type: "Point",
+    //       coordinates: locationCoor,
+    //     },
+    //     chat: groupChat._id,
+    //   });
+
+    //   await offer.findByIdAndUpdate(
+    //     { _id: offerid },
+    //     { $push: { chat_id: groupChat._id } }
+    //   );
+    //   const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+    //     "users",
+    //     "-password"
+    //   );
+    //   //   .populate("groupAdmin", "-password");
+
+    //   res.status(200).json(fullGroupChat);
+    // }
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -266,9 +306,9 @@ router.put("/groupremove", fetchuser, async (req, res) => {
       new: true,
     }
   ).populate("users", "-password");
-  
-  if(removed.users.length < 1){
-    await Chat.deleteOne({_id: chatId})
+
+  if (removed.users.length < 1) {
+    await Chat.deleteOne({ _id: chatId });
   }
 
   if (!removed) {

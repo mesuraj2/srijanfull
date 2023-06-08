@@ -69,7 +69,9 @@ app
 
       socket.on("new offerchat", (newMessageRecieved, offerid, userId) => {
         let str = {
-          chatId:offerid,
+          createdAt:new Date().parseISO("2006-11-26-11.25.36").toString(),
+          _id: Math.random(),
+          chatId: offerid,
           message: `new chat create in you location`,
         };
         newMessageRecieved.forEach((user) => {
@@ -81,7 +83,6 @@ app
       socket.on("new message", (newMessageRecieved) => {
         // console.log(newMessageRecieved)
         var chat = newMessageRecieved.chat;
-
         if (!chat.users) return console.log("chat.users not defined");
         chat.users.forEach((user) => {
           // console.log(user._id);

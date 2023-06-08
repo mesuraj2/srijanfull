@@ -33,7 +33,6 @@ const ScrollableChat = ({ messages }) => {
               }`}
             >
               <div className="chat-image avatar">
-                {console.log(messages)}
                 <div className="w-10 rounded-full">
                   {(isSameSender(messages, m, i, user._id) ||
                     isLastMessage(messages, i, user._id)) && (

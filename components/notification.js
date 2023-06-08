@@ -12,7 +12,7 @@ const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://w
 var socket;
 import { useRouter } from "next/router";
 import axios from "axios";
-import { format, parseISO } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
 
 export default function Notification() {
   const [socketConnected, setSocketConnected] = useState(false);
@@ -85,11 +85,15 @@ export default function Notification() {
         {notification.length == 0 && "No New Messages"}
         {notification.map((notif, index) => (
           <div className="bg-white p-5 rounded-2xl" key={index}>
-            {console.log(notif)}
+            {/* {console.log(notif)} */}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
                 <p>Chat Name</p>
-                <p>{format(parseISO(notif.createdAt), 'h:mm:aa')}</p>
+                {/* <p>
+                  {notif.createdAt
+                    ? format(parseISO(notif.createdAt), "h:mm:aa")
+                    : ""}
+                </p> */}
               </div>
               <div className="flex flex-row items-center gap-3">
                 <p className="w-[12rem] truncate">{notif.message}</p>
