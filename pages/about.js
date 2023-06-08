@@ -1,7 +1,5 @@
 import React from 'react';
 import Carousel from '../components/Carousel';
-import FooterT2 from '../components/FooterT2';
-import NavbarT2 from '../components/NavbarT2';
 
 const data = {
   imgName: 'pizza',

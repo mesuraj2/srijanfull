@@ -16,6 +16,11 @@ const Index = ({ categoryoffers }) => {
 
   // Thinking of using context provider instead of prop drilling
 
+  const [drawerCheck, setdrawerCheck] = useState(false);
+  function handleClick() {
+    setdrawerCheck(!drawerCheck);
+  }
+
   const [checked, setChecked] = useState('');
   const distancedict = {
     '200 m': 200,
@@ -51,23 +56,30 @@ const Index = ({ categoryoffers }) => {
           inputClassName={'xs:w-[22rem] 5xl:w-[28rem]'}
         />
       </div>
+      <div className="ml-auto flex justify-end mt-10">
+        <label
+          htmlFor="my-drawer-2"
+          className="btn drawer-button lg:hidden mb-5"
+        >
+          <button className="flex flex-row gap-2" onClick={handleClick}>
+            <FaFilter />
+            Filters
+          </button>
+        </label>
+      </div>
       <div className="drawer drawer-mobile h-auto my-20">
-        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <input
+          id="my-drawer-2"
+          type="checkbox"
+          className="drawer-toggle"
+          checked={drawerCheck}
+          onChange={handleClick}
+        />
+
         <div className="drawer-content flex flex-col items-center ">
           {/* <!-- Page content here --> */}
 
           <div className="flex flex-col gap-5 items-center justify-center">
-            <div className="ml-auto">
-              <label
-                htmlFor="my-drawer-2"
-                className="btn drawer-button lg:hidden mb-5"
-              >
-                <div className="flex flex-row gap-2">
-                  <FaFilter />
-                  Filters
-                </div>
-              </label>
-            </div>
             <div className="grid 6xl:grid-cols-2 9xl:grid-cols-3 w-full gap-x-5  gap-y-5 mx-auto">
               {categoryoffers &&
                 categoryoffers.map((item, i) => {

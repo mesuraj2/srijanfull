@@ -92,7 +92,7 @@ const UserPanel = ({ setsignedin }) => {
             <li>
               <Link href="/chat">Chat Room</Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="#">Notifications</Link>
             </li>
             <li>
@@ -100,7 +100,7 @@ const UserPanel = ({ setsignedin }) => {
             </li>
             <li>
               <Link href="#">Settings</Link>
-            </li>
+            </li> */}
             <li>
               <Link legacyBehavior href="/">
                 <a onClick={handleLogout}>Logout</a>
