@@ -21,6 +21,7 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react';
 import { Radio, RadioGroup } from '@chakra-ui/react';
+import { FaFilter } from 'react-icons/fa';
 
 function MyAccordion({ filter, setfilter, Category, options }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -164,26 +165,34 @@ export default function Filter({
         Category={"Category"}
         options={options}
       /> */}
-      <div className="flex flex-col gap-1 secondary_font tracking-wider">
-        <p className="text-[1.1rem] font-[500] my-3">Radius Under</p>
-        {distances.map((dis, index) => {
-          return (
-            <div className="flex ml-3 mt-1" key={index}>
-              <input
-                type="checkbox"
-                className="checkbox"
-                id={`${dis}`}
-                onClick={(e) => {
-                  handleCheck(e, dis);
-                }}
-                checked={dis == checked}
-              />
-              <label htmlFor={dis} className="mx-1 text-[1.1rem]">
-                {dis}
-              </label>
-            </div>
-          );
-        })}
+      <div className="flex flex-col gap-1  secondary_font tracking-wider ">
+        <div className="flex flex-row gap-2 bg-gray-200 p-4">
+          <FaFilter className="mt-1" />
+          Filters
+        </div>
+        <div className="p-3">
+          <p className="text-[.9rem] 13xl:text-[1rem] font-[500] my-3">
+            Select radius to filter offer near you
+          </p>
+          {distances.map((dis, index) => {
+            return (
+              <div className="flex ml-3 mt-1" key={index}>
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  id={`${dis}`}
+                  onClick={(e) => {
+                    handleCheck(e, dis);
+                  }}
+                  checked={dis == checked}
+                />
+                <label htmlFor={dis} className="mx-1 text-[1.1rem]">
+                  {dis}
+                </label>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );

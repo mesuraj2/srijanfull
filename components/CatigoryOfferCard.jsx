@@ -4,7 +4,7 @@ import React from 'react';
 const CatigoryOfferCard = ({ name, description, image, _id, chatlink }) => {
   const router = useRouter();
   return (
-    <div className="card card-side bg-base-100 shadow-xl    flex-col mx-auto h-[30rem] w-[20rem] ">
+    <div className="p-5 bg-base-100 shadow-xl rounded-md flex-col mx-auto h-[30rem] w-[16rem] lg:w-[14rem] 12xl:w-[16rem] 14xl:w-[20rem] flex justify-center items-center gap-5">
       <figure>
         <img
           src={image}
@@ -12,10 +12,10 @@ const CatigoryOfferCard = ({ name, description, image, _id, chatlink }) => {
           className="w-[14rem] h-[14rem] bg-center mt-10 xl:mt-0"
         />
       </figure>
-      <div className="card-body">
-        <h2 className="card-title">{name}</h2>
-        <p>{description}</p>
-        <div className="card-actions justify-end">
+      <div className="flex flex-col gap-4">
+        <h2 className="font-bold ">{name}</h2>
+        <p className="max-h-[5rem] overflow-y-auto">{description}</p>
+        <div className="justify-end">
           <button onClick={() => router.push(`/offer/${_id}`)} className="btn">
             Learn More
           </button>

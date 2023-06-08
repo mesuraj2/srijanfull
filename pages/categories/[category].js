@@ -36,7 +36,7 @@ const Index = ({ categoryoffers }) => {
   }, [checked]);
 
   return (
-    <div className="w-[90vw] bg-[#B9E9FC]">
+    <div className="w-[90%] bg-[#B9E9FC] mx-auto">
       <h1 className="text-center text-[4rem] main__font tracking-wider mt-10">
         {catigoryName}
       </h1>
@@ -60,7 +60,7 @@ const Index = ({ categoryoffers }) => {
             <div className="ml-auto">
               <label
                 htmlFor="my-drawer-2"
-                className="btn drawer-button lg:hidden"
+                className="btn drawer-button lg:hidden mb-5"
               >
                 <div className="flex flex-row gap-2">
                   <FaFilter />
@@ -68,7 +68,7 @@ const Index = ({ categoryoffers }) => {
                 </div>
               </label>
             </div>
-            <div className="grid grid-cols-2 gap-x-5  gap-y-5 mx-auto">
+            <div className="grid 6xl:grid-cols-2 9xl:grid-cols-3 w-full gap-x-5  gap-y-5 mx-auto">
               {categoryoffers &&
                 categoryoffers.map((item, i) => {
                   return (
@@ -86,10 +86,8 @@ const Index = ({ categoryoffers }) => {
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-          <div className="flex flex-col gap-5 p-4 mt-4 lg:w-[16rem] xl:w-[18rem] 2xl:w-[22rem] bg-base-100 text-base-content  rounded-md ">
-            <div>
-              <Filter checked={checked} setChecked={setChecked} />
-            </div>
+          <div className="flex flex-col gap-5 mt-5  w-[14rem] bg-base-100 text-base-content  rounded-sm h-fit">
+            <Filter checked={checked} setChecked={setChecked} />
           </div>
         </div>
       </div>
