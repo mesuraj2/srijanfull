@@ -52,7 +52,7 @@ const Categories = () => {
           Our carefully selected offers come from the best brands and trusted
           partners, so you can enjoy savings on the things you love most
         </p>
-        <div className="grid md:grid-cols-2 11xl:grid-cols-4 lg:grid-cols-3 gap-x-5 gap-y-10 pb-[5rem] mx-auto">
+        <div className="grid md:grid-cols-2 11xl:grid-cols-4 lg:grid-cols-3 gap-x-5 gap-y-10 pb-[5rem] mx-auto w-[90%]">
           <CatigoryCard
             name={'Create'}
             description={''}
