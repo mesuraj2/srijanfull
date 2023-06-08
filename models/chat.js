@@ -9,6 +9,11 @@ const Chatmodel = mongoose.Schema(
     },
     isGroupChat: { type: Boolean, default: false },
     isOfferChat: { type: Boolean, default: false },
+    isCabChat: { type: Boolean, default: false },
+    place: {
+      from: {type: String, required: true},
+      to: {type: String, required: true}
+    },
     admin:{
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",

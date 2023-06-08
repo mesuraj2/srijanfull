@@ -9,9 +9,7 @@ import { ChatState } from "../../Context/ChatProvider";
 import {
   GoogleMap,
   LoadScript,
-  Circle,
   CircleF,
-  Marker,
   MarkerF,
 } from "@react-google-maps/api";
 import { AiOutlineUser } from "react-icons/ai";
@@ -169,6 +167,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
   const [latitude, setlatitude] = useState();
   const [longitude, setlongitude] = useState();
   const toast = useToast();
+  const { setSelectedChat } = ChatState();
 
   useEffect(() => {
     if (getCookie("authtoken")) {

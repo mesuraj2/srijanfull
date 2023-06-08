@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import usePlacesAutocomplete from 'use-places-autocomplete';
 import {
   Combobox,
   ComboboxInput,
@@ -11,12 +10,66 @@ import {
 
 import '@reach/combobox/styles.css';
 
+import Footer from '../../components/FooterT2';
+import ImageUploader from '../../components/ImageUploader';
+import NavbarT2 from '../../components/NavbarT2';
+import {
+  GoogleMap,
+  LoadScript,
+  CircleF,
+  MarkerF,
+} from "@react-google-maps/api";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+
+
+function MapComponent({ router }) {
+  const center = {
+    lat: JSON.parse(router.query.location)[0],
+    lng: JSON.parse(router.query.location)[1],
+  };
+
+  const containerStyle = {
+    width: "100%",
+    height: "400px",
+  };
+
+  const options = {
+    strokeColor: "#FF0000",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#FF0000",
+    fillOpacity: 0.35,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+    radius: Number(router.query.radius),
+    zIndex: 1,
+  };
+
+
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyA5-1f-M5kxCKGgISp6Q0GT00SECxJRoXs">
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={17}>
+        <MarkerF position={center} />
+
+        <CircleF options={options} center={center} />
+        <></>
+      </GoogleMap>
+    </LoadScript>
+  );
+}
+
 const Cabshare = () => {
   const initValues = {
     currentLoc: '',
     destination: '',
     description: '',
     distance: 4000,
+    radius: 4000,
     expTime: 0,
   };
 
@@ -25,7 +78,7 @@ const Cabshare = () => {
   const [touched, setTouched] = useState({});
   const { values, isLoading, error } = data;
   const [selectCustom, setSelectCustom] = useState(false);
-  const [customDistance, setCustomDistance] = useState(4);
+  const [customDistance, setCustomDistance] = useState(4000);
 
   const {
     ready,
@@ -47,14 +100,40 @@ const Cabshare = () => {
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
 
-  const handleChange = ({ target }) =>
-    setData((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        [target.name]: target.value,
-      },
-    }));
+  const handleChange = ({ target }) => {
+    if (target.name == "distance") {
+      if (target.value == "custom") {
+        setData((prev) => ({
+          ...prev,
+          values: {
+            ...prev.values,
+            [target.name]: target.value,
+            ["radius"]: customDistance
+          },
+        }))
+      }
+      else{
+        setData((prev) => ({
+          ...prev,
+          values: {
+            ...prev.values,
+            [target.name]: target.value,
+            ["radius"]: target.value
+          },
+        }))
+      }
+    }
+    else {
+      setData((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          [target.name]: target.value,
+        },
+      }))
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (values.distance === 'custom') {
@@ -172,16 +251,16 @@ const Cabshare = () => {
           <option value={'custom'}>Custom</option>
         </select>
         <div className={`flex-col ${!selectCustom ? 'hidden' : 'flex'} gap-3`}>
-          <p>Search under {customDistance} km</p>
+          <p>Search under {customDistance / 1000} km</p>
           <div>
             <input
               type="range"
               min="0"
-              max="10"
+              max="10000"
               name="distance"
               value={customDistance}
               className="range range-xs"
-              step="0.1"
+              step="100"
               onChange={(e) => setCustomDistance(e.target.value)}
             />
             <div className="w-[30rem] flex justify-between text-xs px-2">
@@ -200,9 +279,8 @@ const Cabshare = () => {
             <span className="label-text">Expires in</span>
           </label>
           <select
-            className={`${
-              touched.expTime && !values.expTime ? 'bg-red-100' : 'bg-white'
-            } select w-[90vw] 6xl:w-[30rem]`}
+            className={`${touched.expTime && !values.expTime ? 'bg-red-100' : 'bg-white'
+              } select w-[90vw] 6xl:w-[30rem]`}
             value={values.expTime}
             onChange={handleChange}
             onBlur={onBlur}
