@@ -2,15 +2,20 @@ const mongoose = require("mongoose");
 
 const notificationModel = mongoose.Schema(
   {
-    messagefor: {
+    message: {
       type: String, //make sure it is chatMsgNoti. or offerNoti.
     },
     seen: {
       type: Boolean,
+      default:false
     },
-    chat: {
+    chatId:{
       type: mongoose.Schema.Types.ObjectId,
       ref: "chat",
+    },
+    user:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
     },
   },
   { timestamps: true }

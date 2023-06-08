@@ -11,6 +11,7 @@ import { BellIcon } from "@chakra-ui/icons";
 const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket;
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Notification() {
   const [socketConnected, setSocketConnected] = useState(false);
@@ -34,8 +35,10 @@ export default function Notification() {
     }
   });
 
-  const joinChat = async (id) => {
-    // console.log(id, "from join chat in notification");
+  const joinChat = async (id,_idp) => {
+    const newNotif=notification.filter((noti)=>noti._id !== _idp)
+    setNotification(newNotif)
+    console.log(id, "from join chat in notification");
     const res2 = await fetch(`/api/chat/fetchgroupChat`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -44,10 +47,24 @@ export default function Notification() {
       body: JSON.stringify({ ChatId: id }),
     });
     let data2 = await res2.json();
+
     // console.log(data2)
     setSelectedChat(data2);
     router.push({ pathname: "/chat" });
   };
+
+
+  const fetchNotifi=async ()=>{
+    const {data}=await axios.get('/api/noti')
+  
+    setNotification([data,...notification])
+  }
+  useEffect(() => {
+    if (getCookie("authtoken")) {
+    fetchNotifi()
+    }
+  }, [])
+  
 
   return (
     <Menu>
@@ -64,6 +81,7 @@ export default function Notification() {
         {!notification.length && "No New Messages"}
         {notification.map((notif, index) => (
           <div className="bg-white p-5 rounded-2xl">
+            {console.log(notif)}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
                 <p>Chat Name</p>
@@ -71,10 +89,10 @@ export default function Notification() {
               </div>
               <div className="flex flex-row items-center gap-3">
                 <p className="w-[12rem] truncate">
-                  {notif.Message}
+                  {notif.message}
                   {index}
                 </p>
-                <button className="btn" onClick={() => joinChat(notif.offerid)}>
+                <button className="btn" onClick={() => joinChat(notif.chatId,notif._id)}>
                   Join Chat
                 </button>
               </div>

@@ -6,6 +6,7 @@ const message = require("../models/Message");
 const offer = require("../models/offer");
 const fetchuser = require("./fetchuser");
 const location = require("../models/location");
+const notification = require("../models/notification");
 
 //@description     Create or fetch One to One Chat
 router.post("/", fetchuser, async (req, res) => {
@@ -78,6 +79,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
     // }
     // else {
 
+
     const groupChat = await Chat.create({
       chatName: chatName,
       users: req.user.id,
@@ -91,7 +93,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       },
     });
 
-    
+
 
     let locationres = await location.create({
       Location: {
@@ -100,6 +102,25 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       },
       chat: groupChat._id,
     });
+
+    const user = await location.find({
+      Location: {
+        $near: {
+          $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+          $maxDistance: 20*1000,
+        },
+      },
+      user:{$ne:null}
+    },{"user":1})
+
+    user.forEach(async (users)=>{
+      // console.log(users.user.toString());
+      const res= await notification.create({
+        chatId:groupChat._id,
+        user:users.user.toString(),
+        message:"new chat created in your location"
+      })
+    })
 
     await offer.findByIdAndUpdate(
       { _id: offerid },

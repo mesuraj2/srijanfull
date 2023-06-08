@@ -4,6 +4,7 @@ const connectDB = require("./backendApi/db");
 const cors = require("cors");
 const Chat = require("./backendApi/chat");
 const Message = require("./backendApi/message");
+const Notification = require("./backendApi/notification");
 const upload = require("./backendApi/upload");
 const Offer = require("./backendApi/offer");
 // let fileupload = require("express-fileupload");
@@ -31,6 +32,7 @@ app
     server.use("/api/upload", upload);
     server.use("/api/chat", Chat);
     server.use("/api/message", Message);
+    server.use("/api/noti", Notification);
     server.use("/api/offer", Offer);
 
     server.get("*", (req, res) => {
@@ -67,8 +69,8 @@ app
 
       socket.on("new offerchat", (newMessageRecieved, offerid, userId) => {
         let str = {
-          offerid,
-          Message: `new chat create in you location`,
+          chatId:offerid,
+          message: `new chat create in you location`,
         };
         newMessageRecieved.forEach((user) => {
           if (user.user == userId) return;
