@@ -430,6 +430,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
   try {
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
+        // let result = { _id: 12345 }
         let result = await offer.create({
           offername: req.body.offerName,
           category: req.body.category,
@@ -447,16 +448,17 @@ router.post('/createoffer', fetchuser, async (req, res) => {
         console.log(maillist)
         // rest stuff take fromm above. Prettfify this
         let message = `<div>Hey Folks new new drop is here</div>
-        <div>Name: ${req.body.name}</div>
+        <div>Name: ${req.body.offerName}</div>
         `
         for (var i in maillist) {
           nodeMailer(maillist[i], message, "New Drop")
         }
         categories.findOne({ name: req.body.category }).exec(async (err, category) => {
           if (err) { } else {
+            console.log(category)
             if (category) {
             } else {
-              let result = await categories.create({
+              let result2 = await categories.create({
                 name: req.body.category,
                 image: req.body.image[0],
                 description: `Latest Collection of ${req.body.category}`,

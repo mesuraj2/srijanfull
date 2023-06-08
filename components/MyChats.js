@@ -61,7 +61,7 @@ export default function MyChats({ fetchAgain }) {
       // py={3}
       // px={1}
       bg="white"
-      w={{ base: '100%', md: '35%' }}
+      w={{ base: '100%', md: '80%', lg: '35%' }}
       borderRadius="sm"
       // borderWidth="1px"
     >
@@ -103,11 +103,11 @@ export default function MyChats({ fetchAgain }) {
                 <button
                   onClick={() => setSelectedChat(chat)}
                   key={chat._id}
-                  className={`cursor-pointer  h-[5rem]   btn btn-ghost btn-ouline  mx-auto normal-case border-b-gray-400 border-b-2 rounded-none  ${
+                  className={`cursor-pointer  h-[5rem]   btn btn-ghost btn-ouline  mx-auto normal-case border-b-gray-400 border-b-2 rounded-none w-[90%] ${
                     chat === selectedChat ? 'btn-active' : ''
                   }`}
                 >
-                  <div className="flex items-center justify-center w-[24rem]">
+                  <div className="flex items-center justify-center w-full md:w-[90%] lg:w-[18rem] 11xl:w-[20rem] 13xl:w-[24rem]">
                     <Avatar
                       mr={2}
                       size="sm"
@@ -128,11 +128,11 @@ export default function MyChats({ fetchAgain }) {
 
                       <div>
                         {chat.latestMessage && (
-                          <div className="flex  pb-2 gap-1 w-[12rem] xs:w-[15rem] 5xl:w-[20rem]">
-                            <p className="text-gray-500 text-[.8rem]">
+                          <div className="flex  pb-2 gap-1 w-full">
+                            <p className="text-gray-500 text-[.8rem]  ">
                               {chat.latestMessage.sender.name}:{' '}
                             </p>
-                            <p className="text-gray-500 text-[.8rem] truncate">
+                            <p className="text-gray-500 text-[.8rem] w-[8rem] xs:w-[13rem] 5xl:w-[15rem] 6xl:w-[20rem] md:w-[5rem] lg:w-[15rem] 11xl:w-[10rem] 13xl:w-[14rem]  truncate">
                               {chat.latestMessage.content}
                             </p>
                           </div>

@@ -62,24 +62,45 @@ router.post("/", fetchuser, async (req, res) => {
   // res.send(result._id)
 });
 
+//@Description create new cabshare chat
+router.post("/cabsharechat", fetchuser, async (req, res) => {
+  const oldchat = await Chat.find({
+    admin: req.user.id,
+    isCabChat: true,
+    chatNmae: 'Cab Share'
+  })
+  console.log(oldchat)
+  if (oldchat) {
+    res.json({ success: "false", message: "Cab Share chat already exists" })
+  }
+  else {
+    ChatState.create({
+      chatName: 'Cab Share',
+      users: req.user.id,
+      isCabChat: true,
+      admin: req.user.admin,
+      
+    })
+  }
+
+})
+
 // @description     Create New offer Chat
 router.post("/offerchat", fetchuser, async (req, res) => {
   const { chatName, offerid, coordinate } = req.body;
   let locationCoor = JSON.parse(coordinate);
-
   // console.log(chatName,offerid,location)
   try {
-    // const oldchat = await Chat.find({
-    //   admin: req.user.id,
-    //   isOfferChat: true,
-    //   offerid: offerid,
-    // })
-    // if (oldchat) {
-    // res.json({ error: true, message: "User has already created chat for it" })
-    // }
-    // else {
-
-
+    const oldchat = await Chat.find({
+      admin: req.user.id,
+      isOfferChat: true,
+      offerid: offerid,
+    })
+    console.log(oldchat)
+    if (req.body.random) {
+      res.json({ error: true, message: "User has already created chat for it" })
+    }
+    else {
     const groupChat = await Chat.create({
       chatName: chatName,
       users: req.user.id,
@@ -92,47 +113,23 @@ router.post("/offerchat", fetchuser, async (req, res) => {
         coordinates: locationCoor,
       },
     });
-
-
-
-    let locationres = await location.create({
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      },
-      chat: groupChat._id,
-    });
-
-    const user = await location.find({
-      Location: {
-        $near: {
-          $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
-          $maxDistance: 20*1000,
+      let locationres = await location.create({
+        Location: {
+          type: "Point",
+          coordinates: locationCoor,
         },
-      },
-      user:{$ne:null}
-    },{"user":1})
-
-    user.forEach(async (users)=>{
-      // console.log(users.user.toString());
-      const res= await notification.create({
-        chatId:groupChat._id,
-        user:users.user.toString(),
-        message:"new chat created in your location"
+        chat: groupChat._id
       })
-    })
 
-    await offer.findByIdAndUpdate(
-      { _id: offerid },
-      { $push: { chat_id: groupChat._id } }
-    );
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-      "users",
-      "-password"
-    );
-    //   .populate("groupAdmin", "-password");
+      await offer.findByIdAndUpdate({ _id: offerid }, { $push: { chat_id: groupChat._id } });
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+        "users",
+        "-password"
+      );
+      //   .populate("groupAdmin", "-password");
 
-    res.status(200).json(fullGroupChat);
+      res.status(200).json(fullGroupChat);
+    }
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

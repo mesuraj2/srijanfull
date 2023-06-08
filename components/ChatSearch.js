@@ -7,7 +7,7 @@ const ChatSearch = () => {
         <input
           type="text"
           placeholder="Search Groups..."
-          className="input input-bordered w-[12rem] xs:w-[15rem] 5xl:w-[20rem]"
+          className="input input-bordered w-full xs:w-[15rem] 5xl:w-[20rem] md:w-[90%]  13xl:w-[20rem]"
         />
         <button className="btn btn-square">
           <svg
