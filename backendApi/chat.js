@@ -65,14 +65,14 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   });
   // console.log(oldchat);
   // console.log(req.body);
-  // if (oldchat.length > 0) {
-  //   res.json({
-  //     chatexists: true,
-  //     chatdetails: oldchat[0],
-  //     error: true,
-  //     message: "Cab Share chat already exists",
-  //   });
-  // } else {
+  if (oldchat.length > 0) {
+    res.json({
+      chatexists: true,
+      chatdetails: oldchat[0],
+      error: true,
+      message: "Cab Share chat already exists",
+    });
+  } else {
     const cabsharechat = await Chat.create({
       chatName: "Cab Share",
       users: req.user.id,
@@ -126,7 +126,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       _id: cabsharechat._id,
     }).populate("users", "-password");
     res.status(200).json(fullCabShareChat);
-  // }
+  }
 });
 
 // @description     Create New offer Chat
@@ -141,6 +141,14 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       offerid: offerid,
     });
     // console.log(oldchat);
+    if(oldchat.length > 0){
+      res.json({
+        chatexists: true,
+        chatdetails: oldchat[0],
+        error: true,
+        message: "Offer Chat already present",
+      });
+    }else{
     const groupChat = await Chat.create({
       chatName: chatName,
       users: req.user.id,
@@ -197,6 +205,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
     //   .populate("groupAdmin", "-password");
 
     res.status(200).json(fullGroupChat);
+    }
     // if (oldchat.length > 0) {
     //   res.json({
     //     chatexists: true,
