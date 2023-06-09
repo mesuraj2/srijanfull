@@ -59,9 +59,22 @@ export default function Signup() {
   }, [data]);
 
   const onSuccess = async (response) => {
+    if(localStorage.getItem("coordinates")){
+      let coordinate = JSON.parse(localStorage.getItem("coordinates"))
+    }
+    else{
+      navigator.geolocation.getCurrentPosition(
+        position => { 
+          let coordinate=[position.coords.latitude,position.coords.longitude]
+          localStorage.setItem("coordinates",JSON.stringify(coordinate))
+        }, 
+        err => console.log(err)
+      );
+    }
     console.log(response.credential);
     const { data } = await axios.post('/api/auth/google', {
       tokenid: response.credential,
+      locationdata: localStorage.getItem('coordinates')
     });
     // console.log(data)
     if (data.success) {
@@ -77,7 +90,20 @@ export default function Signup() {
   };
 
   const handleRegister = async () => {
-    const response = await axios.post('/api/auth/', values);
+    if(localStorage.getItem("coordinates")){
+      let coordinate=JSON.parse(localStorage.getItem("coordinates"))
+    }
+    else{
+      navigator.geolocation.getCurrentPosition(
+        position => { 
+          let coordinate=[position.coords.latitude,position.coords.longitude]
+          localStorage.setItem("coordinates",JSON.stringify(coordinate))
+        }, 
+        err => console.log(err)
+      );
+    }
+    const registervalues = {...values, location: localStorage.getItem("coordinates")}
+    const response = await axios.post('/api/auth/', registervalues);
     if (response.data.success == false) {
       console.log('Failed');
       toast({

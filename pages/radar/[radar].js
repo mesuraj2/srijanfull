@@ -145,8 +145,7 @@ const JoinChatPanel = ({ setchatoption, chatdata, router }) => {
             />
           );
         })}
-
-      <div className="divider">OR</div>
+      {(chatdata.chat_id.length > 0) ? <div className="divider">OR</div> : <div className="divider">No Chats found. Create New one instead!</div>}
       <button
         onClick={() => {
           setchatoption(false);

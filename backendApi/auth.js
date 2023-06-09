@@ -17,11 +17,11 @@ const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googl
 
 const client = new OAuth2Client(GoogleClientId);
 // //Tests
-router.post("/test", async (req, res) => {
-  console.log("request Incoming");
-  console.log(req.body.uname, req.body.email, req.body.url, req.body.password);
-  res.json({ token: "123456789", success: true });
-});
+// router.post("/test", async (req, res) => {
+//   console.log("request Incoming");
+//   console.log(req.body.uname, req.body.email, req.body.url, req.body.password);
+//   res.json({ token: "123456789", success: true });
+// });
 
 router.post("/", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
   let locationRes = await location.create({
     Location: {
       type: "Point",
-      coordinates: [26.405817, 83.838554],
+      coordinates: JSON.parse(req.body.location),
     },
     user: result._id,
   });
@@ -124,7 +124,7 @@ router.post("/verifyId", async (req, res) => {
 // for google auth
 
 router.post("/google", async (req, res) => {
-  const { tokenid } = req.body;
+  const { tokenid, locationdata } = req.body;
   client
     .verifyIdToken({
       idToken: tokenid,
@@ -167,7 +167,7 @@ router.post("/google", async (req, res) => {
               let locationRes = await location.create({
                 Location: {
                   type: "Point",
-                  coordinates: [26.405817, 83.838554],
+                  coordinates: JSON.parse(locationdata),
                 },
                 user: result._id,
               });

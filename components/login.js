@@ -71,9 +71,22 @@ export default function Login({ onClose }) {
   // };
 
   const onSuccess = async (response) => {
+    if(localStorage.getItem("coordinates")){
+      let coordinate=JSON.parse(localStorage.getItem("coordinates"))
+    }
+    else{
+      navigator.geolocation.getCurrentPosition(
+        position => { 
+          let coordinate=[position.coords.latitude,position.coords.longitude]
+          localStorage.setItem("coordinates",JSON.stringify(coordinate))
+        }, 
+        err => console.log(err)
+      );
+    }
     console.log(response);
     const { data } = await axios.post('/api/auth/google', {
       tokenid: response.credential,
+      locationdata: localStorage.getItem('coordinates')
     });
     secureLocalStorage.setItem('id', data._id);
     localStorage.setItem('user', JSON.stringify(data));
