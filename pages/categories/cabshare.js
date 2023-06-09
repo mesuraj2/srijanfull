@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from '@reach/combobox';
+// import {
+//   Combobox,
+//   ComboboxInput,
+//   ComboboxPopover,
+//   ComboboxList,
+//   ComboboxOption,
+// } from '@reach/combobox';
 import axios from 'axios';
-import '@reach/combobox/styles.css';
+// import '@reach/combobox/styles.css';
 import { useToast } from "@chakra-ui/react";
 import Footer from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
@@ -21,12 +21,16 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-  clearSuggestions
-} from "use-places-autocomplete";
-
+// import usePlacesAutocomplete, {
+//   getGeocode,
+//   getLatLng,
+//   clearSuggestions
+// } from "use-places-autocomplete";
+import secureLocalStorage from 'react-secure-storage';
+import io from 'socket.io-client'
+import { getCookie } from 'cookies-next';
+const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+var socket, selectedChatCompare;
 
 function MapComponent({ router }) {
   const center = {
@@ -107,6 +111,14 @@ const Cabshare = () => {
 
   // handlers
 
+  useEffect(() => {
+    if (getCookie("authtoken")) {
+      socket = io(ENDPOINT);
+      socket.emit("setup", secureLocalStorage.getItem("id"));
+    }
+    // eslint-disable-next-line
+  }, []);
+
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
 
@@ -176,7 +188,6 @@ const Cabshare = () => {
           socket.emit(
             "new offerchat",
             response.data,
-            data._id,
             secureLocalStorage.getItem("id")
           );
         })

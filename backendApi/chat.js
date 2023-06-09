@@ -63,16 +63,16 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
     isCabChat: true,
     chatName: "Cab Share",
   });
-  console.log(oldchat);
-  console.log(req.body);
-  if (oldchat.length > 0) {
-    res.json({
-      chatexists: true,
-      chatdetails: oldchat[0],
-      error: true,
-      message: "Cab Share chat already exists",
-    });
-  } else {
+  // console.log(oldchat);
+  // console.log(req.body);
+  // if (oldchat.length > 0) {
+  //   res.json({
+  //     chatexists: true,
+  //     chatdetails: oldchat[0],
+  //     error: true,
+  //     message: "Cab Share chat already exists",
+  //   });
+  // } else {
     const cabsharechat = await Chat.create({
       chatName: "Cab Share",
       users: req.user.id,
@@ -97,11 +97,36 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       },
       chat: cabsharechat._id,
     });
+    const user = await location.find(
+      {
+        Location: {
+          $near: {
+            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+            $maxDistance: 20 * 1000,
+          },
+        },
+        user: { $ne: null },
+      },
+      { user: 1 }
+    );
+    user.forEach(async (users) => {
+      if (users.user != req.user.id) {
+        const notifi = await notification.create({
+          chatName: "Cab share",
+          chatId: cabsharechat._id,
+          user: users.user.toString(),
+        });
+
+        await User.findByIdAndUpdate(users.user.toString(), {
+          latestNotif: notifi._id,
+        });
+      }
+    });
     const fullCabShareChat = await Chat.findOne({
       _id: cabsharechat._id,
     }).populate("users", "-password");
     res.status(200).json(fullCabShareChat);
-  }
+  // }
 });
 
 // @description     Create New offer Chat
@@ -140,7 +165,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       {
         Location: {
           $near: {
-            $geometry: { type: "Point", coordinates: [26.405817, 83.838554]},
+            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
             $maxDistance: 20 * 1000,
           },
         },
@@ -150,7 +175,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
     );
     user.forEach(async (users) => {
       if (users.user != req.user.id) {
-      const notifi=  await notification.create({
+        const notifi = await notification.create({
           chatName: groupChat.chatName,
           chatId: groupChat._id,
           user: users.user.toString(),
@@ -412,7 +437,7 @@ router.get("/getChatDistance", async (req, res) => {
         near: { coordinates: coordinate },
         distanceField: "ChatDistance",
         distanceMultiplier: 1 / 1000,
-        $maxDistance: 15 * 000,
+        $maxDistance: 15 * 1000,
       },
     },
     // { $project: { shopDistance: 1, } },
