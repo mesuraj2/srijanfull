@@ -54,9 +54,9 @@ export default function Signup() {
       },
     }));
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const onSuccess = async (response) => {
     if(localStorage.getItem("coordinates")){

@@ -5,6 +5,7 @@ import FooterT2 from '../../components/FooterT2';
 import NavbarT2 from '../../components/NavbarT2';
 import axios from 'axios';
 import { ChatState } from '../../Context/ChatProvider';
+import Notification from '../../components/notification';
 
 const Categories = () => {
   const router = useRouter();
@@ -44,6 +45,7 @@ const Categories = () => {
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
+      <div hidden><Notification /></div>
       <div className="mt-[2rem] flex flex-col gap-10">
         <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider mt-10">
           Just Explore

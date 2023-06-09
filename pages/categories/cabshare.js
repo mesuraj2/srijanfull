@@ -29,6 +29,7 @@ import {
 import secureLocalStorage from 'react-secure-storage';
 import io from 'socket.io-client'
 import { getCookie } from 'cookies-next';
+import Notification from '../../components/notification';
 const ENDPOINT = `https://picapool.com`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
 
@@ -219,6 +220,7 @@ const Cabshare = () => {
   const router = useRouter();
   return (
     <div className="w-screen bg-[#B9E9FC]">
+      <div hidden><Notification /></div>
       <div className="w-[90vw] mt-10  6xl:w-[32rem] mx-auto flex flex-col items-center justify-center gap-5">
         <div className="w-[90%] 6xl:w-[30rem]">
           <label className="label">

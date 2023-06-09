@@ -6,6 +6,7 @@ import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
 import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
+import Notification from '../../components/notification';
 
 const Inputfield = ({
   values,
@@ -106,6 +107,7 @@ const CreateOffer = () => {
 
   return (
     <div className="w-screen bg-[#B9E9FC]">
+      <div hidden><Notification /></div>
       <div className="flex flex-col items-center justify-center gap-5">
         <div className="">
           <label className="label">

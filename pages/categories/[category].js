@@ -7,6 +7,7 @@ import SearchBar from '../../components/SearchBar';
 import Filter from '../../components/offer/filter';
 import CatigoryOfferCard from '../../components/CatigoryOfferCard';
 import axios from 'axios';
+import Notification from '../../components/notification';
 
 const Index = ({ categoryoffers }) => {
   // Explanation
@@ -42,6 +43,7 @@ const Index = ({ categoryoffers }) => {
 
   return (
     <div className="w-[90%] bg-[#B9E9FC] mx-auto">
+      <div hidden><Notification /></div>
       <h1 className="text-center text-[4rem] main__font tracking-wider mt-10">
         {catigoryName}
       </h1>

@@ -16,6 +16,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import io from "socket.io-client";
 import { getCookie } from "cookies-next";
 import secureLocalStorage from "react-secure-storage";
+import Notification from "../../components/notification";
 
 const ENDPOINT = `https://picapool.com`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket, selectedChatCompare;
@@ -94,6 +95,7 @@ const ChatCard = ({ name, users, chat_id, router }) => {
   return (
     <div className="w-[90vw] 6xl:w-[30rem] md:w-[37rem] 11xl:w-[30rem] flex flex-row bg-white py-3 px-5 justify-center items-center gap-16 md:gap-8 m-3">
       <div className="flex flex-row items-center justify-center ">
+      <div hidden><Notification /></div>
         <p className="w-[5rem] text-center">{name}</p>
         <div
           className="radial-progress hidden md:inline-grid"
