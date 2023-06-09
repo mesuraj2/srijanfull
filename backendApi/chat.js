@@ -101,7 +101,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       {
         Location: {
           $near: {
-            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+            $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
             $maxDistance: 20 * 1000,
           },
         },
@@ -165,7 +165,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       {
         Location: {
           $near: {
-            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+            $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
             $maxDistance: 20 * 1000,
           },
         },
