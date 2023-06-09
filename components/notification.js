@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Menu, MenuButton, MenuItem, MenuList, Toast } from "@chakra-ui/react";
 import { BellIcon } from "@chakra-ui/icons";
 
-const ENDPOINT = `http://localhost:3000/`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = 'https://picapool.com' //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket;
 import { useRouter } from "next/router";
 import axios from "axios";
