@@ -398,7 +398,7 @@ router.put("/groupadd", fetchuser, async (req, res) => {
 
 // @desc    Add user to Group / Leave
 router.put("/groupaddOffer", fetchuser, async (req, res) => {
-  const { chatId, userId } = req.body;
+  const { chatId } = req.body;
 
   let check = await Chat.find({
     _id: chatId,

@@ -45,6 +45,9 @@ export default function Notification() {
     if (!data.success) {
       return alert("server side error");
     }
+    const response = await axios.put("/api/chat/groupaddOffer", {
+      chatId: id,
+    });
     const res2 = await fetch(`/api/chat/fetchgroupChat`, {
       method: "POST", // or 'PUT'
       headers: {
