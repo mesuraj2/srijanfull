@@ -11,6 +11,7 @@ const setCookie = require("cookies-next").setCookie;
 
 const { OAuth2Client } = require("google-auth-library");
 const location = require("../models/location");
+const notification = require("../models/notification");
 const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
   // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
@@ -255,8 +256,8 @@ router.get("/getuser", fetchuser, async (req, res) => {
 });
 
 router.get("/getNearUser",  async (req, res) => {
-  console.log("suraj")
-    const user = await location.find({
+  // console.log("suraj")
+    let user = await location.find({
       Location: {
         $near: {
           $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
@@ -264,7 +265,8 @@ router.get("/getNearUser",  async (req, res) => {
         },
       },
       user:{$ne:null}
-    },{"user":1})
+    },{"user":1,}).populate("user","latestNotif")
+    user =await notification.populate(user,"user.latestNotif")
     res.send(user);
 });
 

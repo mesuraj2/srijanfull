@@ -2,18 +2,22 @@ const mongoose = require("mongoose");
 
 const notificationModel = mongoose.Schema(
   {
+    chatName: {
+      type: String,
+    },
     message: {
-      type: String, //make sure it is chatMsgNoti. or offerNoti.
+      type: String,
+      default:"New Message" //make sure it is chatMsgNoti. or offerNoti.
     },
     seen: {
       type: Boolean,
-      default:false
+      default: false,
     },
-    chatId:{
+    chatId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "chat",
     },
-    user:{
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },

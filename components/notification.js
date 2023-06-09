@@ -30,7 +30,7 @@ export default function Notification() {
   useEffect(() => {
     if (getCookie("authtoken")) {
       socket.on("newChatNotification", (newMessageRecieved) => {
-        console.log(newMessageRecieved, "from newChatNotification");
+        // console.log(newMessageRecieved, "from newChatNotification");
         setNotification([newMessageRecieved, ...notification]);
       });
     }
@@ -39,7 +39,6 @@ export default function Notification() {
   const joinChat = async (id, _idp) => {
     const newNotif = notification.filter((noti) => noti._id !== _idp);
     setNotification(newNotif);
-
     const { data } = await axios.post("/api/noti/seen", {
       _id: _idp,
     });
@@ -88,12 +87,8 @@ export default function Notification() {
             {/* {console.log(notif)} */}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
-                <p>Chat Name</p>
-                {/* <p>
-                  {notif.createdAt
-                    ? format(parseISO(notif.createdAt), "h:mm:aa")
-                    : ""}
-                </p> */}
+                <p>{notif.chatName}</p>
+                <p>{format(parseISO(notif.createdAt), "h:mm:aa")}</p>
               </div>
               <div className="flex flex-row items-center gap-3">
                 <p className="w-[12rem] truncate">{notif.message}</p>

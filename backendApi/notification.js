@@ -5,11 +5,10 @@ const router = express.Router();
 
 router.get("/", fetchuser, async (req, res) => {
   const result = await notification.find({ user: req.user.id, seen: false });
-  // console.log(result)
   res.send(result);
 });
 
-router.post("/seen",  async (req, res) => {
+router.post("/seen", async (req, res) => {
   const updatedChat = await notification.findByIdAndUpdate(req.body._id, {
     seen: true,
   });

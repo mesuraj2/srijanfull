@@ -115,7 +115,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       isOfferChat: true,
       offerid: offerid,
     });
-    console.log(oldchat);
+    // console.log(oldchat);
     const groupChat = await Chat.create({
       chatName: chatName,
       users: req.user.id,
@@ -136,6 +136,31 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       chat: groupChat._id,
     });
 
+    const user = await location.find(
+      {
+        Location: {
+          $near: {
+            $geometry: { type: "Point", coordinates: [26.405817, 83.838554]},
+            $maxDistance: 20 * 1000,
+          },
+        },
+        user: { $ne: null },
+      },
+      { user: 1 }
+    );
+    user.forEach(async (users) => {
+      if (users.user != req.user.id) {
+      const notifi=  await notification.create({
+          chatName: groupChat.chatName,
+          chatId: groupChat._id,
+          user: users.user.toString(),
+        });
+
+        await User.findByIdAndUpdate(users.user.toString(), {
+          latestNotif: notifi._id,
+        });
+      }
+    });
     await offer.findByIdAndUpdate(
       { _id: offerid },
       { $push: { chat_id: groupChat._id } }

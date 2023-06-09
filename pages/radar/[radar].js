@@ -220,13 +220,14 @@ const CreateChatForm = ({ setchatoption, router }) => {
         position: "top",
       });
 
+
+
       axios
         .get("/api/auth/getNearUser")
         .then((response) => {
           socket.emit(
             "new offerchat",
             response.data,
-            data._id,
             secureLocalStorage.getItem("id")
           );
         })

@@ -55,7 +55,7 @@ app
     io.on("connection", (socket) => {
       // console.log("Connected to via locally");
       socket.on("setup", (userData) => {
-        console.log(userData);
+        // console.log(userData);
         socket.join(userData);
         socket.emit("connected");
       });
@@ -67,16 +67,14 @@ app
       socket.on("typing", (room) => socket.in(room).emit("typing"));
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
-      socket.on("new offerchat", (newMessageRecieved, offerid, userId) => {
-        let str = {
-          createdAt:new Date().parseISO("2006-11-26-11.25.36").toString(),
-          _id: Math.random(),
-          chatId: offerid,
-          message: `new chat create in you location`,
-        };
+      socket.on("new offerchat", (newMessageRecieved, userId) => {
         newMessageRecieved.forEach((user) => {
-          if (user.user == userId) return;
-          socket.in(user.user).emit("newChatNotification", str);
+          if (user.user) {
+            if (user.user._id == userId) return;
+            socket
+              .in(user.user._id)
+              .emit("newChatNotification", user.user.latestNotif);
+          }
         });
       });
 
