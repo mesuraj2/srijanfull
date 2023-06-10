@@ -41,7 +41,7 @@ app
 
     const server2 = server.listen(
       PORT,
-      console.log(`Server running on  http://localhost:3000`)
+      //console.log(`Server running on  http://localhost:3000`)
     );
 
     const io = require("socket.io")(server2, {
@@ -53,16 +53,16 @@ app
     });
 
     io.on("connection", (socket) => {
-      // console.log("Connected to via locally");
+      // //console.log("Connected to via locally");
       socket.on("setup", (userData) => {
-        // console.log(userData);
+        // //console.log(userData);
         socket.join(userData);
         socket.emit("connected");
       });
 
       socket.on("join chat", (room) => {
         socket.join(room);
-        // console.log("User Joined Room: " + room);
+        // //console.log("User Joined Room: " + room);
       });
       socket.on("typing", (room) => socket.in(room).emit("typing"));
       socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
@@ -79,20 +79,20 @@ app
       });
 
       socket.on("new message", (newMessageRecieved) => {
-        // console.log(newMessageRecieved)
+        // //console.log(newMessageRecieved)
         var chat = newMessageRecieved.chat;
-        if (!chat.users) return console.log("chat.users not defined");
+        if (!chat.users) return //console.log("chat.users not defined");
         chat.users.forEach((user) => {
-          // console.log(user._id);
+          // //console.log(user._id);
           if (user._id == newMessageRecieved.sender._id) return;
-          // console.log("suraj")
+          // //console.log("suraj")
           socket.in(user._id).emit("message recieved", newMessageRecieved);
           // socket.emit("message recieved", newMessageRecieved);
         });
       });
 
       socket.off("setup", () => {
-        // console.log("USER DISCONNECTED");
+        // //console.log("USER DISCONNECTED");
         socket.leave(userData._id);
       });
     });

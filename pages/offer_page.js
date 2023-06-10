@@ -35,7 +35,7 @@ export default function Loc() {
       const form = new FormData();
         form.append("file", e.target.files[0]);
         const { data } = await axios.post("/api/upload", form);
-        console.log(data);
+        //console.log(data);
     }
   };
 
@@ -51,7 +51,7 @@ export default function Loc() {
         const form = new FormData();
         form.append("file", file);
         const { data } = await axios.post("/api/upload", form);
-        console.log(data);
+        //console.log(data);
         setimageurl(data);
         setNewAvatarUrl("");
         setloading(false);
@@ -67,7 +67,7 @@ export default function Loc() {
   const getpostion = async () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
+        //console.log(position);
         setlatitude(position.coords.latitude);
         setlongitude(position.coords.longitude);
       },
@@ -101,7 +101,7 @@ export default function Loc() {
       },
       config
     );
-    console.log(data);
+    //console.log(data);
     if (data) {
       toast({
         title: "added ",

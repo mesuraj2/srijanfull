@@ -101,7 +101,7 @@ export async function getServerSideProps(context) {
       id: offerid,
     }
   );
-  console.log(data);
+  //console.log(data);
   return {
     props: { data: data }, // will be passed to the page component as props
   };

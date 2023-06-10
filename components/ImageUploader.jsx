@@ -41,23 +41,23 @@ const ImageUploader = ({
   // };
 
   const onDrop = async (acceptedFiles) => {
-    // console.log(acceptedFiles);
+    // //console.log(acceptedFiles);
     setloging(true)
     if (uploadsNumber >= 5) return setReadyToUpload(false);
     if (acceptedFiles.length <= 5) {
       setReadyToUpload(false);
       acceptedFiles.map(async (file) => {
         setUploadsNumber((prev) => prev + 1);
-        console.log('hiii');
+        //console.log('hiii');
         const form = new FormData();
         form.append('file', file);
         const { data } = await axios.post('/api/upload', form);
-        console.log(data);
+        //console.log(data);
 
         setImages([...images, data.url]);
       });
       // setImages(acceptedFiles.map((file) => URL.createObjectURL(file)));
-      console.log(images);
+      //console.log(images);
     } else {
       alert('Maximum 5 images allowed.');
     }

@@ -18,8 +18,8 @@ const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googl
 const client = new OAuth2Client(GoogleClientId);
 // //Tests
 // router.post("/test", async (req, res) => {
-//   console.log("request Incoming");
-//   console.log(req.body.uname, req.body.email, req.body.url, req.body.password);
+//   //console.log("request Incoming");
+//   //console.log(req.body.uname, req.body.email, req.body.url, req.body.password);
 //   res.json({ token: "123456789", success: true });
 // });
 
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
     user: result._id,
   });
 
-  // console.log(result)
+  // //console.log(result)
   let otp = `${Math.floor(1000 + Math.random() * 9000)}`;
   await userVerification.create({
     user: result._id,
@@ -86,7 +86,7 @@ router.post("/verifyOtp", async (req, res) => {
     const { userId, otp } = req.body;
     let data = await userVerification.findOne({ user: userId });
     // need to check if the otp is present, if not tell to create again
-    console.log(data)
+    //console.log(data)
     if (otp == data.otp) {
       const user = await User.findById(userId);
       user.isverified = true;
@@ -117,7 +117,7 @@ router.post("/verifyId", async (req, res) => {
 //     await user.save();
 //     res.send({ success: true, message: "Suessfully Verified" });
 //   } else {
-//     console.log("User not found/ Malformed query id");
+//     //console.log("User not found/ Malformed query id");
 //     res.send({ success: false, message: "Failed to Verify" });
 //   }
 // });
@@ -154,7 +154,7 @@ router.post("/google", async (req, res) => {
               });
             } else {
               // const salt = await bcrypt.genSalt(10);
-              // console.log(req.body.password)
+              // //console.log(req.body.password)
               // const password = await bcrypt.hash(req.body.password, salt);
               result = await User.create({
                 name: name,
@@ -177,7 +177,7 @@ router.post("/google", async (req, res) => {
                   id: result.id,
                 },
               };
-              //    console.log(data)
+              //    //console.log(data)
               var token = await jwt.sign(data, process.env.SECRET_KEY);
               res.json({ token: token, success: true, message: "Successfully created account" });
             }
@@ -256,7 +256,7 @@ router.get("/getuser", fetchuser, async (req, res) => {
 });
 
 router.get("/getNearUser",  async (req, res) => {
-  // console.log("suraj")
+  // //console.log("suraj")
     let user = await location.find({
       Location: {
         $near: {

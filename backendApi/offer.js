@@ -50,7 +50,7 @@ router.post('/createcategory', async (req, res) => {
     }
   }
   catch (err) {
-    console.log(err)
+    //console.log(err)
   }
 })
 
@@ -60,7 +60,7 @@ router.get("/categories", async (req, res) => {
     res.json(result)
   }
   catch (err) {
-    console.log(err)
+    //console.log(err)
   }
 })
 
@@ -76,9 +76,9 @@ router.get("/searchoffers", async (req, res) => {
     };
 
     let query = await offer.find(searchquery);
-    console.log(searchquery);
+    //console.log(searchquery);
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 });
 
@@ -138,8 +138,8 @@ router.get("/categoryoffers", async (req, res) => {
     }
     let query;
     let limit = req.query.limit ? req.query.limit : 16;
-    // console.log("query", queryObject);
-    // console.log("final query")
+    // //console.log("query", queryObject);
+    // //console.log("final query")
     if (Array.isArray(req.query.sort)) {
       let obj = {};
       req.query.sort.forEach((element) => {
@@ -159,11 +159,11 @@ router.get("/categoryoffers", async (req, res) => {
 router.get("/testoffers", async (req, res) => {
   try {
     let results = await offer.find()
-    console.log('New Request')
+    //console.log('New Request')
     res.json(results)
   }
   catch (err) {
-    console.log(err)
+    //console.log(err)
   }
 })
 
@@ -179,9 +179,9 @@ router.post("/", fetchuser, async (req, res) => {
     quantity,
     color,
   } = req.body;
-  // console.log(desc);
+  // //console.log(desc);
   // let locationCoor = JSON.parse(coordinate);
-  // console.log(location)
+  // //console.log(location)
   // var locat= location.map(String)
   try {
     // let location = JSON.parse(coordinate)? JSON.parse(coordinate):[26.405817, 83.838554];
@@ -213,7 +213,7 @@ router.post("/", fetchuser, async (req, res) => {
 // router.get("/offernearyou", async (req, res) => {
 //   const { coordinate } = req.body;
 //   let location = JSON.parse(coordinate);
-//   // console.log(typeof location);
+//   // //console.log(typeof location);
 //   try {
 //     const fullGroupChat = await offer.find({
 //       Location: {
@@ -303,7 +303,7 @@ router.get("/allOffer/", async (req, res) => {
     const skip = (page - 1) * 16;
 
     let queryObject = { ...queryObj, ...location };
-    // console.log(queryObject)
+    // //console.log(queryObject)
     let query;
     if (Array.isArray(req.query.sort)) {
       let obj = {};
@@ -319,7 +319,7 @@ router.get("/allOffer/", async (req, res) => {
         .skip(skip);
     }
 
-    // console.log(obj)
+    // //console.log(obj)
     // pagination
     // const page=req.query.page? req.query.page:0
     // const skip=(page-1)*16
@@ -349,12 +349,12 @@ router.post("/offerchats", async (req, res) => {
     let query = { _id: req.body.id };
     // query = radius ? { ...query, ...locationquery } : query;
     if (radius) { console.log('Radius is present') }
-    console.log('query check')
-    console.log(query);
+    //console.log('query check')
+    //console.log(query);
     let data = await offer
       .find(query)
       .populate("chat_id", "Location chatName users");
-    // console.log(data);
+    // //console.log(data);
     res.status(200).json(data[0]);
   } catch (error) {
     res.send(error);
@@ -411,7 +411,7 @@ router.post("/offerdetail", async (req, res) => {
 //     // const { lat, long } = req.query;
 //     let query = { _id: req.body.id };
 //     query = radius ? { ...query, ...locationquery } : query;
-//     console.log(query);
+//     //console.log(query);
 //     let data = await offer
 //       .aggregate([query,
 //          {}])
@@ -445,7 +445,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
         // lets start mailing
         const users = await User.find({}, { email: 1 })
         const maillist = users.map(user => user.email)
-        console.log(maillist)
+        //console.log(maillist)
         // rest stuff take fromm above. Prettfify this
         let message = `<div>Hey Folks new new drop is here</div>
         <div>Name: ${req.body.offerName}</div>
@@ -455,7 +455,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
         }
         categories.findOne({ name: req.body.category }).exec(async (err, category) => {
           if (err) { } else {
-            console.log(category)
+            //console.log(category)
             if (category) {
             } else {
               let result2 = await categories.create({
@@ -477,7 +477,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
       res.json({ message: "Authenticate to continue" })
     }
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     res.json({ message: "Some Error occured" })
   }
 })

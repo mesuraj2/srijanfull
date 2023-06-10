@@ -10,7 +10,7 @@ export default function Offerdesign1({ Offerdetail }) {
   const { city, latitude, longitude, setlatitude, setlongitude, setcity } =
     ChatState();
   const dispatch = useDispatch();
-  // console.log(Offerdetail)
+  // //console.log(Offerdetail)
   return (
     <section className="text-gray-600 body-font">
       <Divider />

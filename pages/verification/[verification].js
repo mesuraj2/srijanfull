@@ -36,7 +36,7 @@ const Verification = () => {
       userId: router.query.verification,
       otp: otp,
     });
-    console.log(response.data);
+    //console.log(response.data);
     if (response.data.success) {
       toast({
         title: response.data.message,
@@ -56,7 +56,7 @@ const Verification = () => {
       });
     }
 
-    console.log(otp);
+    //console.log(otp);
   };
 
   const onBlur = ({ target }) =>

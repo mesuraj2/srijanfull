@@ -52,7 +52,7 @@ export default function Login({ onClose }) {
   //     body: JSON.stringify(value),
   //   });
   //   const data = await res.json();
-  //   console.log(data);
+  //   //console.log(data);
   //   if (data.success == false) {
   //     toast({
   //       title: "Incorect credientals",
@@ -83,7 +83,7 @@ export default function Login({ onClose }) {
         err => console.log(err)
       );
     }
-    console.log(response);
+    //console.log(response);
     const { data } = await axios.post('/api/auth/google', {
       tokenid: response.credential,
       locationdata: localStorage.getItem('coordinates')
@@ -144,9 +144,9 @@ export default function Login({ onClose }) {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   //console.log(data);
+  // }, [data]);
 
   return (
     <div className="w-screen h-screen bg-[#B9E9FC] secondary_font">
@@ -216,7 +216,7 @@ export default function Login({ onClose }) {
             <GoogleLogin
               onSuccess={onSuccess}
               onError={() => {
-                console.log('Login Failed');
+                //console.log('Login Failed');
               }}
             />
           </div>

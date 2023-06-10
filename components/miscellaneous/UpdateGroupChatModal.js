@@ -85,7 +85,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       });
       let data = await res.json();
 
-      console.log(data._id);
+      //console.log(data._id);
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);

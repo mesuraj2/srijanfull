@@ -23,13 +23,13 @@ export default function MyChats({ fetchAgain }) {
   const toast = useToast();
 
   const fetchChats = async () => {
-    // console.log(user._id);
+    // //console.log(user._id);
     try {
       const res = await fetch('/api/chat/fetchChat', {
         method: 'GET', // or 'PUT'
       });
       let data = await res.json();
-      // console.log(data)
+      // //console.log(data)
       setChats(data);
     } catch (error) {
       toast({

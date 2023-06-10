@@ -31,7 +31,7 @@ export default function Notification() {
   useEffect(() => {
     if (getCookie("authtoken")) {
       socket.on("newChatNotification", (newMessageRecieved) => {
-        // console.log(newMessageRecieved, "from newChatNotification");
+        // //console.log(newMessageRecieved, "from newChatNotification");
         setNotification([newMessageRecieved, ...notification]);
       });
     }
@@ -58,7 +58,7 @@ export default function Notification() {
     });
     let data2 = await res2.json();
 
-    // console.log(data2)
+    // //console.log(data2)
     setSelectedChat(data2);
     router.push({ pathname: "/chat" });
   };
@@ -88,7 +88,7 @@ export default function Notification() {
         {notification.length == 0 && "No New Messages"}
         {notification.map((notif, index) => (
           <div className="bg-white p-5 rounded-2xl" key={index}>
-            {/* {console.log(notif)} */}
+            {/* {//console.log(notif)} */}
             <div className="flex flex-col ">
               <div className="flex flex-row items-center justify-between">
                 <p>{notif.chatName}</p>

@@ -53,7 +53,7 @@ const CreateOfferChat = () => {
     } else {
       setSelectCustom(false);
     }
-    console.log(data);
+    //console.log(data);
   }, [data, values.distance]);
 
   return (

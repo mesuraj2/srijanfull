@@ -203,7 +203,7 @@ const Cabshare = () => {
         body: JSON.stringify({ ChatId: data._id }),
       });
       let data2 = await res2.json();
-      // console.log(data2)
+      // //console.log(data2)
       setSelectedChat(data2);
       router.push({ pathname: "/chat" });
     }
@@ -215,7 +215,7 @@ const Cabshare = () => {
     } else {
       setSelectCustom(false);
     }
-    console.log(data);
+    //console.log(data);
   }, [data, values.distance]);
 
   const router = useRouter();

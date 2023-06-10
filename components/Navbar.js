@@ -43,7 +43,7 @@ export default function Navbar() {
   const cart = useSelector((state) => state.cart);
 
 
-  console.log(cart)
+  //console.log(cart)
   const getTotalQuantity = () => {
     let total = 0;
     cart.forEach((item) => {

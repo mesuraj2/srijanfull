@@ -19,13 +19,13 @@ const upload = multer({
     bucket: "picapool",
     acl: "public-read",
     key: function (req, file, cb) {
-      // console.log(file);
+      // //console.log(file);
       cb(null, uuidv4() + file.originalname);
     },
   }),
 });
 router.post("/", upload.single("file"), async function (req, res, next) {
-  // console.log("suraj")
+  // //console.log("suraj")
   res.json({message: "Successfully uploaded " + req.file.location + " location!", url: req.file.location});
 });
 

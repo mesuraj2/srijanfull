@@ -11,7 +11,7 @@ const notification = require("../models/notification");
 //@description     Create or fetch One to One Chat
 router.post("/", fetchuser, async (req, res) => {
   const { UserId } = req.body;
-  // console.log(req.user.id)
+  // //console.log(req.user.id)
 
   var ischat = await Chat.find({
     isGroupChat: false,
@@ -63,8 +63,8 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
     isCabChat: true,
     chatName: "Cab Share",
   });
-  // console.log(oldchat);
-  // console.log(req.body);
+  // //console.log(oldchat);
+  // //console.log(req.body);
   if (oldchat.length > 0) {
     res.json({
       chatexists: true,
@@ -133,14 +133,14 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
 router.post("/offerchat", fetchuser, async (req, res) => {
   const { chatName, offerid, coordinate } = req.body;
   let locationCoor = JSON.parse(coordinate);
-  // console.log(chatName,offerid,location)
+  // //console.log(chatName,offerid,location)
   try {
     const oldchat = await Chat.find({
       admin: req.user.id,
       isOfferChat: true,
       offerid: offerid,
     });
-    // console.log(oldchat);
+    // //console.log(oldchat);
     if(oldchat.length > 0){
       res.json({
         chatexists: true,
@@ -255,7 +255,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
 //@description     fetgroupchat to Chat
 router.post("/fetchgroupChat", fetchuser, async (req, res) => {
   const { ChatId } = req.body;
-  // console.log(req.user.id)
+  // //console.log(req.user.id)
   var ischat = await Chat.find({
     _id: ChatId,
   })
@@ -266,7 +266,7 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
     path: "latestMessage.sender",
     select: "name pic email",
   });
-  // console.log(ischat)
+  // //console.log(ischat)
   res.send(ischat[0]);
 });
 
@@ -287,7 +287,7 @@ router.post("/group", fetchuser, async (req, res) => {
   }
 
   users.push(req.user.id);
-  // console.log(req.user.id)
+  // //console.log(req.user.id)
 
   try {
     const groupChat = await Chat.create({
@@ -421,8 +421,8 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
     _id: chatId,
     users: { $elemMatch: { $eq: req.user.id } },
   });
-  // console.log(req.user.id)
-  // console.log(check.length)
+  // //console.log(req.user.id)
+  // //console.log(check.length)
   if (check.length == 1) {
     return res.send({ exits: true });
   }

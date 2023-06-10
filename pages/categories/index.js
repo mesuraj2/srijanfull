@@ -12,7 +12,7 @@ const Categories = () => {
   const handleClick = (catigoryName) => {
     if (localStorage.getItem('coordinates')) {
       let coordinate = JSON.parse(localStorage.getItem('coordinates'));
-      console.log(coordinate);
+      //console.log(coordinate);
       router.push(
         `/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`
       );

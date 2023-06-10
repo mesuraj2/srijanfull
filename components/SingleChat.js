@@ -90,7 +90,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   // useEffect(() => {
-  //   console.log(selectedChat)
+  //   //console.log(selectedChat)
   // }, [])
   // useEffect(() => {
   //   setUser(JSON.parse(secureLocalStorage.getItem('user')))
@@ -119,7 +119,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       },
     };
     setNewMessage('');
-    // console.log(selectedChat._id)
+    // //console.log(selectedChat._id)
     const res = await fetch(`/api/message`, {
       method: 'POST', // or 'PUT'
       headers: {
@@ -180,7 +180,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   useEffect(() => {
     socket.on('newChatNotification', (newMessageRecieved) => {
       setNotification([newMessageRecieved, ...notification]);
-      console.log(newMessageRecieved, 'from newChatNotification');
+      //console.log(newMessageRecieved, 'from newChatNotification');
     });
 
     socket.on('message recieved', (newMessageRecieved) => {
@@ -189,7 +189,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          // console.log(newMessageRecieved.chat);
+          // //console.log(newMessageRecieved.chat);
           setNotification([newMessageRecieved, ...notification]);
           // dispatch(
           //   addNotification({

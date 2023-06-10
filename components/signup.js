@@ -55,7 +55,7 @@ export default function Signup() {
     }));
 
   // useEffect(() => {
-  //   console.log(data);
+  //   //console.log(data);
   // }, [data]);
 
   const onSuccess = async (response) => {
@@ -71,12 +71,12 @@ export default function Signup() {
         err => console.log(err)
       );
     }
-    console.log(response.credential);
+    //console.log(response.credential);
     const { data } = await axios.post('/api/auth/google', {
       tokenid: response.credential,
       locationdata: localStorage.getItem('coordinates')
     });
-    // console.log(data)
+    // //console.log(data)
     if (data.success) {
       toast({
         title: data.message,
@@ -105,7 +105,7 @@ export default function Signup() {
     const registervalues = {...values, location: localStorage.getItem("coordinates")}
     const response = await axios.post('/api/auth/', registervalues);
     if (response.data.success == false) {
-      console.log('Failed');
+      //console.log('Failed');
       toast({
         title: response.data.message,
         status: 'error',
@@ -114,7 +114,7 @@ export default function Signup() {
         position: 'top-left',
       });
     } else {
-      console.log('Success');
+      //console.log('Success');
       toast({
         title: response.data.message,
         status: 'success',
@@ -224,7 +224,7 @@ export default function Signup() {
               <GoogleLogin
                 onSuccess={onSuccess}
                 onError={() => {
-                  console.log('Login Failed');
+                  //console.log('Login Failed');
                 }}
               />
             </div>

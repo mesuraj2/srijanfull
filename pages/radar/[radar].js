@@ -36,7 +36,7 @@ const handleJoinChat = async ({ chat_id, router, setSelectedChat }) => {
 };
 
 function MapComponent({ router, chats }) {
-  // console.log(chats)
+  // //console.log(chats)
   const center = {
     lat: JSON.parse(router.query.location)[0],
     lng: JSON.parse(router.query.location)[1],
@@ -243,7 +243,7 @@ const CreateChatForm = ({ setchatoption, router }) => {
         body: JSON.stringify({ ChatId: data._id }),
       });
       let data2 = await res2.json();
-      // console.log(data2)
+      // //console.log(data2)
       setSelectedChat(data2);
       router.push({ pathname: "/chat" });
       setchatname("");
@@ -397,7 +397,7 @@ export async function getServerSideProps(context) {
     : {
         id: offerid,
       };
-  // console.log(queries);
+  // //console.log(queries);
   const { data } = await axios.post(
     `${process.env.DOMAIN_URI}/api/offer/offerchats`,
     { id: offerid }
