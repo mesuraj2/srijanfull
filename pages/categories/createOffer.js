@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import FooterT2 from '../../components/FooterT2';
 import ImageUploader from '../../components/ImageUploader';
 import NavbarT2 from '../../components/NavbarT2';
-import { useToast } from '@chakra-ui/react';
+import { Button, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import Notification from '../../components/notification';
 
@@ -44,6 +44,7 @@ const CreateOffer = () => {
   const [images, setImages] = useState([]);
   const [uploadsNumber, setUploadsNumber] = useState(0);
   const [readyToUpload, setReadyToUpload] = useState(false);
+  const [loging, setloging] = useState(false)
 
   const initValues = {
     offerName: '',
@@ -130,6 +131,7 @@ const CreateOffer = () => {
               setUploadsNumber={setUploadsNumber}
               images={images}
               setReadyToUpload={setReadyToUpload}
+              setloging={setloging}
             />
           )}
 
@@ -220,13 +222,14 @@ const CreateOffer = () => {
         >
           Create New Offer
         </button> */}
-        <button
+        <Button
           disabled={!Object.values(values).every((value) => !!value)}
           className="btn btn-error text-white secondary_font bg-red-500 mt-5  text-[1.2rem] w-[20rem]"
           onClick={submitHandler}
+          isLoading={loging}
         >
           Pool Now
-        </button>
+        </Button>
       </div>
     </div>
   );

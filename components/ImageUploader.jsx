@@ -8,6 +8,7 @@ const ImageUploader = ({
   uploadsNumber,
   setUploadsNumber,
   setReadyToUpload,
+  setloging
 }) => {
   // this code is for cropping image
   // const [newAvatarUrl, setNewAvatarUrl] = useState();
@@ -41,6 +42,7 @@ const ImageUploader = ({
 
   const onDrop = async (acceptedFiles) => {
     // console.log(acceptedFiles);
+    setloging(true)
     if (uploadsNumber >= 5) return setReadyToUpload(false);
     if (acceptedFiles.length <= 5) {
       setReadyToUpload(false);
@@ -59,6 +61,7 @@ const ImageUploader = ({
     } else {
       alert('Maximum 5 images allowed.');
     }
+    setloging(false)
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
