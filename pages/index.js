@@ -15,8 +15,8 @@ import { useEffect } from 'react';
 import secureLocalStorage from 'react-secure-storage';
 import Notification from '../components/notification';
 
-// const ENDPOINT = `https://picapool.com`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
-const ENDPOINT = `http://localhost:3000`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+const ENDPOINT = `https://picapool.com`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
+// const ENDPOINT = `http://localhost:3000`; //["http://poolandsave.com","http://www.poolandsave.com/"]; //   "https://talk-a-tive.herokuapp.com"; -> After deployment
 var socket;
 
 const Home = () => {
