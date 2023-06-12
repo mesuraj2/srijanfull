@@ -7,7 +7,7 @@ const notificationModel = mongoose.Schema(
     },
     message: {
       type: String,
-      default:"New Message" //make sure it is chatMsgNoti. or offerNoti.
+      default: "New Message", //make sure it is chatMsgNoti. or offerNoti.
     },
     seen: {
       type: Boolean,
@@ -25,4 +25,5 @@ const notificationModel = mongoose.Schema(
   { timestamps: true }
 );
 
+notificationModel.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
 module.exports = mongoose.model("notification", notificationModel);
