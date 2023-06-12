@@ -461,7 +461,7 @@ router.post('/createoffer', fetchuser, async (req, res) => {
             } else {
               let result2 = await categories.create({
                 name: req.body.category,
-                image: req.body.image[0],
+                image: req.body.imageArr[0],
                 description: `Latest Collection of ${req.body.category}`,
                 link: req.body.category
               })
