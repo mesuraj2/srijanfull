@@ -79,9 +79,10 @@ const CreateOffer = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const uploadvalue = values;
+    const imagesurl = JSON.stringify({images: images})
     uploadvalue['lat'] = router.query.lat;
     uploadvalue['long'] = router.query.long;
-    const { data } = await axios.post('/api/offer/createoffer', values);
+    const { data } = await axios.post('/api/offer/createoffer', {...values,imagesurl});
     toast({
       title: data.message,
       status: data.success ? 'success' : 'error',

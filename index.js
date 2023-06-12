@@ -41,7 +41,7 @@ app
 
     const server2 = server.listen(
       PORT,
-      //console.log(`Server running on  http://localhost:3000`)
+      console.log(`Server running on  http://localhost:3000`)
     );
 
     const io = require("socket.io")(server2, {

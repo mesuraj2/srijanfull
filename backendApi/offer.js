@@ -427,6 +427,7 @@ router.post("/offerdetail", async (req, res) => {
 // Create Offer
 
 router.post('/createoffer', fetchuser, async (req, res) => {
+  console.log(req.body)
   try {
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
