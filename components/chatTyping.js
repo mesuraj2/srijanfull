@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 export default function ChatTyping() {
   return (
-    <div class="chat-bubble">
-      <div class="typing">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+    <div className="chat-bubble">
+      <div className="typing">
+        <div className="dot"></div>
+        <div className="dot"></div>
+        <div className="dot"></div>
       </div>
     </div>
   );

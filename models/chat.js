@@ -9,6 +9,15 @@ const Chatmodel = mongoose.Schema(
     },
     isGroupChat: { type: Boolean, default: false },
     isOfferChat: { type: Boolean, default: false },
+    isCabChat: { type: Boolean, default: false },
+    place: {
+      from: {type: String},
+      to: {type: String}
+    },
+    admin:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,15 +28,15 @@ const Chatmodel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
-    Location: {
-      type: {
-        type: String,
-      },
-      coordinates: [Number],
-    },
     offerid:{
       type: mongoose.Schema.Types.ObjectId,
       ref: "offer",
+    },
+    Location: {
+      type: {
+        type: String
+      },
+      coordinates: [Number]
     }
   },
   {
@@ -35,5 +44,4 @@ const Chatmodel = mongoose.Schema(
   }
 );
 
-Chatmodel.index({ Location: "2dsphere" });
 module.exports = mongoose.model("chat", Chatmodel);

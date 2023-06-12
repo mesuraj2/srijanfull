@@ -1,22 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { ChatState } from "../../Context/ChatProvider";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/cartSlice";
-import { Divider } from "@chakra-ui/layout";
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { ChatState } from '../../Context/ChatProvider';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
+import { Divider } from '@chakra-ui/layout';
 
 export default function Offerdesign1({ Offerdetail }) {
   const { city, latitude, longitude, setlatitude, setlongitude, setcity } =
     ChatState();
   const dispatch = useDispatch();
-  // console.log(Offerdetail)
+  // //console.log(Offerdetail)
   return (
     <section className="text-gray-600 body-font">
       <Divider />
       <div className="container px-6 pb-16 pt-8  border-white mx-auto">
         <div className="flex flex-wrap -m-4">
-          {Offerdetail.map((offer, index) => {
+          {[''].map((offer, index) => {
             return (
               <div
                 key={offer._id}
@@ -28,7 +28,7 @@ export default function Offerdesign1({ Offerdetail }) {
                 <a className="block relative h-72 rounded-b-lg overflow-hidden">
                   <Image
                     src="/img/1.jpeg"
-                    layout={"fill"}
+                    layout={'fill'}
                     alt="image"
                     className="image_border"
                   />

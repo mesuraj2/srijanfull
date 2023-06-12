@@ -21,11 +21,14 @@ const UserSchema=mongoose.Schema({
     pic:{
         type:String,
         default:"https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+    },
+    latestNotif:{
+        type: mongoose.Schema.Types.ObjectId,
+      ref: "notification",
     }
 },{
     timestamps:true
 })
-
 
 module.exports=mongoose.model('user',UserSchema);
 

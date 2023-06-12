@@ -27,9 +27,15 @@ export default function Loc() {
   const [newAvatarUrl, setNewAvatarUrl] = useState();
   const [cropper, setCropper] = useState();
   const [loading, setloading] = useState(false);
-  const getNewAvatarUrl = (e) => {
+
+  const getNewAvatarUrl =async (e) => {
     if (e.target.files) {
       setNewAvatarUrl(URL.createObjectURL(e.target.files[0]));
+
+      const form = new FormData();
+        form.append("file", e.target.files[0]);
+        const { data } = await axios.post("/api/upload", form);
+        //console.log(data);
     }
   };
 
@@ -45,7 +51,7 @@ export default function Loc() {
         const form = new FormData();
         form.append("file", file);
         const { data } = await axios.post("/api/upload", form);
-        // console.log(data);
+        //console.log(data);
         setimageurl(data);
         setNewAvatarUrl("");
         setloading(false);
@@ -61,12 +67,13 @@ export default function Loc() {
   const getpostion = async () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position);
+        //console.log(position);
         setlatitude(position.coords.latitude);
         setlongitude(position.coords.longitude);
       },
       (err) => console.log(err)
     );
+
 
     const { data } = await axios.get(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
@@ -94,7 +101,7 @@ export default function Loc() {
       },
       config
     );
-    console.log(data);
+    //console.log(data);
     if (data) {
       toast({
         title: "added ",
@@ -120,6 +127,7 @@ export default function Loc() {
             onChange={getNewAvatarUrl}
             required
           />
+
           {newAvatarUrl && (
             <Cropper
               src={newAvatarUrl}
@@ -135,6 +143,7 @@ export default function Loc() {
               }}
             />
           )}
+
           {loading && <Spinner />}
           <Button onClick={getCropData}>Upload</Button>
           <div>check your location coordinate: {city && city}</div>

@@ -19,15 +19,23 @@ const ChatProvider = ({ children }) => {
     const userInfo = JSON.parse(localStorage.getItem("user"));
     setUser(userInfo);
 
-    navigator.geolocation.getCurrentPosition(
-      position => { 
-        setlatitude(position.coords.latitude)
-        setlongitude(position.coords.longitude)
-        let coordinate=[position.coords.latitude,position.coords.longitude]
-        localStorage.setItem("coordinates",JSON.stringify(coordinate))
-      }, 
-      err => console.log(err)
-    );
+    
+    if(localStorage.getItem("coordinates")){
+      let coordinate=JSON.parse(localStorage.getItem("coordinates"))
+      setlatitude(coordinate[0])  
+      setlongitude(coordinate[1])
+    }
+    else{
+      navigator.geolocation.getCurrentPosition(
+        position => { 
+          setlatitude(position.coords.latitude)
+          setlongitude(position.coords.longitude)
+          let coordinate=[position.coords.latitude,position.coords.longitude]
+          localStorage.setItem("coordinates",JSON.stringify(coordinate))
+        }, 
+        err => console.log(err)
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 

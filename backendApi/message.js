@@ -7,9 +7,9 @@ const Message = require("../models/Message");
 
 router.post("/", fetchuser, async (req, res) => {
   const { content, chatId } = req.body;
-  // console.log(req.user.id)
+  // //console.log(req.user.id)
   const id = req.user.id;
-  // console.log
+  // //console.log
   var newMessage = {
     sender: id,
     content: content,
@@ -22,9 +22,9 @@ router.post("/", fetchuser, async (req, res) => {
     message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",
-      select: " name pic email",
+      select: "name pic email",
     });
-    // console.log(message)
+    // //console.log(message)
     await Chat.findByIdAndUpdate(req.body.chatId, {
       latestMessage: message,
     });
@@ -34,8 +34,8 @@ router.post("/", fetchuser, async (req, res) => {
   }
 });
 
-router.get("/allMessage/:chatId",fetchuser, async (req, res) => {
-  // console.log(req.query.page);
+router.get("/allMessage/:chatId", fetchuser, async (req, res) => {
+  // //console.log(req.query.page);
   const message = await Message.find({ chat: req.params.chatId })
     .sort({ createdAt: -1 })
     .skip((req.query.page - 1) * 5)
