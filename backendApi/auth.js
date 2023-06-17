@@ -260,7 +260,7 @@ router.get("/getNearUser", async (req, res) => {
   let user = await location.find({
     Location: {
       $near: {
-        $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+        $geometry: { type: "Point", coordinates: [17.5989461, 78.1265572] },
         $maxDistance: 20 * 1000,
       },
     },
