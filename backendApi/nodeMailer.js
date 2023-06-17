@@ -12,35 +12,36 @@ const nodemailer = require("nodemailer");
 //   });
 
 var transporter = nodemailer.createTransport({
-    service: "Godaddy",
-    host: "smtpout.secureserver.net",
-    secureConnection: true,
-    port: 465,
-    auth: {
-      user: "noreply@picapool.com",
-      pass: "PicaPool@9110",
-    },
-    tls: { rejectUnauthorized: false }
+  service: "Godaddy",
+  host: "smtpout.secureserver.net",
+  // secureConnection: true,
+  port: 465,
+  auth: {
+    user: "noreply@picapool.com",
+    pass: "PicaPool@9110",
+  },
+  tls: { rejectUnauthorized: false }
+});
+
+
+const nodeMailer = (email, message, subject) => {
+
+  var mailoption = {
+    from: "<noreply@picapool.com>",
+    to: email,
+    subject: subject,
+    html: message,
+  };
+
+  transporter.sendMail(mailoption, function (error, info) {
+    console.log(info)
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Verification Mail sent to your mail");
+    }
   });
-  
 
-const nodeMailer = (email,message,subject) => {
-
-    var mailoption = {
-        from: "<noreply@picapool.com>",
-        to: email,
-        subject:subject,
-        html:message,
-      };
-
-      transporter.sendMail(mailoption, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Verification Mail sent to your mail");
-        }
-      });
- 
 };
 
 module.exports = nodeMailer;
