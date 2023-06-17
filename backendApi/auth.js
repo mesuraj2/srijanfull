@@ -13,7 +13,7 @@ const { OAuth2Client } = require("google-auth-library");
 const location = require("../models/location");
 const notification = require("../models/notification");
 const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
-  // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
+// "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
 // //Tests
@@ -93,10 +93,10 @@ router.post("/verifyOtp", async (req, res) => {
       await user.save();
       res.json({ success: true, message: "OTP is verified" });
     } else {
-      res.json({ success: true, message: "Incorrect OTP" });
+      res.json({ success: false, message: "Incorrect OTP" });
     }
   } catch (error) {
-    res.send("internal server error");
+    res.send({ success: false, message: "internal server error" });
   }
 });
 
@@ -255,19 +255,19 @@ router.get("/getuser", fetchuser, async (req, res) => {
   }
 });
 
-router.get("/getNearUser",  async (req, res) => {
+router.get("/getNearUser", async (req, res) => {
   // //console.log("suraj")
-    let user = await location.find({
-      Location: {
-        $near: {
-          $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
-          $maxDistance: 20*1000,
-        },
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+        $maxDistance: 20 * 1000,
       },
-      user:{$ne:null}
-    },{"user":1,}).populate("user","latestNotif")
-    user =await notification.populate(user,"user.latestNotif")
-    res.send(user);
+    },
+    user: { $ne: null }
+  }, { "user": 1, }).populate("user", "latestNotif")
+  user = await notification.populate(user, "user.latestNotif")
+  res.send(user);
 });
 
 module.exports = router;
