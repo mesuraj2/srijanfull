@@ -34,9 +34,9 @@ const nodeMailer = (email,message,subject) => {
 
       transporter.sendMail(mailoption, function (error, info) {
         if (error) {
-          //console.log(error);
+          console.log(error);
         } else {
-          //console.log("Verification Mail sent to your mail");
+          console.log("Verification Mail sent to your mail");
         }
       });
  
