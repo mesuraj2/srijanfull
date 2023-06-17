@@ -20,6 +20,7 @@ var transporter = nodemailer.createTransport({
       user: "noreply@picapool.com",
       pass: "PicaPool@9110",
     },
+    tls: { rejectUnauthorized: false }
   });
   
 
