@@ -141,70 +141,70 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       offerid: offerid,
     });
     // //console.log(oldchat);
-    if(oldchat.length > 0){
+    if (oldchat.length > 0) {
       res.json({
         chatexists: true,
         chatdetails: oldchat[0],
         error: true,
         message: "Offer Chat already present",
       });
-    }else{
-    const groupChat = await Chat.create({
-      chatName: chatName,
-      users: req.user.id,
-      isOfferChat: true,
-      isGroupChat: true,
-      admin: req.user.id,
-      offerid: offerid,
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      },
-    });
-    let locationres = await location.create({
-      Location: {
-        type: "Point",
-        coordinates: locationCoor,
-      },
-      chat: groupChat._id,
-    });
-
-    const user = await location.find(
-      {
+    } else {
+      const groupChat = await Chat.create({
+        chatName: chatName,
+        users: req.user.id,
+        isOfferChat: true,
+        isGroupChat: true,
+        admin: req.user.id,
+        offerid: offerid,
         Location: {
-          $near: {
-            $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
-            $maxDistance: 20 * 1000,
-          },
+          type: "Point",
+          coordinates: locationCoor,
         },
-        user: { $ne: null },
-      },
-      { user: 1 }
-    );
-    user.forEach(async (users) => {
-      if (users.user != req.user.id) {
-        const notifi = await notification.create({
-          chatName: groupChat.chatName,
-          chatId: groupChat._id,
-          user: users.user.toString(),
-        });
+      });
+      let locationres = await location.create({
+        Location: {
+          type: "Point",
+          coordinates: locationCoor,
+        },
+        chat: groupChat._id,
+      });
 
-        await User.findByIdAndUpdate(users.user.toString(), {
-          latestNotif: notifi._id,
-        });
-      }
-    });
-    await offer.findByIdAndUpdate(
-      { _id: offerid },
-      { $push: { chat_id: groupChat._id } }
-    );
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-      "users",
-      "-password"
-    );
-    //   .populate("groupAdmin", "-password");
+      const user = await location.find(
+        {
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
+              $maxDistance: 20 * 1000,
+            },
+          },
+          user: { $ne: null },
+        },
+        { user: 1 }
+      );
+      user.forEach(async (users) => {
+        if (users.user != req.user.id) {
+          const notifi = await notification.create({
+            chatName: groupChat.chatName,
+            chatId: groupChat._id,
+            user: users.user.toString(),
+          });
 
-    res.status(200).json(fullGroupChat);
+          await User.findByIdAndUpdate(users.user.toString(), {
+            latestNotif: notifi._id,
+          });
+        }
+      });
+      await offer.findByIdAndUpdate(
+        { _id: offerid },
+        { $push: { chat_id: groupChat._id } }
+      );
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+        "users",
+        "-password"
+      );
+      //   .populate("groupAdmin", "-password");
+
+      res.status(200).json(fullGroupChat);
     }
     // if (oldchat.length > 0) {
     //   res.json({
@@ -355,12 +355,12 @@ router.put("/groupremove", fetchuser, async (req, res) => {
   const { chatId, userId } = req.body;
 
   // check if the requester is admin
-  const chatData=await Chat.findOne({_id:chatId})
-  if(chatData.isCabChat){
+  const chatData = await Chat.findOne({ _id: chatId })
+  if (chatData.isCabChat) {
     await Chat.findByIdAndUpdate(
       chatId,
       {
-        admin:null,
+        admin: null,
       })
   }
 
@@ -385,6 +385,26 @@ router.put("/groupremove", fetchuser, async (req, res) => {
     res.json(removed);
   }
 });
+
+router.post("/deletechat", fetchuser, async (req, res) => {
+  const { chatId } = req.body;
+  console.log(chatId, req.user.id);
+  const chat = await Chat.find({ _id: chatId })
+  if (chat.length > 0) {
+    console.log(chat)
+    if (chat[0].admin == req.user.id) {
+      await Chat.deleteOne({ _id: chatId })
+    }
+  }
+  if (!chat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+  } else {
+    res.json(chat);
+  }
+
+})
+
 
 // @desc    Add user to Group / Leave
 router.put("/groupadd", fetchuser, async (req, res) => {
@@ -461,4 +481,5 @@ router.get("/getChatDistance", async (req, res) => {
   ]);
   res.send(data);
 });
+
 module.exports = router;
