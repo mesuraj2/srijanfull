@@ -24,7 +24,7 @@ router.post("/seen", async (req, res) => {
 
 router.get("/all",fetchuser,  async (req, res) => {
   console.log("new Requests")
-  const updatedChat = await notification.find({user: req.user.id}).populate("chatId")
+  const updatedChat = await notification.find({user: req.user.id}).populate("chatId").populate("user")
   res.json({ success: true,chat: updatedChat });
 });
 
