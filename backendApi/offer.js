@@ -5,6 +5,7 @@ const message = require("../models/Message");
 const offer = require("../models/offer");
 const User = require("../models/users");
 const categories = require("../models/categories");
+const location = require("../models/location");
 const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
 const { off } = require("../models/chat");
@@ -425,6 +426,112 @@ router.post("/offerdetail", async (req, res) => {
 
 
 // Create Offer
+
+router.post('/createappoffer', fetchuser, async (req, res) => {
+  console.log(req.body)
+  try {
+    if (req.user.id) {
+      if (req.body.lat || req.body.long) {
+        let result = await offer.create({
+          offername: req.body.offerName,
+          category: req.body.category,
+          brand: req.body.brand,
+          image: req.body.imageArr,
+          quantity: req.body.quantity,
+          description: req.body.description,
+          locationdescription: req.body.locationdescription,
+          chat_id: [req.user.id],
+          Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
+        })
+
+        // lets not start mailing
+        // const users = await User.find({}, { email: 1 })
+        // const maillist = users.map(user => user.email)
+
+        //console.log(maillist)
+        // rest stuff take fromm above. Prettfify this
+        // let message = `<div>Hey Folks new new drop is here</div>
+        // <div>Name: ${req.body.offerName}</div>
+        // `
+        // for (var i in maillist) {
+        //   nodeMailer(maillist[i], message, "New Drop")
+        // }
+
+        categories.findOne({ name: req.body.category }).exec(async (err, category) => {
+          if (err) { } else {
+            if (category) {
+            } else {
+              let result2 = await categories.create({
+                name: req.body.category,
+                image: req.body.imageArr[0],
+                description: `Latest Collection of ${req.body.category}`,
+                link: req.body.category
+              })
+            }
+          }
+        })
+
+        const createofferchat = await Chat.create({
+          chatName: req.body.offerName,
+          users: req.user.id,
+          isGroupChat: true,
+          isOfferChat: true,
+          admin: req.user.id,
+          offerid: result._id,
+          Location: {
+            type: "Point",
+            coordinates: [req.body.lat, req.body.long],
+          },
+        });
+        let locationres = await location.create({
+          Location: {
+            type: "Point",
+            coordinates: [req.body.lat, req.body.long],
+          },
+          chat: createofferchat._id,
+        });
+        const user = await location.find(
+          {
+            Location: {
+              $near: {
+                $geometry: { type: "Point", coordinates: [req.body.lat, req.body.long] },
+                $maxDistance: 20 * 1000,
+              },
+            },
+            user: { $ne: null },
+          },
+          { user: 1 }
+        );
+        
+        user.forEach(async (users) => {
+          if (users.user != req.user.id) {
+            const notifi = await notification.create({
+              chatName: req.body.offerName,
+              chatId: createofferchat._id,
+              user: users.user.toString(),
+            });
+
+            await User.findByIdAndUpdate(users.user.toString(), {
+              latestNotif: notifi._id,
+            });
+          }
+        });
+
+        const offerchat = await Chat.findOne({
+          _id: createofferchat._id,
+        }).populate("users", "-password");
+        res.json({ success: true, data: result, id: result._id, chatdetails: offerchat, message: "Offer created successfully" })
+      } else {
+        res.json({ success: false, error: 'location', message: "Please enable location access" })
+      }
+    }
+    else {
+      res.json({ message: "Authenticate to continue" })
+    }
+  } catch (err) {
+    res.json({ message: "Some Error occured", error: err })
+  }
+})
 
 router.post('/createoffer', fetchuser, async (req, res) => {
   console.log(req.body)
