@@ -10,6 +10,7 @@ const fetchuser = require("./fetchuser");
 const haversine = require("haversine-distance");
 const { off } = require("../models/chat");
 const nodeMailer = require("./nodeMailer");
+const notification = require("../models/notification");
 
 router.post('/createcategory', async (req, res) => {
   try {
