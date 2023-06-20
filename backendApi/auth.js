@@ -270,4 +270,20 @@ router.get("/getNearUser", async (req, res) => {
   res.send(user);
 });
 
+router.get("/getNearUserApp", async (req, res) => {
+  // //console.log("suraj")
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [res.body.lat, res.body.long] },
+        $maxDistance: 20 * 1000,
+      },
+    },
+    user: { $ne: null }
+  }, { "user": 1, }).populate("user", "latestNotif")
+  user = await notification.populate(user, "user.latestNotif")
+  res.send(user);
+});
+
+
 module.exports = router;

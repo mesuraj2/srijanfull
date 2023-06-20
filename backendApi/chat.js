@@ -352,7 +352,7 @@ router.put("/rename", fetchuser, async (req, res) => {
 
 // @desc   @desc    Remove user from Group
 router.put("/groupremove", fetchuser, async (req, res) => {
-  const { chatId, userId } = req.body;
+  const { chatId } = req.body;
 
   // check if the requester is admin
   const chatData = await Chat.findOne({ _id: chatId })
@@ -367,7 +367,7 @@ router.put("/groupremove", fetchuser, async (req, res) => {
   const removed = await Chat.findByIdAndUpdate(
     chatId,
     {
-      $pull: { users: userId },
+      $pull: { users: req.user.id },
     },
     {
       new: true,
