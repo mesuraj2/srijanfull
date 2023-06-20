@@ -14,7 +14,7 @@ const nodemailer = require("nodemailer");
 var transporter = nodemailer.createTransport({
   service: "Godaddy",
   host: "smtpout.secureserver.net",
-  // secureConnection: true,
+  secureConnection: false,
   secure: false,
   port: 587,
   auth: {
