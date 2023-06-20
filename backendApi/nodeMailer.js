@@ -12,7 +12,7 @@ const nodemailer = require("nodemailer");
 //   });
 
 var transporter = nodemailer.createTransport({
-  service: "Godaddy",
+  // service: "Godaddy",
   host: "smtpout.secureserver.net",
   secureConnection: false,
   secure: false,
