@@ -15,7 +15,8 @@ var transporter = nodemailer.createTransport({
   service: "Godaddy",
   host: "smtpout.secureserver.net",
   // secureConnection: true,
-  port: 465,
+  secure: false,
+  port: 587,
   auth: {
     user: "noreply@picapool.com",
     pass: "PicaPool@9110",
