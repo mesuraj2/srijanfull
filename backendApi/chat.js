@@ -288,13 +288,13 @@ router.post("/group", fetchuser, async (req, res) => {
     res.send(error);
   }
 
-  // if (users.length < 2) {
-  //   return res
-  //     .status(400)
-  //     .send("More than 2 users are required to form a group chat");
-  // }
-  // // users.push(req.user.id);
-
+  if (users.length < 1) {
+    return res.status(400).send({
+      success: false,
+      message: "More than 2 users are required to form a group chat",
+    });
+  }
+  // users.push(req.user.id);
   try {
     const groupChat = await Chat.create({
       admin: req.user.id,
