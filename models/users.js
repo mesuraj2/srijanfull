@@ -20,7 +20,7 @@ const UserSchema=mongoose.Schema({
     },
     pic:{
         type:String,
-        default:"https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+        default:"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     },
     latestNotif:{
         type: mongoose.Schema.Types.ObjectId,
