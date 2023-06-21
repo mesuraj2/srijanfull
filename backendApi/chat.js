@@ -394,6 +394,7 @@ router.post("/deletechat", fetchuser, async (req, res) => {
     console.log(chat)
     if (chat[0].admin == req.user.id) {
       await Chat.deleteOne({ _id: chatId })
+      res.json({ sucess: true, message: "Chat deleted successfully" })
     }
   }
   if (!chat) {

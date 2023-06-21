@@ -24,11 +24,11 @@ const UserSchema=mongoose.Schema({
     },
     latestNotif:{
         type: mongoose.Schema.Types.ObjectId,
-      ref: "notification",
+      ref: "notifications",
     }
 },{
     timestamps:true
 })
 
-module.exports=mongoose.model('user',UserSchema);
+module.exports=mongoose.model('users',UserSchema);
 

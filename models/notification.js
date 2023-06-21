@@ -15,11 +15,11 @@ const notificationModel = mongoose.Schema(
     },
     chatId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "chat",
+      ref: "chats",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
   },
   { timestamps: true }
