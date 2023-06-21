@@ -378,6 +378,9 @@ router.put("/groupremove", fetchuser, async (req, res) => {
     await Chat.deleteOne({ _id: chatId });
   }
 
+  const removenotifications = await notification.deleteMany({ chatId: chatId })
+  console.log(removenotifications)
+
   if (!removed) {
     res.status(404);
     throw new Error("Chat Not Found");
