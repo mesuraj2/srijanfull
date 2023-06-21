@@ -24,9 +24,13 @@ const upload = multer({
     },
   }),
 });
+
 router.post("/", upload.single("file"), async function (req, res, next) {
-  // //console.log("suraj")
-  res.json({message: "Successfully uploaded " + req.file.location + " location!", url: req.file.location});
+  console.log("suraj");
+  res.json({
+    message: "Successfully uploaded " + req.file.location + " location!",
+    url: req.file.location,
+  });
 });
 
 module.exports = router;
