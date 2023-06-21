@@ -394,6 +394,23 @@ router.post("/offerdetail", async (req, res) => {
   }
 });
 
+router.post("/aboutoffer", async (req, res) => {
+  try {
+    // const { lat, long } = req.query;
+    console.log(req.body.id)
+    try {
+      const fullGroupChat = await offer.findById(req.body.id)
+      console.log(fullGroupChat)
+      res.json({data: fullGroupChat});
+    }
+    catch (error) {
+      console.log("error1",error)
+    }
+    res.json({success: false})
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 // TODO: use locaiton collection later
 // router.post("/offerchats1", async (req, res) => {
@@ -503,7 +520,7 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           },
           { user: 1 }
         );
-        
+
         user.forEach(async (users) => {
           if (users.user != req.user.id) {
             const notifi = await notification.create({
