@@ -12,8 +12,9 @@ const setCookie = require("cookies-next").setCookie;
 const { OAuth2Client } = require("google-auth-library");
 const location = require("../models/location");
 const notification = require("../models/notification");
-const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
-  // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
+const GoogleClientId =
+  "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com";
+// "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
 // //Tests
@@ -76,7 +77,12 @@ router.post("/", async (req, res) => {
     },
   };
   var token = jwt.sign(data, process.env.SECRET_KEY);
-  res.json({ message: "OTP sent to your mail", id: result.id, token: token, success: true });
+  res.json({
+    message: "OTP sent to your mail",
+    id: result.id,
+    token: token,
+    success: true,
+  });
 });
 // for verify is it correct id
 
@@ -125,6 +131,7 @@ router.post("/verifyId", async (req, res) => {
 
 router.post("/google", async (req, res) => {
   const { tokenid, locationdata } = req.body;
+  // console.log(tokenid)
   client
     .verifyIdToken({
       idToken: tokenid,
@@ -132,6 +139,7 @@ router.post("/google", async (req, res) => {
     })
     .then((response) => {
       const { email, name, picture, email_verified } = response.payload;
+      console.log(email, name, picture);
       if (email_verified) {
         User.findOne({ email }).exec(async (err, user) => {
           if (err) {
@@ -150,7 +158,7 @@ router.post("/google", async (req, res) => {
                 email: user.email,
                 pic: user.pic,
                 success: true,
-                message: "Logging you in.."
+                message: "Logging you in..",
               });
             } else {
               // const salt = await bcrypt.genSalt(10);
@@ -179,7 +187,11 @@ router.post("/google", async (req, res) => {
               };
               //    //console.log(data)
               var token = await jwt.sign(data, process.env.SECRET_KEY);
-              res.json({ token: token, success: true, message: "Successfully created account" });
+              res.json({
+                token: token,
+                success: true,
+                message: "Successfully created account",
+              });
             }
           }
         });
@@ -200,10 +212,17 @@ router.post("/login", async (req, res) => {
       });
     }
     if (!user.isverified) {
-      return res.json({ message: "Email not verified", isverified: false, success: false });
+      return res.json({
+        message: "Email not verified",
+        isverified: false,
+        success: false,
+      });
     }
     if (user.password == "googleauth") {
-      return res.json({ message: "Please login in via Google", success: false });
+      return res.json({
+        message: "Please login in via Google",
+        success: false,
+      });
     }
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) {
@@ -231,11 +250,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-      $or: [
-        { name: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -255,19 +274,24 @@ router.get("/getuser", fetchuser, async (req, res) => {
   }
 });
 
-router.get("/getNearUser",  async (req, res) => {
+router.get("/getNearUser", async (req, res) => {
   // //console.log("suraj")
-    let user = await location.find({
-      Location: {
-        $near: {
-          $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
-          $maxDistance: 20*1000,
+  let user = await location
+    .find(
+      {
+        Location: {
+          $near: {
+            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
+            $maxDistance: 20 * 1000,
+          },
         },
+        user: { $ne: null },
       },
-      user:{$ne:null}
-    },{"user":1,}).populate("user","latestNotif")
-    user =await notification.populate(user,"user.latestNotif")
-    res.send(user);
+      { user: 1 }
+    )
+    .populate("user", "latestNotif");
+  user = await notification.populate(user, "user.latestNotif");
+  res.send(user);
 });
 
 module.exports = router;
