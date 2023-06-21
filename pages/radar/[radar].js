@@ -375,7 +375,7 @@ const Radar = ({ data }) => {
               router={router}
             />
           ) : (
-            <CreateChatForm setchatoption={setchatoption} router={router} />
+            <Form setchatoption={setchatoption} router={router} />
           )}
         </div>
       </div>
