@@ -279,9 +279,9 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
 });
 
 //@description     Create New Group Chat
-router.post("/group", async (req, res) => {
+router.post("/group", fetchuser, async (req, res) => {
   // const {user,chatName}=req.body;
-  console.log("suraj")
+  console.log("suraj");
 
   try {
     var users = JSON.parse(req.body.users);
@@ -298,6 +298,7 @@ router.post("/group", async (req, res) => {
   // users.push(req.user.id);
   try {
     const groupChat = await Chat.create({
+      admin:req.user.id,
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
