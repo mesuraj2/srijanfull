@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const locationCordModel = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
   offer: {
     type: mongoose.Schema.Types.ObjectId,

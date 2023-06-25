@@ -91,6 +91,22 @@ app
         });
       });
 
+      socket.on('new_message', (message) => {
+        console.log(`Message:${socket.id} ${message.content}`);
+        socket.to(message.room).emit('recieve_message', message)
+      })
+
+      socket.on("newchat", (newMessageRecieved, userId) => {
+        console.log('new message')
+        newMessageRecieved.forEach((user) => {
+          if (user.user) {
+            if (user.user._id == userId) return;
+            console.log(user.user)
+            socket.in(user.user._id).emit("new_notification", user.user.latestNotif);
+          }
+        });
+      });
+
       socket.off("setup", () => {
         // //console.log("USER DISCONNECTED");
         socket.leave(userData._id);

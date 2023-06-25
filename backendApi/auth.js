@@ -1,17 +1,17 @@
+const User = require("../models/users");
+const userVerification = require("../models/userVerification");
+const location = require("../models/location");
+const notification = require("../models/notification");
 const express = require("express");
 const router = express.Router();
 const url = require("url");
-const User = require("../models/users");
-const userVerification = require("../models/userVerification");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
 const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
-
 const { OAuth2Client } = require("google-auth-library");
-const location = require("../models/location");
-const notification = require("../models/notification");
+const users = require("../models/users");
 const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
 // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
@@ -266,16 +266,17 @@ router.get("/getNearUser", async (req, res) => {
     },
     user: { $ne: null }
   }, { "user": 1, }).populate("user", "latestNotif")
-  user = await notification.populate(user, "user.latestNotif")
-  res.send(user);
+  data = await notification.populate(user, "user.latestNotif")
+  res.send(data);
 });
 
-router.get("/getNearUserApp", async (req, res) => {
+router.post("/getNearUserApp", async (req, res) => {
   // //console.log("suraj")
+  console.log("get near app",req.body)
   let user = await location.find({
     Location: {
       $near: {
-        $geometry: { type: "Point", coordinates: [res.body.lat, res.body.long] },
+        $geometry: { type: "Point", coordinates: [req.body.lat, req.body.long] },
         $maxDistance: 20 * 1000,
       },
     },

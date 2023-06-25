@@ -58,6 +58,7 @@ router.post("/", fetchuser, async (req, res) => {
 
 //@Description create new cabshare chat
 router.post("/cabsharechat", fetchuser, async (req, res) => {
+  console.log(req.body)
   const oldchat = await Chat.find({
     admin: req.user.id,
     isCabChat: true,
