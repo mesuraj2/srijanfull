@@ -4,14 +4,12 @@ const location = require("../models/location");
 const notification = require("../models/notification");
 const express = require("express");
 const router = express.Router();
-const url = require("url");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
 const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
 const { OAuth2Client } = require("google-auth-library");
-const users = require("../models/users");
 const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
 // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
@@ -144,6 +142,7 @@ router.post("/google", async (req, res) => {
               };
               let token = await jwt.sign(data, process.env.SECRET_KEY);
               setCookie("authtoken", token, { req, res });
+              console.log("logging google")
               res.json({
                 _id: user._id,
                 name: user.name,
@@ -272,7 +271,7 @@ router.get("/getNearUser", async (req, res) => {
 
 router.post("/getNearUserApp", async (req, res) => {
   // //console.log("suraj")
-  console.log("get near app",req.body)
+  console.log("get near app", req.body)
   let user = await location.find({
     Location: {
       $near: {
@@ -285,6 +284,12 @@ router.post("/getNearUserApp", async (req, res) => {
   user = await notification.populate(user, "user.latestNotif")
   res.send(user);
 });
+
+router.post('/fcmtoken', fetchuser, async (req, res) => {
+  let token = req.body.token
+  let user = await User.findOneAndUpdate({_id: req.user.id},{fcmtoken: token})
+  res.json({  success: true, user: user })
+})
 
 
 module.exports = router;

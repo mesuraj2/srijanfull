@@ -1,0 +1,38 @@
+[
+    {
+        "_id": "64986a8b07818ecca4a7c9b2",
+        "user": {
+            "_id": "64986a8a07818ecca4a7c9b0",
+            "name": "adhith duck",
+            "email": "adhith@duck.com",
+            "password": "$2a$10$XKJps05xdalgP/TE9Fei.ufzJyCIC/wQgq5dEjDASC0OOlbWaUKL2",
+            "isverified": true,
+            "pic": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+            "createdAt": "2023-06-25T16:25:46.918Z",
+            "updatedAt": "2023-06-28T06:35:48.712Z",
+            "__v": 0,
+            "latestNotif": "649bd4c45c9105149d6ad545",
+            "fcmtoken": "fWwqRzUJRY2c0aK_1nnM6a:APA91bHtsj2s0ggAb1M2jJ4yOjnEUDz9ufMcTYSrwvUg6p_8cjObz0xXf_m-NIRvvdAIg7HaCW8lFImkATq0lgcnXiOhYc2mdWB_NxOjEQnuIu5yjTyHFM0K0fJyTK9vSoQwO6Fs3kCe"
+        }
+    },
+    {
+        "_id": "64985cd56693b41421a510d3",
+        "user": null
+    },
+    {
+        "_id": "64992cfd1c9850dd907221c3",
+        "user": {
+            "fcmtoken": "",
+            "_id": "64992cfd1c9850dd907221c1",
+            "name": "adhith new",
+            "email": "adhith.tharammal+new@gmail.com",
+            "password": "$2a$10$J0nE2lE1ToSSbFBdixKQU.P/QQqskwkVmLh8AgiA.Tb0YgY64Wp/K",
+            "isverified": false,
+            "pic": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+            "createdAt": "2023-06-26T06:15:25.030Z",
+            "updatedAt": "2023-06-28T06:35:48.717Z",
+            "__v": 0,
+            "latestNotif": "649bd4c45c9105149d6ad547"
+        }
+    }
+]
