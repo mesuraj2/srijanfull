@@ -328,4 +328,9 @@ router.post('/usernames', async (req,res) => {
   }
 })
 
+router.post('/newusername', fetchuser ,async (req,res) => {
+  let user = await User.findOneAndUpdate({_id: req.user.id},{name: req.body.username})
+  res.json(user)
+})
+
 module.exports = router;

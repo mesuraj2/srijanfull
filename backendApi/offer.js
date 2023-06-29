@@ -28,16 +28,16 @@ async function sendMessage({ tokens, notification }) {
   // const tokens = await getTokensFromDatastore();
   console.log("sending message to ", tokens)
   // Send a message to devices with the registered tokens
-  await getMessaging().send({
-    tokens: tokens, // ['token_1', 'token_2', ...]
-    data: notification,
-  }).then((response) => {
-    // Response is a message ID string.
-    console.log('Successfully sent message:', response);
-  })
-    .catch((error) => {
-      console.log('Error sending message:', error);
-    });
+  // await getMessaging().send({
+  //   tokens: tokens, // ['token_1', 'token_2', ...]
+  //   data: notification,
+  // }).then((response) => {
+  //   // Response is a message ID string.
+  //   console.log('Successfully sent message:', response);
+  // })
+  //   .catch((error) => {
+  //     console.log('Error sending message:', error);
+  //   });
 
   for (var i = 0; i < tokens.length; i++) {
     await admin.messaging().send({

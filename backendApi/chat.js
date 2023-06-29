@@ -19,7 +19,7 @@ firebase.initializeApp({
   // serviceAccount: serviceAccount,
   // databaseURL: 'picapool-fba66.firebase.io',
 });
-console.log(firebase.getApp())
+// console.log(firebase.getApp())
 
 async function sendMessage({ tokens, notification }) {
   // Fetch the tokens from an external datastore (e.g. database)
@@ -37,21 +37,25 @@ async function sendMessage({ tokens, notification }) {
   //     console.log('Error sending message:', error);
   //   });
   for (var i = 0; i < tokens.length; i++) {
-    await admin.messaging().send({
-      token: tokens[i], // ['token_1', 'token_2', ...]
-      data: {"hello": "world"},
-      notification: notification,
-      android: {
-        priority: "high",  // Here goes priority
-        // ttl: 10 * 60 * 1000, // Time to live
-      }
-    }).then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message:', response);
-    })
-      .catch((error) => {
-        console.log('Error sending message:', error);
-      });;
+    try {
+      await admin.messaging().send({
+        token: tokens[i], // ['token_1', 'token_2', ...]
+        data: { "hello": "world" },
+        notification: notification,
+        android: {
+          priority: "high",  // Here goes priority
+          // ttl: 10 * 60 * 1000, // Time to live
+        }
+      }).then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+      })
+        .catch((error) => {
+          console.log('Error sending message:', error);
+        });;
+    } catch (error) {
+      console.log('Error sending message to :', tokens[i], error);
+    }
   }
 }
 
@@ -166,23 +170,28 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
     // let nearusers = user.map(partuser => { if(partuser.user.fcmtoken) {return partuser.user.fcmtoken} })
     let nearusertoken = user.map((userdata) => { return userdata.user }).filter(newuserdata => { return newuserdata != null }).map(lo => { return lo.fcmtoken }).filter(lolo => { return lolo != '' })
     // console.log(user,nearusers, JSON.stringify(user))
-    console.log(JSON.stringify(user))
-    console.log("near usertoken", nearusertoken)
+    // console.log(JSON.stringify(user))
+    // console.log("near usertoken", nearusertoken)
     sendMessage({ tokens: nearusertoken, notification: { title: 'New Cab Share', body: 'Click here to join chat' } })
 
     user.forEach(async (users) => {
-      if (users.user != req.user.id) {
-        const notifi = await notification.create({
-          chatName: "Cab share",
-          chatId: cabsharechat._id,
-          user: users.user._id.toString(),
-        });
+      try {
+        if (users.user != req.user.id) {
+          const notifi = await notification.create({
+            chatName: "Cab share",
+            chatId: cabsharechat._id,
+            user: users.user._id.toString(),
+          });
 
-        await User.findByIdAndUpdate(users.user._id.toString(), {
-          latestNotif: notifi._id,
-        });
+          await User.findByIdAndUpdate(users.user._id.toString(), {
+            latestNotif: notifi._id,
+          });
+        }
+      } catch (e) {
+        console.log('could not create notification for ', users.user)
       }
-    });
+    }
+    );
     const fullCabShareChat = await Chat.findOne({
       _id: cabsharechat._id,
     }).populate("users", "-password");
@@ -354,7 +363,7 @@ router.post("/group", fetchuser, async (req, res) => {
   // users.push(req.user.id);
   try {
     const groupChat = await Chat.create({
-      admin:req.user.id,
+      admin: req.user.id,
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
