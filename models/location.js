@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const locationCordModel = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    ref: "users",
   },
   offer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "offer",
+    ref: "offers",
   },
   chat: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "chat",
+    ref: "chats",
   },
   Location: {
     type: {
@@ -22,4 +22,4 @@ const locationCordModel = mongoose.Schema({
 });
 
 locationCordModel.index({ Location: "2dsphere" });
-module.exports = mongoose.model("location", locationCordModel);
+module.exports = mongoose.model("locations", locationCordModel);

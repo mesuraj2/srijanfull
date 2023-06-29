@@ -50,7 +50,7 @@ const Offerschema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("offer", Offerschema);
+module.exports = mongoose.model("offers", Offerschema);
 
 
 // Old Schema

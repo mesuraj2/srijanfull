@@ -1,34 +1,39 @@
-const mongoose =require('mongoose')
+const mongoose = require('mongoose')
 
-const UserSchema=mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+const UserSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    password:{
-        type:String,
-        required:true
+    password: {
+        type: String,
+        required: true
     },
-    isverified:{
-        type:Boolean,
-        default:false
+    fcmtoken: {
+        type: String,
+        default: ''
     },
-    pic:{
-        type:String,
-        default:"https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png"
+    isverified: {
+        type: Boolean,
+        default: false
     },
-    latestNotif:{
+    pic: {
+        type: String,
+        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+    },
+    latestNotif: {
         type: mongoose.Schema.Types.ObjectId,
-      ref: "notification",
+        ref: "notifications",
     }
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 
-module.exports=mongoose.model('user',UserSchema);
+module.exports = mongoose.model('users', UserSchema);
 

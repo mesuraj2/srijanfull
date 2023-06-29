@@ -3,7 +3,7 @@ const mongoose =require('mongoose')
 const messageModel=mongoose.Schema({
     sender:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
+        ref:'users'
     },
     content:
         {
@@ -13,12 +13,12 @@ const messageModel=mongoose.Schema({
     ,
     chat:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'chat'
+        ref:'chats'
     },
 },{
     timestamps:true,
 })
 
 
-module.exports=mongoose.model('Message',messageModel);
+module.exports=mongoose.model('Messages',messageModel);
 

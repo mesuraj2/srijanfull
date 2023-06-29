@@ -1,19 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const url = require("url");
 const User = require("../models/users");
 const userVerification = require("../models/userVerification");
+const location = require("../models/location");
+const notification = require("../models/notification");
+const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
 const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
-
 const { OAuth2Client } = require("google-auth-library");
-const location = require("../models/location");
-const notification = require("../models/notification");
-const GoogleClientId =
-  "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com";
+
+const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
 // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
@@ -99,10 +97,10 @@ router.post("/verifyOtp", async (req, res) => {
       await user.save();
       res.json({ success: true, message: "OTP is verified" });
     } else {
-      res.json({ success: true, message: "Incorrect OTP" });
+      res.json({ success: false, message: "Incorrect OTP" });
     }
   } catch (error) {
-    res.send("internal server error");
+    res.send({ success: false, message: "internal server error" });
   }
 });
 
@@ -152,6 +150,7 @@ router.post("/google", async (req, res) => {
               };
               let token = await jwt.sign(data, process.env.SECRET_KEY);
               setCookie("authtoken", token, { req, res });
+              console.log("logging google")
               res.json({
                 _id: user._id,
                 name: user.name,
@@ -276,22 +275,57 @@ router.get("/getuser", fetchuser, async (req, res) => {
 
 router.get("/getNearUser", async (req, res) => {
   // //console.log("suraj")
-  let user = await location
-    .find(
-      {
-        Location: {
-          $near: {
-            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
-            $maxDistance: 20 * 1000,
-          },
-        },
-        user: { $ne: null },
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [17.5989461, 78.1265572] },
+        $maxDistance: 20 * 1000,
       },
-      { user: 1 }
-    )
-    .populate("user", "latestNotif");
-  user = await notification.populate(user, "user.latestNotif");
+    },
+    user: { $ne: null }
+  }, { "user": 1, }).populate("user", "latestNotif")
+  data = await notification.populate(user, "user.latestNotif")
+  res.send(data);
+});
+
+router.post("/getNearUserApp", async (req, res) => {
+  // //console.log("suraj")
+  console.log("get near app", req.body)
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [req.body.lat, req.body.long] },
+        $maxDistance: 20 * 1000,
+      },
+    },
+    user: { $ne: null }
+  }, { "user": 1, }).populate("user", "latestNotif")
+  user = await notification.populate(user, "user.latestNotif")
   res.send(user);
 });
+
+router.post('/fcmtoken', fetchuser, async (req, res) => {
+  let token = req.body.token
+  let user = await User.findOneAndUpdate({_id: req.user.id},{fcmtoken: token})
+  res.json({  success: true, user: user })
+})
+
+router.post('/usernames', async (req,res) => {
+  console.log(req.body.name)
+  const user = await User.findOne({ name: req.body.name });
+  // console.log(user)
+  if (user) {
+    res.json({
+      nameexits: true,
+      success: false,
+    });
+  }
+  else{
+    res.json({
+      nameexits: false,
+      success: true,
+    });
+  }
+})
 
 module.exports = router;
