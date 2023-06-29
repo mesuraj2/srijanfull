@@ -291,5 +291,22 @@ router.post('/fcmtoken', fetchuser, async (req, res) => {
   res.json({  success: true, user: user })
 })
 
+router.post('/usernames', async (req,res) => {
+  console.log(req.body.name)
+  const user = await User.findOne({ name: req.body.name });
+  // console.log(user)
+  if (user) {
+    res.json({
+      nameexits: true,
+      success: false,
+    });
+  }
+  else{
+    res.json({
+      nameexits: false,
+      success: true,
+    });
+  }
+})
 
 module.exports = router;
