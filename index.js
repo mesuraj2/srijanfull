@@ -7,6 +7,7 @@ const Message = require("./backendApi/message");
 const Notification = require("./backendApi/notification");
 const upload = require("./backendApi/upload");
 const Offer = require("./backendApi/offer");
+const Feedback = require("./backendApi/feedback");
 // let fileupload = require("express-fileupload");
 const next = require("next");
 const { v4 } = require("uuid");
@@ -34,6 +35,7 @@ app
     server.use("/api/message", Message);
     server.use("/api/noti", Notification);
     server.use("/api/offer", Offer);
+    server.use("/api/feedback",Feedback)
 
     server.get("*", (req, res) => {
       return handle(req, res);

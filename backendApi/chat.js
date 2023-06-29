@@ -62,6 +62,8 @@ router.post("/", fetchuser, async (req, res) => {
 
   var ischat = await Chat.find({
     isGroupChat: false,
+    isOfferChat: false,
+    isCabChat: false,
     $and: [
       { users: { $elemMatch: { $eq: req.user.id } } },
       { users: { $elemMatch: { $eq: UserId } } },
@@ -81,14 +83,14 @@ router.post("/", fetchuser, async (req, res) => {
     var chatdata = {
       chatName: "sender",
       isGroupChat: false,
+      isCabChat: false,
+      isOfferChat: false,
       admin: req.user.id,
       users: [req.user.id, UserId],
     };
-
     // const createchat=await Chat.create(chatdata)
     // const fullchat=await Chat.findOne({_id:createchat._id}).populate("users","-password")
     // res.send(fullchat)
-
     try {
       const createdChat = await Chat.create(chatdata);
       const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
@@ -149,7 +151,10 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       {
         Location: {
           $near: {
-            $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
+            $geometry: {
+              type: "Point",
+              coordinates: JSON.parse(req.body.coordinate),
+            },
             $maxDistance: 20 * 1000,
           },
         },
@@ -229,7 +234,10 @@ router.post("/offerchat", fetchuser, async (req, res) => {
         {
           Location: {
             $near: {
-              $geometry: { type: "Point", coordinates: JSON.parse(req.body.coordinate) },
+              $geometry: {
+                type: "Point",
+                coordinates: JSON.parse(req.body.coordinate),
+              },
               $maxDistance: 20 * 1000,
             },
           },
@@ -329,6 +337,7 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
 //@description     Create New Group Chat
 router.post("/group", fetchuser, async (req, res) => {
   // const {user,chatName}=req.body;
+  console.log("suraj");
 
   try {
     var users = JSON.parse(req.body.users);
@@ -336,17 +345,16 @@ router.post("/group", fetchuser, async (req, res) => {
     res.send(error);
   }
 
-  if (users.length < 2) {
-    return res
-      .status(400)
-      .send("More than 2 users are required to form a group chat");
+  if (users.length < 1) {
+    return res.status(400).send({
+      success: false,
+      message: "More than 2 users are required to form a group chat",
+    });
   }
-
-  users.push(req.user.id);
-  // //console.log(req.user.id)
-
+  // users.push(req.user.id);
   try {
     const groupChat = await Chat.create({
+      admin:req.user.id,
       chatName: req.body.name,
       users: users,
       isGroupChat: true,

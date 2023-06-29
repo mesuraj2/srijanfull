@@ -1,42 +1,42 @@
-import { Button } from '@chakra-ui/button';
-import { useDisclosure } from '@chakra-ui/hooks';
-import { Input } from '@chakra-ui/input';
-import { Box, Text } from '@chakra-ui/layout';
+import { Button } from "@chakra-ui/button";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { Input } from "@chakra-ui/input";
+import { Box, Text } from "@chakra-ui/layout";
 import {
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-} from '@chakra-ui/menu';
+} from "@chakra-ui/menu";
 import {
   Drawer,
   DrawerBody,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-} from '@chakra-ui/modal';
-import { Tooltip } from '@chakra-ui/tooltip';
-import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Avatar } from '@chakra-ui/avatar';
+} from "@chakra-ui/modal";
+import { Tooltip } from "@chakra-ui/tooltip";
+import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { Avatar } from "@chakra-ui/avatar";
 // import { useHistory } from "react-router-dom";
-import Router from 'next/router';
-import { useState } from 'react';
-import axios from 'axios';
-import { useToast } from '@chakra-ui/toast';
-import ChatLoading from './ChatLoading';
-import { Spinner } from '@chakra-ui/spinner';
-import ProfileModal from './miscellaneous/ProfileModal';
+import Router from "next/router";
+import { useState } from "react";
+import axios from "axios";
+import { useToast } from "@chakra-ui/toast";
+import ChatLoading from "./ChatLoading";
+import { Spinner } from "@chakra-ui/spinner";
+import ProfileModal from "./miscellaneous/ProfileModal";
 // import NotificationBadge from "react-notification-badge";
 // import { Effect } from "react-notification-badge";
-import { getSender } from '../config/ChatLogics';
-import UserListItem from './userAvatar/UserListItem';
-import { ChatState } from '../Context/ChatProvider';
-import secureLocalStorage from 'react-secure-storage';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { getSender } from "../config/ChatLogics";
+import UserListItem from "./userAvatar/UserListItem";
+import { ChatState } from "../Context/ChatProvider";
+import secureLocalStorage from "react-secure-storage";
+import { AiOutlineSearch } from "react-icons/ai";
 
 function SideDrawer() {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
@@ -62,11 +62,11 @@ function SideDrawer() {
   const handleSearch = async () => {
     if (!search) {
       toast({
-        title: 'Please Enter something in search',
-        status: 'warning',
+        title: "Please Enter something in search",
+        status: "warning",
         duration: 5000,
         isClosable: true,
-        position: 'top-left',
+        position: "top-left",
       });
       return;
     }
@@ -74,10 +74,10 @@ function SideDrawer() {
     try {
       setLoading(true);
       const res = await fetch(`/api/auth/searchUser?search=${search}`, {
-        method: 'GET', // or 'PUT'
+        method: "GET", // or 'PUT'
         headers: {
           // 'Content-Type': 'application/json',
-          'auth-token': secureLocalStorage.getItem('token'),
+          "auth-token": secureLocalStorage.getItem("token"),
         },
       });
       let data = await res.json();
@@ -86,12 +86,12 @@ function SideDrawer() {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: 'Error Occured!',
-        description: 'Failed to Load the Search Results',
-        status: 'error',
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-left',
+        position: "bottom-left",
       });
     }
   };
@@ -102,10 +102,10 @@ function SideDrawer() {
     try {
       setLoadingChat(true);
       const res = await fetch(`/api/chat`, {
-        method: 'POST', // or 'PUT'
+        method: "POST", // or 'PUT'
         headers: {
-          'Content-Type': 'application/json',
-          'auth-token': secureLocalStorage.getItem('token'),
+          "Content-Type": "application/json",
+          "auth-token": secureLocalStorage.getItem("token"),
         },
         body: JSON.stringify({ UserId: userId }),
       });
@@ -117,12 +117,12 @@ function SideDrawer() {
       onClose();
     } catch (error) {
       toast({
-        title: 'Error fetching the chat',
+        title: "Error fetching the chat",
         description: error.message,
-        status: 'error',
+        status: "error",
         duration: 5000,
         isClosable: true,
-        position: 'bottom-left',
+        position: "bottom-left",
       });
     }
   };
@@ -138,7 +138,7 @@ function SideDrawer() {
         w="100%"
         p="10px"
         sx={{
-          borderRadius: '.5rem',
+          borderRadius: ".5rem",
         }}
       >
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
@@ -164,7 +164,7 @@ function SideDrawer() {
             <div className="badge">{notification.length}</div>
           </MenuButton>
           <MenuList pl={2}>
-            {!notification.length && 'No New Messages'}
+            {!notification.length && "No New Messages"}
             {notification.map((notif) => (
               <MenuItem
                 key={notif._id}
@@ -189,20 +189,20 @@ function SideDrawer() {
             borderBottomWidth="1px"
             sx={{
               fontWeight: 400,
-              color: 'rgba(0, 0, 0, 0.5)',
-              backgroundColor: '#B9E9FC',
+              color: "rgba(0, 0, 0, 0.5)",
+              backgroundColor: "#B9E9FC",
             }}
           >
             Search Users
           </DrawerHeader>
-          <DrawerBody sx={{ border: '5px solid #B9E9FC' }}>
+          <DrawerBody sx={{ border: "5px solid #B9E9FC" }}>
             <Box
               sx={{
-                display: 'flex',
-                gap: '5px',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '20px',
+                display: "flex",
+                gap: "5px",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "20px",
               }}
             >
               <Input

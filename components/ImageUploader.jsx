@@ -48,7 +48,7 @@ const ImageUploader = ({
       setReadyToUpload(false);
       acceptedFiles.map(async (file) => {
         setUploadsNumber((prev) => prev + 1);
-        //console.log('hiii');
+        // console.log(file);
         const form = new FormData();
         form.append("file", file);
         const { data } = await axios.post("/api/upload", form);
