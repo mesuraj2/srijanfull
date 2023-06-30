@@ -40,21 +40,28 @@ async function sendMessage({ tokens, notification }) {
   //   });
 
   for (var i = 0; i < tokens.length; i++) {
-    await admin.messaging().send({
-      token: tokens[i], // ['token_1', 'token_2', ...]
-      data: { "hello": "world" },
-      notification: notification,
-      android: {
-        priority: "high",  // Here goes priority
-        // ttl: 10 * 60 * 1000, // Time to live
-      }
-    }).then((response) => {
-      // Response is a message ID string.
-      console.log('Successfully sent message:', response);
-    })
-      .catch((error) => {
-        console.log('Error sending message:', error);
-      });
+    try {
+      await admin.messaging().send({
+        token: tokens[i], // ['token_1', 'token_2', ...]
+        data: { "hello": "world" },
+        notification: notification,
+        android: {
+          priority: "high",  // Here goes priority
+          // ttl: 10 * 60 * 1000, // Time to live
+        }
+      }).then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+      })
+      // .catch((error) => {
+      //   // continue;
+      //   // continue
+      //   console.log('Error sending message:', error);   
+      // });
+    } catch (error) {
+      console.log('Error sending message to :', tokens[i], error);
+      continue
+    }
   }
 }
 
@@ -548,6 +555,8 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
             coordinates: [req.body.lat, req.body.long],
           },
         });
+        console.log("created offer")
+
         let locationres = await location.create({
           Location: {
             type: "Point",
@@ -555,6 +564,7 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           },
           chat: createofferchat._id,
         });
+        console.log("created locatin")
         const user = await location.find(
           {
             Location: {
@@ -567,30 +577,46 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           },
           { user: 1 }
         ).populate("user");
-
+        console.log("got users")
         let nearusertoken = user.map((userdata) => { return userdata.user }).filter(newuserdata => { return newuserdata != null }).map(lo => { return lo.fcmtoken }).filter(lolo => { return lolo != '' })
-        // console.log(user,nearusers, JSON.stringify(user))
-        console.log(JSON.stringify(user))
-        console.log("near usertoken", nearusertoken)
-        sendMessage({ tokens: nearusertoken, notification: { title: 'New Cab Share', body: 'Click here to join chat' } })
-
-        user.forEach(async (users) => {
-          if (users.user != req.user.id) {
-            const notifi = await notification.create({
-              chatName: req.body.offerName,
-              chatId: createofferchat._id,
-              user: users.user._id.toString(),
-            });
-
-            await User.findByIdAndUpdate(users.user._id.toString(), {
-              latestNotif: notifi._id,
-            });
+        let new_near = []
+        user.forEach((item, index)=>{
+          if(item.user != null){
+            if(!(item.user._id.equals(req.user.id))){
+              new_near.push(item.user.fcmtoken)
+            }
           }
-        });
+        })
+        console.log('list of fcm', new_near)
+        // console.log(user,nearusers, JSON.stringify(user))
+        // console.log("near usertoken", nearusertoken)
+        sendMessage({ tokens: new_near, notification: { title: `New Offer Chat: ${req.body.offerName}`, body: 'Click here to join chat' } })
+        console.log("reached point after senfing message")
+        user.forEach(async (users) => {
+          try {
+            if (users.user._id != req.user.id && users.user) {
+              console.log("create notificationion backend")
+              const notifi = await notification.create({
+                chatName: req.body.offerName,
+                chatId: createofferchat._id,
+                user: users.user._id.toString(),
+              });
 
+              await User.findByIdAndUpdate(users.user._id.toString(), {
+                latestNotif: notifi._id,
+              });
+            }
+          }
+          catch (e) {
+            console.log(e);
+          }
+
+        });
+        console.log('done with notificaion in backend')
         const offerchat = await Chat.findOne({
           _id: createofferchat._id,
-        }).populate("users", "-password");
+        }).populate("users", "-password")
+        // console.log("donw wirh finding chat", offerchat);
         res.json({ success: true, data: result, id: result._id, chatdetails: offerchat, message: "Offer created successfully" })
       } else {
         res.json({ success: false, error: 'location', message: "Please enable location access" })

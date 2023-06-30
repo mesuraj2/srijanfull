@@ -129,6 +129,7 @@ router.post("/verifyId", async (req, res) => {
 
 router.post("/google", async (req, res) => {
   const { tokenid, locationdata } = req.body;
+  console.log("google data",req.body);
   // console.log(tokenid)
   client
     .verifyIdToken({
@@ -163,6 +164,7 @@ router.post("/google", async (req, res) => {
               // const salt = await bcrypt.genSalt(10);
               // //console.log(req.body.password)
               // const password = await bcrypt.hash(req.body.password, salt);
+              console.log('starting to create')
               result = await User.create({
                 name: name,
                 email: email,
@@ -170,7 +172,7 @@ router.post("/google", async (req, res) => {
                 pic: picture,
                 isverified: true,
               });
-
+              console.log("new google signup")
               let locationRes = await location.create({
                 Location: {
                   type: "Point",
@@ -178,18 +180,22 @@ router.post("/google", async (req, res) => {
                 },
                 user: result._id,
               });
+              console.log("new google signup 2")
 
               const data = {
                 user: {
-                  id: result.id,
+                  id: result._id,
                 },
               };
+              console.log("new google signup 3")
               //    //console.log(data)
-              var token = await jwt.sign(data, process.env.SECRET_KEY);
+              var token = jwt.sign(data, process.env.SECRET_KEY);
+              setCookie("authtoken", token, { req, res });
               res.json({
                 token: token,
                 success: true,
                 message: "Successfully created account",
+                _id: result._id
               });
             }
           }
