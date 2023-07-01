@@ -67,6 +67,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   });
   // //console.log(oldchat);
   // //console.log(req.body);
+  let time = 300; // in second
   if (oldchat.length > 0) {
     res.json({
       chatexists: true,
@@ -82,6 +83,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       isOfferChat: true,
       isCabChat: true,
       admin: req.user.id,
+      expireAt: new Date(new Date().getTime() + 1000 * time),
       place: {
         from: req.body.from,
         to: req.body.to,
@@ -146,6 +148,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
       offerid: offerid,
     });
     // //console.log(oldchat);
+    let time = 300; // in second
     if (oldchat.length > 0) {
       res.json({
         chatexists: true,
@@ -161,6 +164,7 @@ router.post("/offerchat", fetchuser, async (req, res) => {
         isGroupChat: true,
         admin: req.user.id,
         offerid: offerid,
+        expireAt: new Date(new Date().getTime() + 1000 * time),
         Location: {
           type: "Point",
           coordinates: locationCoor,
@@ -298,7 +302,7 @@ router.post("/group", fetchuser, async (req, res) => {
   // users.push(req.user.id);
   try {
     const groupChat = await Chat.create({
-      admin:req.user.id,
+      admin: req.user.id,
       chatName: req.body.name,
       users: users,
       isGroupChat: true,

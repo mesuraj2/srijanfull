@@ -1,7 +1,7 @@
 const express = require("express");
 const fetchuser = require("./fetchuser");
 const feedback = require("../models/feedback");
-const router = express.Router()
+const router = express.Router();
 
 router.post("/", fetchuser, async (req, res) => {
   try {

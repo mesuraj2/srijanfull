@@ -11,10 +11,10 @@ const Chatmodel = mongoose.Schema(
     isOfferChat: { type: Boolean, default: false },
     isCabChat: { type: Boolean, default: false },
     place: {
-      from: {type: String},
-      to: {type: String}
+      from: { type: String },
+      to: { type: String },
     },
-    admin:{
+    admin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
     },
@@ -28,16 +28,19 @@ const Chatmodel = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message",
     },
-    offerid:{
+    offerid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "offer",
     },
     Location: {
       type: {
-        type: String
+        type: String,
       },
-      coordinates: [Number]
-    }
+      coordinates: [Number],
+    },
+    expireAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
