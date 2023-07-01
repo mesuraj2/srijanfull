@@ -3,7 +3,7 @@ const mongoose =require('mongoose')
 const UserVerification=mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "users",
       },
       otp:{
         type:Number
@@ -14,5 +14,5 @@ const UserVerification=mongoose.Schema({
 
 UserVerification.index({createdAt: 1},{expireAfterSeconds: 300});
 
-module.exports=mongoose.model('userVerification',UserVerification);
+module.exports=mongoose.model('userVerifications',UserVerification);
 

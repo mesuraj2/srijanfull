@@ -15,15 +15,15 @@ const notificationModel = mongoose.Schema(
     },
     chatId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "chat",
+      ref: "chats",
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
   },
   { timestamps: true }
 );
 
-notificationModel.index({ createdAt: 1 }, { expireAfterSeconds: 600 });
-module.exports = mongoose.model("notification", notificationModel);
+notificationModel.index({ createdAt: 1 }, { expireAfterSeconds: 2592000 });
+module.exports = mongoose.model("notifications", notificationModel);

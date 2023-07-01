@@ -1,19 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const url = require("url");
 const User = require("../models/users");
 const userVerification = require("../models/userVerification");
+const location = require("../models/location");
+const notification = require("../models/notification");
+const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fetchuser = require("./fetchuser");
 const nodeMailer = require("./nodeMailer");
 const setCookie = require("cookies-next").setCookie;
-
 const { OAuth2Client } = require("google-auth-library");
-const location = require("../models/location");
-const notification = require("../models/notification");
-const GoogleClientId =
-  "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com";
+
+const GoogleClientId = "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com"
 // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
@@ -99,10 +97,10 @@ router.post("/verifyOtp", async (req, res) => {
       await user.save();
       res.json({ success: true, message: "OTP is verified" });
     } else {
-      res.json({ success: true, message: "Incorrect OTP" });
+      res.json({ success: false, message: "Incorrect OTP" });
     }
   } catch (error) {
-    res.send("internal server error");
+    res.send({ success: false, message: "internal server error" });
   }
 });
 
@@ -131,6 +129,7 @@ router.post("/verifyId", async (req, res) => {
 
 router.post("/google", async (req, res) => {
   const { tokenid, locationdata } = req.body;
+  console.log("google data", req.body);
   // console.log(tokenid)
   client
     .verifyIdToken({
@@ -152,6 +151,7 @@ router.post("/google", async (req, res) => {
               };
               let token = await jwt.sign(data, process.env.SECRET_KEY);
               setCookie("authtoken", token, { req, res });
+              console.log("logging google")
               res.json({
                 _id: user._id,
                 name: user.name,
@@ -164,6 +164,7 @@ router.post("/google", async (req, res) => {
               // const salt = await bcrypt.genSalt(10);
               // //console.log(req.body.password)
               // const password = await bcrypt.hash(req.body.password, salt);
+              console.log('starting to create')
               result = await User.create({
                 name: name,
                 email: email,
@@ -171,7 +172,7 @@ router.post("/google", async (req, res) => {
                 pic: picture,
                 isverified: true,
               });
-
+              console.log("new google signup")
               let locationRes = await location.create({
                 Location: {
                   type: "Point",
@@ -179,18 +180,22 @@ router.post("/google", async (req, res) => {
                 },
                 user: result._id,
               });
+              console.log("new google signup 2")
 
               const data = {
                 user: {
-                  id: result.id,
+                  id: result._id,
                 },
               };
+              console.log("new google signup 3")
               //    //console.log(data)
-              var token = await jwt.sign(data, process.env.SECRET_KEY);
+              var token = jwt.sign(data, process.env.SECRET_KEY);
+              setCookie("authtoken", token, { req, res });
               res.json({
                 token: token,
                 success: true,
                 message: "Successfully created account",
+                _id: result._id
               });
             }
           }
@@ -250,11 +255,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -276,22 +281,63 @@ router.get("/getuser", fetchuser, async (req, res) => {
 
 router.get("/getNearUser", async (req, res) => {
   // //console.log("suraj")
-  let user = await location
-    .find(
-      {
-        Location: {
-          $near: {
-            $geometry: { type: "Point", coordinates: [26.405817, 83.838554] },
-            $maxDistance: 20 * 1000,
-          },
-        },
-        user: { $ne: null },
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [17.5989461, 78.1265572] },
+        $maxDistance: 20 * 1000,
       },
-      { user: 1 }
-    )
-    .populate("user", "latestNotif");
-  user = await notification.populate(user, "user.latestNotif");
-  res.send(user);
+    },
+    user: { $ne: null }
+  }, { "user": 1, }).populate("user", "latestNotif")
+  data = await notification.populate(user, "user.latestNotif")
+  res.send(data);
 });
+
+router.post("/getNearUserApp", async (req, res) => {
+  // console.log("suraj")
+  console.log("get near app", req.body)
+  let user = await location.find({
+    Location: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [req.body.lat, req.body.long] },
+        $maxDistance: 20 * 1000,
+      },
+    },
+    user: { $ne: null }
+  }, { "user": 1, "Location": 1 }).populate("user", "latestNotif")
+  let notificationuser = await notification.populate(user, "user.latestNotif")
+  console.log("gave back")
+  res.json({ location: user, user: notificationuser });
+});
+
+router.post('/fcmtoken', fetchuser, async (req, res) => {
+  let token = req.body.token
+  let user = await User.findOneAndUpdate({ _id: req.user.id }, { fcmtoken: token })
+  res.json({ success: true, user: user })
+})
+
+router.post('/usernames', async (req, res) => {
+  console.log(req.body.name)
+  const user = await User.findOne({ name: req.body.name });
+  // console.log(user)
+  if (user) {
+    res.json({
+      nameexits: true,
+      success: false,
+    });
+  }
+  else {
+    res.json({
+      nameexits: false,
+      success: true,
+    });
+  }
+})
+
+router.post('/newusername', fetchuser, async (req, res) => {
+  let user = await User.findOneAndUpdate({ _id: req.user.id }, { name: req.body.username })
+  res.json(user)
+})
 
 module.exports = router;
