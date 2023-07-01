@@ -129,7 +129,7 @@ router.post("/verifyId", async (req, res) => {
 
 router.post("/google", async (req, res) => {
   const { tokenid, locationdata } = req.body;
-  console.log("google data",req.body);
+  console.log("google data", req.body);
   // console.log(tokenid)
   client
     .verifyIdToken({
@@ -255,11 +255,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -295,7 +295,7 @@ router.get("/getNearUser", async (req, res) => {
 });
 
 router.post("/getNearUserApp", async (req, res) => {
-  // //console.log("suraj")
+  // console.log("suraj")
   console.log("get near app", req.body)
   let user = await location.find({
     Location: {
@@ -305,18 +305,19 @@ router.post("/getNearUserApp", async (req, res) => {
       },
     },
     user: { $ne: null }
-  }, { "user": 1, }).populate("user", "latestNotif")
-  user = await notification.populate(user, "user.latestNotif")
-  res.send(user);
+  }, { "user": 1, "Location": 1 }).populate("user", "latestNotif")
+  let notificationuser = await notification.populate(user, "user.latestNotif")
+  console.log("gave back")
+  res.json({ location: user, user: notificationuser });
 });
 
 router.post('/fcmtoken', fetchuser, async (req, res) => {
   let token = req.body.token
-  let user = await User.findOneAndUpdate({_id: req.user.id},{fcmtoken: token})
-  res.json({  success: true, user: user })
+  let user = await User.findOneAndUpdate({ _id: req.user.id }, { fcmtoken: token })
+  res.json({ success: true, user: user })
 })
 
-router.post('/usernames', async (req,res) => {
+router.post('/usernames', async (req, res) => {
   console.log(req.body.name)
   const user = await User.findOne({ name: req.body.name });
   // console.log(user)
@@ -326,7 +327,7 @@ router.post('/usernames', async (req,res) => {
       success: false,
     });
   }
-  else{
+  else {
     res.json({
       nameexits: false,
       success: true,
@@ -334,8 +335,8 @@ router.post('/usernames', async (req,res) => {
   }
 })
 
-router.post('/newusername', fetchuser ,async (req,res) => {
-  let user = await User.findOneAndUpdate({_id: req.user.id},{name: req.body.username})
+router.post('/newusername', fetchuser, async (req, res) => {
+  let user = await User.findOneAndUpdate({ _id: req.user.id }, { name: req.body.username })
   res.json(user)
 })
 
