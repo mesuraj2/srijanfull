@@ -15,7 +15,7 @@ const admin = require("firebase-admin");
 const serviceAccount = require("./picapool-firebase-auth.json");
 firebase.initializeApp({
   // credential: admin.credential.applicationDefault(),
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
   // serviceAccount: serviceAccount,
   // databaseURL: 'picapool-fba66.firebase.io',
 });
@@ -24,7 +24,7 @@ firebase.initializeApp({
 async function sendMessage({ tokens, notification }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
-  console.log("sending message to ", tokens)
+  console.log("sending message to ", tokens);
   // Send a message to devices with the registered tokens
   // await getMessaging().send({
   //   tokens: tokens, // ['token_1', 'token_2', ...]
@@ -38,27 +38,29 @@ async function sendMessage({ tokens, notification }) {
   //   });
   for (var i = 0; i < tokens.length; i++) {
     try {
-      await admin.messaging().send({
-        token: tokens[i], // ['token_1', 'token_2', ...]
-        data: { "hello": "world" },
-        notification: notification,
-        android: {
-          priority: "high",  // Here goes priority
-          // ttl: 10 * 60 * 1000, // Time to live
-        }
-      }).then((response) => {
-        // Response is a message ID string.
-        console.log('Successfully sent message:', response);
-      })
+      await admin
+        .messaging()
+        .send({
+          token: tokens[i], // ['token_1', 'token_2', ...]
+          data: { hello: "world" },
+          notification: notification,
+          android: {
+            priority: "high", // Here goes priority
+            // ttl: 10 * 60 * 1000, // Time to live
+          },
+        })
+        .then((response) => {
+          // Response is a message ID string.
+          console.log("Successfully sent message:", response);
+        })
         .catch((error) => {
-          console.log('Error sending message:', error);
-        });;
+          console.log("Error sending message:", error);
+        });
     } catch (error) {
-      console.log('Error sending message to :', tokens[i], error);
+      console.log("Error sending message to :", tokens[i], error);
     }
   }
 }
-
 
 router.post("/", fetchuser, async (req, res) => {
   const { UserId } = req.body;
@@ -111,23 +113,10 @@ router.post("/", fetchuser, async (req, res) => {
 
 //@Description create new cabshare chat
 router.post("/cabsharechat", fetchuser, async (req, res) => {
-  // console.log(req.body)
-  const oldchat = await Chat.find({
-    admin: req.user.id,
-    isCabChat: true,
-    chatName: "Cab Share",
-  });
-  // //console.log(oldchat);
-  // //console.log(req.body);
-  let time = 300; // in second
-  if (oldchat.length > 0) {
-    res.json({
-      chatexists: true,
-      chatdetails: oldchat[0],
-      error: true,
-      message: "Cab Share chat already exists",
-    });
-  } else {
+  try {
+    let { time, distance } = req.body; // time in second and distance in meter
+    time = time ? time : 300; // in second
+    distance = distance ? distance : 20 * 1000;
     const cabsharechat = await Chat.create({
       chatName: "Cab Share",
       users: req.user.id,
@@ -153,28 +142,45 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       },
       chat: cabsharechat._id,
     });
-    const user = await location.find(
-      {
-        Location: {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates: JSON.parse(req.body.coordinate),
+    const user = await location
+      .find(
+        {
+          Location: {
+            $near: {
+              $geometry: {
+                type: "Point",
+                coordinates: JSON.parse(req.body.coordinate),
+              },
+              $maxDistance: distance,
             },
-            $maxDistance: 20 * 1000,
           },
+          user: { $ne: null },
         },
-        user: { $ne: null },
-      },
-      { user: 1 }
-    ).populate('user');
+        { user: 1 }
+      )
+      .populate("user");
 
     // let nearusers = user.map(partuser => { if(partuser.user.fcmtoken) {return partuser.user.fcmtoken} })
-    let nearusertoken = user.map((userdata) => { return userdata.user }).filter(newuserdata => { return newuserdata != null }).map(lo => { return lo.fcmtoken }).filter(lolo => { return lolo != '' })
+    let nearusertoken = user
+      .map((userdata) => {
+        return userdata.user;
+      })
+      .filter((newuserdata) => {
+        return newuserdata != null;
+      })
+      .map((lo) => {
+        return lo.fcmtoken;
+      })
+      .filter((lolo) => {
+        return lolo != "";
+      });
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
     // console.log("near usertoken", nearusertoken)
-    sendMessage({ tokens: nearusertoken, notification: { title: 'New Cab Share', body: 'Click here to join chat' } })
+    sendMessage({
+      tokens: nearusertoken,
+      notification: { title: "New Cab Share", body: "Click here to join chat" },
+    });
 
     user.forEach(async (users) => {
       try {
@@ -190,14 +196,15 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
           });
         }
       } catch (e) {
-        console.log('could not create notification for ', users.user)
+        console.log("could not create notification for ", users.user);
       }
-    }
-    );
+    });
     const fullCabShareChat = await Chat.findOne({
       _id: cabsharechat._id,
     }).populate("users", "-password");
     res.status(200).json(fullCabShareChat);
+  } catch (error) {
+    res.send({ message: "Some error from backend" });
   }
 });
 
@@ -432,13 +439,11 @@ router.put("/groupremove", fetchuser, async (req, res) => {
   const { chatId } = req.body;
 
   // check if the requester is admin
-  const chatData = await Chat.findOne({ _id: chatId })
+  const chatData = await Chat.findOne({ _id: chatId });
   if (chatData.isCabChat) {
-    await Chat.findByIdAndUpdate(
-      chatId,
-      {
-        admin: null,
-      })
+    await Chat.findByIdAndUpdate(chatId, {
+      admin: null,
+    });
   }
 
   const removed = await Chat.findByIdAndUpdate(
@@ -455,7 +460,6 @@ router.put("/groupremove", fetchuser, async (req, res) => {
     await Chat.deleteOne({ _id: chatId });
   }
 
-
   if (!removed) {
     res.status(404);
     throw new Error("Chat Not Found");
@@ -467,17 +471,17 @@ router.put("/groupremove", fetchuser, async (req, res) => {
 router.post("/deletechat", fetchuser, async (req, res) => {
   const { chatId } = req.body;
   console.log(chatId, req.user.id);
-  const chat = await Chat.find({ _id: chatId })
+  const chat = await Chat.find({ _id: chatId });
   if (chat.length > 0) {
-    console.log(chat)
+    console.log(chat);
     if (chat[0].admin == req.user.id) {
-      await Chat.deleteOne({ _id: chatId })
-      res.json({ sucess: true, message: "Chat deleted successfully" })
+      await Chat.deleteOne({ _id: chatId });
+      res.json({ sucess: true, message: "Chat deleted successfully" });
     }
   }
 
-  const removenotifications = await notification.deleteMany({ chatId: chatId })
-  console.log(removenotifications)
+  const removenotifications = await notification.deleteMany({ chatId: chatId });
+  console.log(removenotifications);
 
   if (!chat) {
     res.status(404);
@@ -485,9 +489,7 @@ router.post("/deletechat", fetchuser, async (req, res) => {
   } else {
     res.json(chat);
   }
-
-})
-
+});
 
 // @desc    Add user to Group / Leave
 router.put("/groupadd", fetchuser, async (req, res) => {
