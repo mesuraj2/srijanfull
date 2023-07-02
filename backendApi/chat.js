@@ -114,9 +114,11 @@ router.post("/", fetchuser, async (req, res) => {
 //@Description create new cabshare chat
 router.post("/cabsharechat", fetchuser, async (req, res) => {
   try {
-    let { time, distance } = req.body; // time in second and distance in meter
-    time = time ? time : 300; // in second
-    distance = distance ? distance : 20 * 1000;
+    let expireTime = [5, 10, 30, 45, 60];
+    let distanceList = [100, 200, 500, 1000, 2000, 5000];
+    let { expiry, radius } = req.body; // time in second and distance in meter
+    expiry = expiry ? expireTime[expiry] : 300; // in second
+    radius = radius ? distanceList[radius] : 20 * 1000;
     const cabsharechat = await Chat.create({
       chatName: "Cab Share",
       users: req.user.id,
@@ -124,7 +126,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       isOfferChat: true,
       isCabChat: true,
       admin: req.user.id,
-      expireAt: new Date(new Date().getTime() + 1000 * time),
+      expireAt: new Date(new Date().getTime() + 1000 * expiry),
       place: {
         from: req.body.from,
         to: req.body.to,
@@ -151,7 +153,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
                 type: "Point",
                 coordinates: JSON.parse(req.body.coordinate),
               },
-              $maxDistance: distance,
+              $maxDistance: radius,
             },
           },
           user: { $ne: null },
