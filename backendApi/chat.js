@@ -131,7 +131,6 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         from: req.body.from,
         to: req.body.to,
       },
-      offerid: "6480cd6b94cfd5f7ce76397c",
       Location: {
         type: "Point",
         coordinates: JSON.parse(req.body.coordinate),
@@ -161,7 +160,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         { user: 1 }
       )
       .populate("user");
-
+    console.log(user);
     // let nearusers = user.map(partuser => { if(partuser.user.fcmtoken) {return partuser.user.fcmtoken} })
     let nearusertoken = user
       .map((userdata) => {
@@ -176,6 +175,8 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       .filter((lolo) => {
         return lolo != "";
       });
+
+    console.log(newuserdata);
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
     // console.log("near usertoken", nearusertoken)
@@ -366,11 +367,11 @@ router.post("/group", fetchuser, async (req, res) => {
   } catch (error) {
     res.send(error);
   }
-
-  if (users.length < 1) {
-    return res.status(400).send({
+  console.log(users.length);
+  if (users.length < 2) {
+    return res.send({
       success: false,
-      message: "More than 2 users are required to form a group chat",
+      message: "More than 2 users are required to form a private chat",
     });
   }
   // users.push(req.user.id);
@@ -386,9 +387,8 @@ router.post("/group", fetchuser, async (req, res) => {
       "users",
       "-password"
     );
-    //   .populate("groupAdmin", "-password");
 
-    res.status(200).json(fullGroupChat);
+    res.status(200).json({ success: true, fullGroupChat });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

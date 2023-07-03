@@ -35,7 +35,7 @@ app
     server.use("/api/message", Message);
     server.use("/api/noti", Notification);
     server.use("/api/offer", Offer);
-    server.use("/api/feedback",Feedback)
+    server.use("/api/feedback", Feedback);
 
     server.get("*", (req, res) => {
       return handle(req, res);
