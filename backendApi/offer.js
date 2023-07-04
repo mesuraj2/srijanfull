@@ -214,7 +214,7 @@ router.get("/categoryoffers", async (req, res) => {
 
 router.get("/testoffers", async (req, res) => {
   try {
-    let results = await offer.find()
+    let results = {success: false, error: 'Hello'}
     //console.log('New Request')
     res.json(results)
   }

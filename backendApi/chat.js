@@ -396,9 +396,10 @@ router.post("/group", fetchuser, async (req, res) => {
 });
 
 //@description     Fetch all chats for a user
-router.get("/fetchChat", fetchuser, (req, res) => {
+router.get("/fetchChat", fetchuser, async (req, res) => {
+  console.log("requested Chats")
   try {
-    Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
+    await Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
       .populate("users", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
@@ -460,6 +461,8 @@ router.put("/groupremove", fetchuser, async (req, res) => {
 
   if (removed.users.length < 1) {
     await Chat.deleteOne({ _id: chatId });
+    const removenotifications = await notification.deleteMany({ chatId: chatId });
+    console.log(removenotifications);
   }
 
   if (!removed) {
@@ -469,6 +472,33 @@ router.put("/groupremove", fetchuser, async (req, res) => {
     res.json(removed);
   }
 });
+
+router.post('/groupremovemultiple', fetchuser, async (req, res) => {
+  const { chatlist } = req.body
+  try {
+    chatlist.forEach(async (chat) => {
+      const removing = await Chat.findByIdAndUpdate(
+        chat,
+        {
+          $pull: { users: req.user.id },
+        },
+        {
+          new: true,
+        })
+      if (removing.users.length < 1) {
+        await Chat.deleteOne({ _id: chat })
+      }
+      else if (removing.admin == req.user.id) {
+        Chat.findByIdAndUpdate(chat, { admin: removing.users[0] })
+      }
+
+    })
+    res.json({ success: true, message: "Successfully removed chats" })
+  } catch (e) {
+    res.json({ message: 'Some Error has occuered', error: e })
+  }
+
+})
 
 router.post("/deletechat", fetchuser, async (req, res) => {
   const { chatId } = req.body;
