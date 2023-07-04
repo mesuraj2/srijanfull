@@ -578,19 +578,32 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           { user: 1 }
         ).populate("user");
         console.log("got users")
-        let nearusertoken = user.map((userdata) => { return userdata.user }).filter(newuserdata => { return newuserdata != null }).map(lo => { return lo.fcmtoken }).filter(lolo => { return lolo != '' })
-        let new_near = []
-        user.forEach((item, index)=>{
-          if(item.user != null){
-            if(!(item.user._id.equals(req.user.id))){
-              new_near.push(item.user.fcmtoken)
-            }
-          }
+
+        let nearusertoken = user
+        .map((userdata) => {
+          return userdata.user;
         })
-        console.log('list of fcm', new_near)
+        .filter((newuserdata) => {
+          return newuserdata != null && newuserdata._id != req.user._id;
+        })
+        .map((lo) => {
+          return lo.fcmtoken;
+        })
+        .filter((lolo) => {
+          return lolo != "";
+        });
+        // let new_near = []
+        // user.forEach((item, index)=>{
+        //   if(item.user != null){
+        //     if(!(item.user._id.equals(req.user.id))){
+        //       new_near.push(item.user.fcmtoken)
+        //     }
+        //   }
+        // })
+        // console.log('list of fcm', new_near)
         // console.log(user,nearusers, JSON.stringify(user))
         // console.log("near usertoken", nearusertoken)
-        sendMessage({ tokens: new_near, notification: { title: `New Offer Chat: ${req.body.offerName}`, body: 'Click here to join chat' } })
+        sendMessage({ tokens: nearusertoken, notification: { title: `New Offer Chat: ${req.body.offerName}`, body: 'Click here to join chat' } })
         console.log("reached point after senfing message")
         user.forEach(async (users) => {
           try {
