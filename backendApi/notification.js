@@ -2,7 +2,7 @@ const express = require("express");
 const fetchuser = require("./fetchuser");
 const notification = require("../models/notification");
 const router = express.Router();
-const chat = require('../models/chat')
+const chat = require("../models/chat");
 
 router.get("/", fetchuser, async (req, res) => {
   const result = await notification.find({ user: req.user.id, seen: false });
@@ -21,12 +21,14 @@ router.post("/seen", async (req, res) => {
   }
 });
 
-
-router.get("/all",fetchuser,  async (req, res) => {
-  console.log("new Requests")
-  const updatedChat = await notification.find({user: req.user.id}).populate("chatId").populate("user", "-password")
-  res.json({ success: true,chat: updatedChat });
+router.get("/all", fetchuser, async (req, res) => {
+  console.log("new Requests");
+  const updatedChat = await notification
+    .find({ user: req.user.id,seen:false })
+    .populate("chatId")
+    .populate("user", "-password");
+    console.log(updatedChat)
+  res.json({ success: true, chat: updatedChat });
 });
-
 
 module.exports = router;

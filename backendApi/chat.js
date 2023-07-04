@@ -191,6 +191,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
           const notifi = await notification.create({
             chatName: "Cab share",
             chatId: cabsharechat._id,
+            expireAt: new Date(new Date().getTime() + 1000 * expiry),
             user: users.user._id.toString(),
           });
 
