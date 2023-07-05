@@ -160,7 +160,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         { user: 1 }
       )
       .populate("user");
-    console.log("userdata aavailable",user);
+    console.log("userdata aavailable", user);
     // let nearusers = user.map(partuser => { if(partuser.user.fcmtoken) {return partuser.user.fcmtoken} })
     let nearusertoken = user
       .map((userdata) => {
@@ -191,7 +191,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
           const notifi = await notification.create({
             chatName: "Cab share",
             chatId: cabsharechat._id,
-            expireAt: new Date(new Date().getTime() + 1000 * expiry),
+            expireAt: new Date(new Date().getTime() + 1000 * 60*expiry),
             user: users.user._id.toString(),
           });
           await User.findByIdAndUpdate(users.user._id.toString(), {
@@ -397,8 +397,8 @@ router.post("/group", fetchuser, async (req, res) => {
 
 //@description     Fetch all chats for a user
 router.get("/fetchChat", fetchuser, async (req, res) => {
-  console.log("requested Chats")
-  console.log(req.user.id)
+  console.log("requested Chats");
+  console.log(req.user.id);
   try {
     await Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
       .populate("users", "-password")
@@ -463,7 +463,9 @@ router.put("/groupremove", fetchuser, async (req, res) => {
 
   if (removed.users.length < 1) {
     await Chat.deleteOne({ _id: chatId });
-    const removenotifications = await notification.deleteMany({ chatId: chatId });
+    const removenotifications = await notification.deleteMany({
+      chatId: chatId,
+    });
     console.log(removenotifications);
   }
 
@@ -475,8 +477,8 @@ router.put("/groupremove", fetchuser, async (req, res) => {
   }
 });
 
-router.post('/groupremovemultiple', fetchuser, async (req, res) => {
-  const { chatlist } = req.body
+router.post("/groupremovemultiple", fetchuser, async (req, res) => {
+  const { chatlist } = req.body;
   try {
     chatlist.forEach(async (chat) => {
       const removing = await Chat.findByIdAndUpdate(
@@ -486,21 +488,19 @@ router.post('/groupremovemultiple', fetchuser, async (req, res) => {
         },
         {
           new: true,
-        })
+        }
+      );
       if (removing.users.length < 1) {
-        await Chat.deleteOne({ _id: chat })
+        await Chat.deleteOne({ _id: chat });
+      } else if (removing.admin == req.user.id) {
+        Chat.findByIdAndUpdate(chat, { admin: removing.users[0] });
       }
-      else if (removing.admin == req.user.id) {
-        Chat.findByIdAndUpdate(chat, { admin: removing.users[0] })
-      }
-
-    })
-    res.json({ success: true, message: "Successfully removed chats" })
+    });
+    res.json({ success: true, message: "Successfully removed chats" });
   } catch (e) {
-    res.json({ message: 'Some Error has occuered', error: e })
+    res.json({ message: "Some Error has occuered", error: e });
   }
-
-})
+});
 
 router.post("/deletechat", fetchuser, async (req, res) => {
   const { chatId } = req.body;
