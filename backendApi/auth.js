@@ -258,11 +258,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-      $or: [
-        { name: { $regex: req.query.search, $options: "i" } },
-        { email: { $regex: req.query.search, $options: "i" } },
-      ],
-    }
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -302,9 +302,12 @@ router.get("/getNearUser", async (req, res) => {
   res.send(data);
 });
 
-router.post("/getNearUserApp", async (req, res) => {
+router.post("/getNearUserApp", fetchuser, async (req, res) => {
   // console.log("suraj")
+  let { radius } = req.body;
   console.log("get near app", req.body);
+  let distance = [100, 200, 500, 1000, 2000, 5000, 10000];
+  radius = radius ? distance[radius] : 20 * 1000; // in km
   let user = await location
     .find(
       {
@@ -314,16 +317,15 @@ router.post("/getNearUserApp", async (req, res) => {
               type: "Point",
               coordinates: [req.body.lat, req.body.long],
             },
-            $maxDistance: 20 * 1000,
+            $maxDistance: radius,
           },
         },
-        user: { $ne: null },
+        user: { $ne: req.user.id },
       },
       { user: 1, Location: 1 }
     )
     .populate("user", "latestNotif");
   let notificationuser = await notification.populate(user, "user.latestNotif");
-  console.log("gave back");
   res.json({ location: user, user: notificationuser });
 });
 
@@ -362,13 +364,16 @@ router.post("/newusername", fetchuser, async (req, res) => {
 });
 
 router.post("/updatelocation", fetchuser, async (req, res) => {
-  const { data } = await location.findOneAndUpdate({ user: req.user.id }, {
-    Location: {
-      type: "Point",
-      coordinates: JSON.parse(req.body.location),
-    },
-  })
-  res.json({ message: "Updated Successfully", success: true })
-})
+  const { data } = await location.findOneAndUpdate(
+    { user: req.user.id },
+    {
+      Location: {
+        type: "Point",
+        coordinates: JSON.parse(req.body.location),
+      },
+    }
+  );
+  res.json({ message: "Updated Successfully", success: true });
+});
 
 module.exports = router;

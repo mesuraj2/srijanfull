@@ -21,19 +21,18 @@ router.post("/seen", async (req, res) => {
   }
 });
 
-
 router.get("/all", fetchuser, async (req, res) => {
-  console.log("new Requests")
-  const updatedChat = await notification.find({ user: req.user.id }).populate("chatId").populate("user", "-password")
+  // console.log("new Requests")
+  const updatedChat = await notification
+    .find({ user: req.user.id })
+    .populate("chatId")
+    .populate("user", "-password");
   res.json({ success: true, chat: updatedChat });
 });
 
-
 router.post("/delete", fetchuser, async (req, res) => {
   const updatedChat = await notification.deleteOne({ _id: req.body.id });
-  res.json({ success: true, message: 'Deleted Notification' });
+  res.json({ success: true, message: "Deleted Notification" });
 });
-
-
 
 module.exports = router;
