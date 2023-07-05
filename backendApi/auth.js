@@ -165,7 +165,7 @@ router.post("/google", async (req, res) => {
               // const salt = await bcrypt.genSalt(10);
               // //console.log(req.body.password)
               // const password = await bcrypt.hash(req.body.password, salt);
-              console.log("starting to create");
+              // console.log("starting to create");
               result = await User.create({
                 name: name,
                 email: email,
