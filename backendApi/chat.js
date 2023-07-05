@@ -160,14 +160,14 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         { user: 1 }
       )
       .populate("user");
-    console.log(user);
+    console.log("userdata aavailable",user);
     // let nearusers = user.map(partuser => { if(partuser.user.fcmtoken) {return partuser.user.fcmtoken} })
     let nearusertoken = user
       .map((userdata) => {
         return userdata.user;
       })
       .filter((newuserdata) => {
-        return newuserdata != null;
+        return newuserdata != null && newuserdata._id != req.user._id;
       })
       .map((lo) => {
         return lo.fcmtoken;
@@ -176,7 +176,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         return lolo != "";
       });
 
-    console.log(newuserdata);
+    // console.log(newuserdata);
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
     // console.log("near usertoken", nearusertoken)
@@ -194,7 +194,6 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
             expireAt: new Date(new Date().getTime() + 1000 * expiry),
             user: users.user._id.toString(),
           });
-
           await User.findByIdAndUpdate(users.user._id.toString(), {
             latestNotif: notifi._id,
           });
@@ -399,10 +398,12 @@ router.post("/group", fetchuser, async (req, res) => {
 //@description     Fetch all chats for a user
 router.get("/fetchChat", fetchuser, async (req, res) => {
   console.log("requested Chats")
+  console.log(req.user.id)
   try {
     await Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
       .populate("users", "-password")
       .populate("latestMessage")
+      .populate("admin")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
         results = await User.populate(results, {
