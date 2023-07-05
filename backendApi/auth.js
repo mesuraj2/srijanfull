@@ -193,8 +193,10 @@ router.post("/google", async (req, res) => {
               var token = jwt.sign(data, process.env.SECRET_KEY);
               setCookie("authtoken", token, { req, res });
               res.json({
-                token: token,
                 success: true,
+                name: name,
+                email: email,
+                pic: picture,
                 message: "Successfully created account",
                 _id: result._id,
               });
@@ -256,11 +258,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -358,5 +360,15 @@ router.post("/newusername", fetchuser, async (req, res) => {
   );
   res.json(user);
 });
+
+router.post("/updatelocation", fetchuser, async (req, res) => {
+  const { data } = await location.findOneAndUpdate({ user: req.user.id }, {
+    Location: {
+      type: "Point",
+      coordinates: JSON.parse(req.body.location),
+    },
+  })
+  res.json({ message: "Updated Successfully", success: true })
+})
 
 module.exports = router;
