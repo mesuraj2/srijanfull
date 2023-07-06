@@ -38,6 +38,9 @@ const Chatmodel = mongoose.Schema(
       },
       coordinates: [Number],
     },
+    expireAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
