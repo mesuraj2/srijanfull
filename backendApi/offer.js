@@ -147,20 +147,20 @@ router.get("/categoryoffers", async (req, res) => {
     let location =
       radius > 0
         ? {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-                $maxDistance: radius,
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
+              $maxDistance: radius,
             },
-          }
+          },
+        }
         : {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
             },
-          };
+          },
+        };
     let searchquery = {
       description: {
         $text: {
@@ -597,7 +597,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
             return userdata.user;
           })
           .filter((newuserdata) => {
-            return newuserdata != null && newuserdata._id != req.user._id;
+            return newuserdata != null && newuserdata._id != req.user.id;
           })
           .map((lo) => {
             return lo.fcmtoken;
@@ -626,7 +626,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
         console.log("reached point after senfing message");
         user.forEach(async (users) => {
           try {
-            if (users.user._id != req.user.id && users.user) {
+            if (users.user != req.user.id && users.user) {
               console.log("create notificationion backend");
               const notifi = await notification.create({
                 chatName: req.body.offerName,
