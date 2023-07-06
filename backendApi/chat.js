@@ -115,7 +115,7 @@ router.post("/", fetchuser, async (req, res) => {
 router.post("/cabsharechat", fetchuser, async (req, res) => {
   try {
     let expireTime = [5, 10, 30, 45, 60];
-    let distanceList = [100, 200, 500, 1000, 2000, 5000];
+    let distanceList = [100, 200, 500, 1000, 2000, 5000, 10000];
     let { expiry, radius } = req.body; // time in second and distance in meter
     expiry = expiry ? expireTime[expiry] : 300; // in second
     radius = radius ? distanceList[radius] : 20 * 1000;
@@ -126,7 +126,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       isOfferChat: true,
       isCabChat: true,
       admin: req.user.id,
-      expireAt: new Date(new Date().getTime() + 1000 * expiry),
+      expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
       place: {
         from: req.body.from,
         to: req.body.to,
@@ -191,7 +191,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
           const notifi = await notification.create({
             chatName: "Cab share",
             chatId: cabsharechat._id,
-            expireAt: new Date(new Date().getTime() + 1000 * 60*expiry),
+            expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
             user: users.user._id.toString(),
           });
           await User.findByIdAndUpdate(users.user._id.toString(), {
@@ -360,21 +360,22 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
 //@description     Create New Group Chat
 router.post("/group", fetchuser, async (req, res) => {
   // const {user,chatName}=req.body;
-  console.log("suraj");
+  // console.log("suraj");
 
   try {
     var users = JSON.parse(req.body.users);
   } catch (error) {
     res.send(error);
   }
-  console.log(users.length);
-  if (users.length < 2) {
-    return res.send({
-      success: false,
-      message: "More than 2 users are required to form a private chat",
-    });
-  }
-  // users.push(req.user.id);
+  // console.log(users.length);
+  // if (users.length < 2) {
+  //   return res.send({
+  //     success: false,
+  //     message: "More than 2 users are required to form a private chat",
+  //   });
+  // }
+  users.push(req.user.id);
+  console.log(users);
   try {
     const groupChat = await Chat.create({
       admin: req.user.id,

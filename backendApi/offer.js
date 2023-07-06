@@ -26,7 +26,7 @@ const admin = require("firebase-admin");
 async function sendMessage({ tokens, notification }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
-  console.log("sending message to ", tokens)
+  console.log("sending message to ", tokens);
   // Send a message to devices with the registered tokens
   // await getMessaging().send({
   //   tokens: tokens, // ['token_1', 'token_2', ...]
@@ -41,84 +41,82 @@ async function sendMessage({ tokens, notification }) {
 
   for (var i = 0; i < tokens.length; i++) {
     try {
-      await admin.messaging().send({
-        token: tokens[i], // ['token_1', 'token_2', ...]
-        data: { "hello": "world" },
-        notification: notification,
-        android: {
-          priority: "high",  // Here goes priority
-          // ttl: 10 * 60 * 1000, // Time to live
-        }
-      }).then((response) => {
-        // Response is a message ID string.
-        console.log('Successfully sent message:', response);
-      })
+      await admin
+        .messaging()
+        .send({
+          token: tokens[i], // ['token_1', 'token_2', ...]
+          data: { hello: "world" },
+          notification: notification,
+          android: {
+            priority: "high", // Here goes priority
+            // ttl: 10 * 60 * 1000, // Time to live
+          },
+        })
+        .then((response) => {
+          // Response is a message ID string.
+          console.log("Successfully sent message:", response);
+        });
       // .catch((error) => {
       //   // continue;
       //   // continue
-      //   console.log('Error sending message:', error);   
+      //   console.log('Error sending message:', error);
       // });
     } catch (error) {
-      console.log('Error sending message to :', tokens[i], error);
-      continue
+      console.log("Error sending message to :", tokens[i], error);
+      continue;
     }
   }
 }
 
-
-router.post('/createcategory', async (req, res) => {
+router.post("/createcategory", async (req, res) => {
   try {
-    const name = req.body.name
-    const description = req.body.description
-    const link = req.body.link
+    const name = req.body.name;
+    const description = req.body.description;
+    const link = req.body.link;
     let data;
     if (req.body.image) {
       data = {
         name: name,
         description: description,
         link: link,
-        image: req.body.image
-      }
-    }
-    else {
+        image: req.body.image,
+      };
+    } else {
       data = {
         name: name,
         description: description,
         link: link,
-      }
+      };
     }
     if (name || description || link) {
-      let category = await categories.findOneAndUpdate({ name: name }, data)
+      let category = await categories.findOneAndUpdate({ name: name }, data);
       if (category) {
-        res.json({ message: "Category updated successfully" })
+        res.json({ message: "Category updated successfully" });
       } else {
         let result = await categories.create({
           name: name,
           image: req.body.image,
           description: description,
-          link: link
-        })
-        res.json({ id: result.id, message: "Category created successfully" })
+          link: link,
+        });
+        res.json({ id: result.id, message: "Category created successfully" });
       }
+    } else {
+      res.json({ message: "One or more required fields missing" });
     }
-    else {
-      res.json({ message: "One or more required fields missing" })
-    }
-  }
-  catch (err) {
+  } catch (err) {
     //console.log(err)
   }
-})
+});
 
 router.get("/categories", async (req, res) => {
   try {
-    let result = await categories.find()
-    res.json(result)
-  }
-  catch (err) {
+    let result = await categories.find();
+    res.json(result);
+  } catch (err) {
     //console.log(err)
   }
-})
+});
 
 router.get("/searchoffers", async (req, res) => {
   try {
@@ -149,20 +147,20 @@ router.get("/categoryoffers", async (req, res) => {
     let location =
       radius > 0
         ? {
-          Location: {
-            $near: {
-              $geometry: { type: "Point", coordinates: coordinte },
-              $maxDistance: radius,
+            Location: {
+              $near: {
+                $geometry: { type: "Point", coordinates: coordinte },
+                $maxDistance: radius,
+              },
             },
-          },
-        }
+          }
         : {
-          Location: {
-            $near: {
-              $geometry: { type: "Point", coordinates: coordinte },
+            Location: {
+              $near: {
+                $geometry: { type: "Point", coordinates: coordinte },
+              },
             },
-          },
-        };
+          };
     let searchquery = {
       description: {
         $text: {
@@ -211,17 +209,15 @@ router.get("/categoryoffers", async (req, res) => {
   }
 });
 
-
 router.get("/testoffers", async (req, res) => {
   try {
-    let results = {success: false, error: 'Hello'}
+    let results = { success: false, error: "Hello" };
     //console.log('New Request')
-    res.json(results)
-  }
-  catch (err) {
+    res.json(results);
+  } catch (err) {
     //console.log(err)
   }
-})
+});
 
 router.post("/", fetchuser, async (req, res) => {
   const {
@@ -404,7 +400,9 @@ router.post("/offerchats", async (req, res) => {
     };
     let query = { _id: req.body.id };
     // query = radius ? { ...query, ...locationquery } : query;
-    if (radius) { console.log('Radius is present') }
+    if (radius) {
+      console.log("Radius is present");
+    }
     //console.log('query check')
     //console.log(query);
     let data = await offer
@@ -451,16 +449,15 @@ router.post("/offerdetail", async (req, res) => {
 router.post("/aboutoffer", async (req, res) => {
   try {
     // const { lat, long } = req.query;
-    console.log(req.body.id)
+    console.log(req.body.id);
     try {
-      const fullGroupChat = await offer.findById(req.body.id)
-      console.log(fullGroupChat)
+      const fullGroupChat = await offer.findById(req.body.id);
+      console.log(fullGroupChat);
       res.json({ data: fullGroupChat });
+    } catch (error) {
+      console.log("error1", error);
     }
-    catch (error) {
-      console.log("error1", error)
-    }
-    res.json({ success: false })
+    res.json({ success: false });
   } catch (error) {
     res.send(error);
   }
@@ -495,13 +492,17 @@ router.post("/aboutoffer", async (req, res) => {
 //   }
 // });
 
-
-
 // Create Offer
 
-router.post('/createappoffer', fetchuser, async (req, res) => {
-  console.log(req.body)
+router.post("/createappoffer", fetchuser, async (req, res) => {
+  console.log(req.body);
   try {
+    let expireTime = [5, 10, 30, 45, 60];
+    let distanceList = [100, 200, 500, 1000, 2000, 5000, 10000];
+    let { expiry, radius } = req.body; // time in second and distance in meter
+    expiry = expiry ? expireTime[expiry] : 300; // in second
+    radius = radius ? distanceList[radius] : 20 * 1000;
+    console.log(req.body.imageArr);
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
         let result = await offer.create({
@@ -513,8 +514,11 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           description: req.body.description,
           locationdescription: req.body.locationdescription,
           chat_id: [req.user.id],
-          Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
-        })
+          Location: {
+            type: "Point",
+            coordinates: [req.body.lat, req.body.long],
+          },
+        });
 
         // lets not start mailing
         // const users = await User.find({}, { email: 1 })
@@ -529,19 +533,22 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
         //   nodeMailer(maillist[i], message, "New Drop")
         // }
 
-        categories.findOne({ name: req.body.category }).exec(async (err, category) => {
-          if (err) { } else {
-            if (category) {
+        categories
+          .findOne({ name: req.body.category })
+          .exec(async (err, category) => {
+            if (err) {
             } else {
-              let result2 = await categories.create({
-                name: req.body.category,
-                image: req.body.imageArr[0],
-                description: `Latest Collection of ${req.body.category}`,
-                link: req.body.category
-              })
+              if (category) {
+              } else {
+                let result2 = await categories.create({
+                  name: req.body.category,
+                  image: req.body.imageArr[0],
+                  description: `Latest Collection of ${req.body.category}`,
+                  link: req.body.category,
+                });
+              }
             }
-          }
-        })
+          });
 
         const createofferchat = await Chat.create({
           chatName: req.body.offerName,
@@ -550,12 +557,13 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           isOfferChat: true,
           admin: req.user.id,
           offerid: result._id,
+          expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
           Location: {
             type: "Point",
             coordinates: [req.body.lat, req.body.long],
           },
         });
-        console.log("created offer")
+        console.log("created offer");
 
         let locationres = await location.create({
           Location: {
@@ -564,34 +572,39 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
           },
           chat: createofferchat._id,
         });
-        console.log("created locatin")
-        const user = await location.find(
-          {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: [req.body.lat, req.body.long] },
-                $maxDistance: 20 * 1000,
+        console.log("created locatin");
+        const user = await location
+          .find(
+            {
+              Location: {
+                $near: {
+                  $geometry: {
+                    type: "Point",
+                    coordinates: [req.body.lat, req.body.long],
+                  },
+                  $maxDistance: radius,
+                },
               },
+              user: { $ne: null },
             },
-            user: { $ne: null },
-          },
-          { user: 1 }
-        ).populate("user");
-        console.log("got users")
+            { user: 1 }
+          )
+          .populate("user");
+        console.log("got users");
 
         let nearusertoken = user
-        .map((userdata) => {
-          return userdata.user;
-        })
-        .filter((newuserdata) => {
-          return newuserdata != null && newuserdata._id != req.user._id;
-        })
-        .map((lo) => {
-          return lo.fcmtoken;
-        })
-        .filter((lolo) => {
-          return lolo != "";
-        });
+          .map((userdata) => {
+            return userdata.user;
+          })
+          .filter((newuserdata) => {
+            return newuserdata != null && newuserdata._id != req.user._id;
+          })
+          .map((lo) => {
+            return lo.fcmtoken;
+          })
+          .filter((lolo) => {
+            return lolo != "";
+          });
         // let new_near = []
         // user.forEach((item, index)=>{
         //   if(item.user != null){
@@ -603,15 +616,22 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
         // console.log('list of fcm', new_near)
         // console.log(user,nearusers, JSON.stringify(user))
         // console.log("near usertoken", nearusertoken)
-        sendMessage({ tokens: nearusertoken, notification: { title: `New Offer Chat: ${req.body.offerName}`, body: 'Click here to join chat' } })
-        console.log("reached point after senfing message")
+        sendMessage({
+          tokens: nearusertoken,
+          notification: {
+            title: `New Offer Chat: ${req.body.offerName}`,
+            body: "Click here to join chat",
+          },
+        });
+        console.log("reached point after senfing message");
         user.forEach(async (users) => {
           try {
             if (users.user._id != req.user.id && users.user) {
-              console.log("create notificationion backend")
+              console.log("create notificationion backend");
               const notifi = await notification.create({
                 chatName: req.body.offerName,
                 chatId: createofferchat._id,
+                expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
                 user: users.user._id.toString(),
               });
 
@@ -619,32 +639,39 @@ router.post('/createappoffer', fetchuser, async (req, res) => {
                 latestNotif: notifi._id,
               });
             }
-          }
-          catch (e) {
+          } catch (e) {
             console.log(e);
           }
-
         });
-        console.log('done with notificaion in backend')
+        console.log("done with notificaion in backend");
         const offerchat = await Chat.findOne({
           _id: createofferchat._id,
-        }).populate("users", "-password")
+        }).populate("users", "-password");
         // console.log("donw wirh finding chat", offerchat);
-        res.json({ success: true, data: result, id: result._id, chatdetails: offerchat, message: "Offer created successfully" })
+        res.json({
+          success: true,
+          data: result,
+          id: result._id,
+          chatdetails: offerchat,
+          message: "Offer created successfully",
+        });
       } else {
-        res.json({ success: false, error: 'location', message: "Please enable location access" })
+        res.json({
+          success: false,
+          error: "location",
+          message: "Please enable location access",
+        });
       }
-    }
-    else {
-      res.json({ message: "Authenticate to continue" })
+    } else {
+      res.json({ message: "Authenticate to continue" });
     }
   } catch (err) {
-    res.json({ message: "Some Error occured", error: err })
+    res.json({ message: "Some Error occured", error: err });
   }
-})
+});
 
-router.post('/createoffer', fetchuser, async (req, res) => {
-  console.log(req.body)
+router.post("/createoffer", fetchuser, async (req, res) => {
+  console.log(req.body);
   try {
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
@@ -658,47 +685,59 @@ router.post('/createoffer', fetchuser, async (req, res) => {
           description: req.body.description,
           locationdescription: req.body.locationdescription,
           chat_id: [req.user.id],
-          Location: { type: "Point", coordinates: [req.body.lat, req.body.long] }
-        })
+          Location: {
+            type: "Point",
+            coordinates: [req.body.lat, req.body.long],
+          },
+        });
         // lets start mailing
-        const users = await User.find({}, { email: 1 })
-        const maillist = users.map(user => user.email)
+        const users = await User.find({}, { email: 1 });
+        const maillist = users.map((user) => user.email);
         //console.log(maillist)
         // rest stuff take fromm above. Prettfify this
         let message = `<div>Hey Folks new new drop is here</div>
         <div>Name: ${req.body.offerName}</div>
-        `
+        `;
         for (var i in maillist) {
-          nodeMailer(maillist[i], message, "New Drop")
+          nodeMailer(maillist[i], message, "New Drop");
         }
-        categories.findOne({ name: req.body.category }).exec(async (err, category) => {
-          if (err) { } else {
-            //console.log(category)
-            if (category) {
+        categories
+          .findOne({ name: req.body.category })
+          .exec(async (err, category) => {
+            if (err) {
             } else {
-              let result2 = await categories.create({
-                name: req.body.category,
-                image: req.body.imageArr[0],
-                description: `Latest Collection of ${req.body.category}`,
-                link: req.body.category
-              })
+              //console.log(category)
+              if (category) {
+              } else {
+                let result2 = await categories.create({
+                  name: req.body.category,
+                  image: req.body.imageArr[0],
+                  description: `Latest Collection of ${req.body.category}`,
+                  link: req.body.category,
+                });
+              }
             }
-
-          }
-        })
-        res.json({ success: true, data: result, id: result._id, message: "Offer created successfully" })
+          });
+        res.json({
+          success: true,
+          data: result,
+          id: result._id,
+          message: "Offer created successfully",
+        });
       } else {
-        res.json({ success: false, error: 'location', message: "Please enalble location access" })
+        res.json({
+          success: false,
+          error: "location",
+          message: "Please enalble location access",
+        });
       }
-    }
-    else {
-      res.json({ message: "Authenticate to continue" })
+    } else {
+      res.json({ message: "Authenticate to continue" });
     }
   } catch (err) {
     //console.log(err);
-    res.json({ message: "Some Error occured" })
+    res.json({ message: "Some Error occured" });
   }
-})
-
+});
 
 module.exports = router;
