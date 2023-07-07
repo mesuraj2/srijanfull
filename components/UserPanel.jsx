@@ -83,15 +83,15 @@ const UserPanel = ({ setsignedin }) => {
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
+            {/* <li>
               <Link href="#" className="justify-between">
                 Profile
-                {/* <span className="badge">New</span> */}
+                <span className="badge">New</span>
               </Link>
             </li>
             <li>
               <Link href="/chat">Chat Room</Link>
-            </li>
+            </li> */}
             {/* <li>
               <Link href="#">Notifications</Link>
             </li>

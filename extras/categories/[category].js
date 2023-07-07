@@ -43,7 +43,9 @@ const Index = ({ categoryoffers }) => {
 
   return (
     <div className="w-[90%] bg-[#B9E9FC] mx-auto">
-      <div hidden><Notification /></div>
+      <div hidden>
+        <Notification />
+      </div>
       <h1 className="text-center text-[4rem] main__font tracking-wider mt-10">
         {catigoryName}
       </h1>
