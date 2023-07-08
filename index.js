@@ -80,18 +80,18 @@ app
     //     });
     //   });
 
-    //   socket.on("new message", (newMessageRecieved) => {
-    //     // //console.log(newMessageRecieved)
-    //     var chat = newMessageRecieved.chat;
-    //     if (!chat.users) return //console.log("chat.users not defined");
-    //     chat.users.forEach((user) => {
-    //       // //console.log(user._id);
-    //       if (user._id == newMessageRecieved.sender._id) return;
-    //       // //console.log("suraj")
-    //       socket.in(user._id).emit("message recieved", newMessageRecieved);
-    //       // socket.emit("message recieved", newMessageRecieved);
-    //     });
-    //   });
+      // socket.on("new message", (newMessageRecieved) => {
+      //   // //console.log(newMessageRecieved)
+      //   var chat = newMessageRecieved.chat;
+      //   if (!chat.users) return //console.log("chat.users not defined");
+      //   chat.users.forEach((user) => {
+      //     // //console.log(user._id);
+      //     if (user._id == newMessageRecieved.sender._id) return;
+      //     // //console.log("suraj")
+      //     socket.in(user._id).emit("message recieved", newMessageRecieved);
+      //     // socket.emit("message recieved", newMessageRecieved);
+      //   });
+      // });
 
     //   socket.on('new_message', (message) => {
     //     console.log(`Message:${socket.id} ${message.content}`);

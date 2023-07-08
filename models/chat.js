@@ -24,6 +24,18 @@ const Chatmodel = mongoose.Schema(
         ref: "users",
       },
     ],
+    lastSeen: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "users",
+        },
+        lastMsgId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Messages",
+        },
+      },
+    ],
     latestMessage: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Messages",

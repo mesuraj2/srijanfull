@@ -126,6 +126,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       isOfferChat: true,
       isCabChat: true,
       admin: req.user.id,
+      lastSeen: { userId: req.user.id },
       expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
       place: {
         from: req.body.from,
@@ -527,7 +528,7 @@ router.post("/deletechat", fetchuser, async (req, res) => {
 });
 
 // @desc    Add user to Group / Leave
-router.put("/groupadd", fetchuser, async (req, res) => {
+router.put("/groupadd", async (req, res) => {
   const { chatId, userId } = req.body;
 
   // let check = await Chat.find({_id:chatId,users:{$elemMatch:{$eq:userId}}})
@@ -538,7 +539,7 @@ router.put("/groupadd", fetchuser, async (req, res) => {
   const added = await Chat.findByIdAndUpdate(
     chatId,
     {
-      $push: { users: userId },
+      $push: { users: userId, lastSeen: { userId } },
     },
     {
       new: true,
