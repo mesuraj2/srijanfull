@@ -168,7 +168,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
         return userdata.user;
       })
       .filter((newuserdata) => {
-        return newuserdata != null && newuserdata._id != req.user._id;
+        return newuserdata != null && newuserdata._id != req.user.id;
       })
       .map((lo) => {
         return lo.fcmtoken;

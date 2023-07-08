@@ -11,13 +11,13 @@ const NavbarT2 = () => {
   const links = {
     HOME: '/',
     ABOUT: '/about',
-    CATEGORIES: '/categories',
-    FAQs: '/faqs',
+    // CATEGORIES: '/categories',
+    // FAQs: '/faqs',
     // 'CONTACT US': '/contact',
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
-  const { user, setUser,notification } = ChatState();
+  const { user, setUser, notification } = ChatState();
 
   useEffect(() => {
     // axios.get('')

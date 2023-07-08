@@ -101,4 +101,15 @@ router.get("/allMessage/:chatId", fetchuser, async (req, res) => {
   res.json(message);
 });
 
+router.get("/allMessageApp/:chatId", fetchuser, async (req, res) => {
+  console.log(req.query.page);
+  const message = await Message.find({ chat: req.params.chatId })
+    .sort({ createdAt: -1 })
+    .skip((req.query.page - 1) * 10)
+    .limit(10)
+    .populate("sender", "name pic email")
+    .populate("chat");
+  res.json(message);
+});
+
 module.exports = router;
