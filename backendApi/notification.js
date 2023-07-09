@@ -3,6 +3,7 @@ const fetchuser = require("./fetchuser");
 const notification = require("../models/notification");
 const router = express.Router();
 const chat = require("../models/chat");
+const users = require("../models/users");
 
 router.get("/", fetchuser, async (req, res) => {
   const result = await notification.find({ user: req.user.id, seen: false });
@@ -23,10 +24,16 @@ router.post("/seen", async (req, res) => {
 
 router.get("/all", fetchuser, async (req, res) => {
   // console.log("new Requests")
-  const updatedChat = await notification
+  let updatedChat = await notification
     .find({ user: req.user.id })
     .populate("chatId")
+
     .populate("user", "-password");
+
+  updatedChat = await users.populate(updatedChat, {
+    path: "chatId.admin",
+    select: "name pic email",
+  });
   res.json({ success: true, chat: updatedChat });
 });
 
