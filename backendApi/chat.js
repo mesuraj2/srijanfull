@@ -399,8 +399,8 @@ router.post("/group", fetchuser, async (req, res) => {
 
 //@description     Fetch all chats for a user
 router.get("/fetchChat", fetchuser, async (req, res) => {
-  console.log("requested Chats");
-  console.log(req.user.id);
+  // console.log("requested Chats");
+  // console.log(req.user.id);
   try {
     await Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
       .populate("users", "-password")
