@@ -571,7 +571,7 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
   const added = await Chat.findByIdAndUpdate(
     chatId,
     {
-      $push: { users: req.user.id },
+      $push: { users: req.user.id, lastSeen: { userId: req.user.id } },
     },
     {
       new: true,

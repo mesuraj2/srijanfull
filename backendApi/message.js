@@ -45,7 +45,7 @@ router.post("/updtelstMsgSn", fetchuser, async (req, res) => {
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
       { $set: { "lastSeen.$.lastMsgId": req.body.MsgId } }
     );
-    console.log("result", result);
+    // console.log("result", result);
     res.send("Ok");
   } catch (error) {
     res.send("error from backend");
@@ -83,7 +83,7 @@ router.post("/udteLstMsg", fetchuser, async (req, res) => {
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
       { $set: { "lastSeen.$.lastMsgId": chat.latestMessage } }
     );
-    console.log("result", result);
+    // console.log("result", result);
     res.send("Ok");
   } catch (error) {
     res.send("some error from backend");
@@ -102,29 +102,47 @@ router.get("/allMessage/:chatId", fetchuser, async (req, res) => {
 });
 
 router.get("/allMessageApp/:chatId", fetchuser, async (req, res) => {
-  console.log("page", req.query.page);
-  console.log("from req.params", req.params);
+  // console.log("page", req.query.page);
+  // console.log("from req.params", req.params);
+
   const message = await Message.find({
     chat: req.params.chatId,
-    _id: { $gt: req.query.msgId },
   })
     .sort({ createdAt: -1 })
     .skip((req.query.page - 1) * 10)
     .limit(10)
     .populate("sender", "name pic email")
     .populate("chat");
+
   res.json(message);
 });
 router.get("/allUnseenMessageApp/:chatId", fetchuser, async (req, res) => {
-  console.log("page", req.query.page);
-  console.log("from req.params", req.params);
-  const message = await Message.find({ chat: req.params.chatId })
-    .sort({ createdAt: -1 })
-    .skip((req.query.page - 1) * 10)
-    .limit(10)
-    .populate("sender", "name pic email")
-    .populate("chat");
-  res.json(message);
+  // console.log("page", req.query.page);
+  // console.log("from req.params", req.params);
+  console.log("from unread messages");
+  if (req.query.page == 1) {
+    const message = await Message.find({
+      chat: req.params.chatId,
+      _id: { $gt: req.query.msgId },
+    })
+      .sort({ createdAt: -1 })
+      // .skip((req.query.page - 1) * 10)
+      // .limit(10)
+      .populate("sender", "name pic email")
+      .populate("chat");
+    res.json(message);
+  } else {
+    const message = await Message.find({
+      chat: req.params.chatId,
+      _id: { $lte: req.query.msgId },
+    })
+      .sort({ createdAt: -1 })
+      // .skip((req.query.page - 1) * 10)
+      // .limit(10)
+      .populate("sender", "name pic email")
+      .populate("chat");
+    res.json(message);
+  }
 });
 
 module.exports = router;
