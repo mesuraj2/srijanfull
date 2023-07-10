@@ -128,6 +128,8 @@ router.post("/verifyId", async (req, res) => {
 // });
 // for google auth
 
+//
+
 router.post("/google", async (req, res) => {
   const { tokenid, locationdata } = req.body;
   console.log("google data", req.body);
@@ -320,7 +322,7 @@ router.post("/getNearUserApp", fetchuser, async (req, res) => {
             $maxDistance: radius,
           },
         },
-        user: { $ne: req.user.id },
+        user: { $nin: [req.user.id, null] },
       },
       { user: 1, Location: 1 }
     )
@@ -375,5 +377,7 @@ router.post("/updatelocation", fetchuser, async (req, res) => {
   );
   res.json({ message: "Updated Successfully", success: true });
 });
+
+router.post("/helper", async (req, res) => {});
 
 module.exports = router;

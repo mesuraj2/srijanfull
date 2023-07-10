@@ -147,20 +147,20 @@ router.get("/categoryoffers", async (req, res) => {
     let location =
       radius > 0
         ? {
-          Location: {
-            $near: {
-              $geometry: { type: "Point", coordinates: coordinte },
-              $maxDistance: radius,
+            Location: {
+              $near: {
+                $geometry: { type: "Point", coordinates: coordinte },
+                $maxDistance: radius,
+              },
             },
-          },
-        }
+          }
         : {
-          Location: {
-            $near: {
-              $geometry: { type: "Point", coordinates: coordinte },
+            Location: {
+              $near: {
+                $geometry: { type: "Point", coordinates: coordinte },
+              },
             },
-          },
-        };
+          };
     let searchquery = {
       description: {
         $text: {
@@ -497,12 +497,12 @@ router.post("/aboutoffer", async (req, res) => {
 router.post("/createappoffer", fetchuser, async (req, res) => {
   console.log(req.body);
   try {
-    let expireTime = [5, 10, 30, 45, 60];
+    // let expireTime = [5, 10, 30, 45, 60];
     let distanceList = [100, 200, 500, 1000, 2000, 5000, 10000];
     let { expiry, radius } = req.body; // time in second and distance in meter
-    expiry = expiry ? expireTime[expiry] : 300; // in second
+    expiry = expiry ? expiry : 300; // in second
     radius = radius ? distanceList[radius] : 20 * 1000;
-    console.log(req.body.imageArr);
+    // console.log(req.body.imageArr);
     if (req.user.id) {
       if (req.body.lat || req.body.long) {
         let result = await offer.create({

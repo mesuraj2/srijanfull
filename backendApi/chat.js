@@ -115,10 +115,11 @@ router.post("/", fetchuser, async (req, res) => {
 //@Description create new cabshare chat
 router.post("/cabsharechat", fetchuser, async (req, res) => {
   try {
-    let expireTime = [5, 10, 30, 45, 60];
+    // let expireTime = [5, 10, 30, 45, 60];
     let distanceList = [100, 200, 500, 1000, 2000, 5000, 10000];
-    let { expiry, radius } = req.body; // time in second and distance in meter
-    expiry = expiry ? expireTime[expiry] : 300; // in second
+    let { expiry, radius } = req.body;
+    // console.log("expiry", expiry); // time in second and distance in meter
+    expiry = expiry ? expiry : 300; // in second
     radius = radius ? distanceList[radius] : 20 * 1000;
     const cabsharechat = await Chat.create({
       chatName: "Cab Share",
