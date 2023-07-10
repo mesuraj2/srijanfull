@@ -35,12 +35,12 @@ const CatigoryDisplay = () => {
             className="6xl:w-[20rem] w-[13rem]  xl:w-[28rem] rounded-md shadow-md"
           />
         </div>
-        <button
+        {/* <button
           onClick={() => router.push('/categories')}
           className="btn btn-outline tracking-wide text-[1.1rem] my-10"
         >
           Explore More
-        </button>
+        </button> */}
       </div>
     </div>
   );

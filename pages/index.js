@@ -105,7 +105,7 @@ const Home = () => {
       </div>
       <Header />
       <About />
-      <div hidden><Notification /></div>
+      {/* <div hidden><Notification /></div> */}
       <CatigoryDisplay />
     </div>
   );

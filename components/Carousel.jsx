@@ -52,6 +52,7 @@ const Carousel = ({ imageLinks, className = '', nav = false }) => {
             return (
               <SwiperSlide key={index}>
                 <img
+                  lazy={true}
                   className={`${className}  rounded-md shadow-xl `}
                   src={imageLinks[itemKey]}
                 />
@@ -91,6 +92,7 @@ const Carousel = ({ imageLinks, className = '', nav = false }) => {
               // className={`${styles['swiper-button-prev']}`}
             >
               <img
+                lazy={true}
                 className={`mx-auto w-[18rem] xs:w-[23rem] 5xl:w-[30rem] md:w-[40rem] lg:w-full lg:h-full rounded-md   shadow-xl `}
                 src={imageLinks[itemKey]}
               />
