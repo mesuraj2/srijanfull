@@ -102,8 +102,8 @@ router.get("/allMessage/:chatId", fetchuser, async (req, res) => {
 });
 
 router.get("/allMessageApp/:chatId", fetchuser, async (req, res) => {
-  // console.log("page", req.query.page);
-  // console.log("from req.params", req.params);
+  console.log("page", req.query.page);
+  console.log("from req.params", req.params);
 
   const message = await Message.find({
     chat: req.params.chatId,
@@ -116,7 +116,7 @@ router.get("/allMessageApp/:chatId", fetchuser, async (req, res) => {
 
   res.json(message);
 });
-router.get("/allUnseenMessageApp/:chatId", fetchuser, async (req, res) => {
+router.get("/allUnseenMessageApp/:chatId", async (req, res) => {
   // console.log("page", req.query.page);
   // console.log("from req.params", req.params);
   console.log("from unread messages");
@@ -130,15 +130,28 @@ router.get("/allUnseenMessageApp/:chatId", fetchuser, async (req, res) => {
       // .limit(10)
       .populate("sender", "name pic email")
       .populate("chat");
-    res.json(message);
+
+    const message2 = await Message.find({
+      chat: req.params.chatId,
+      _id: { $lte: req.query.msgId },
+    })
+      .sort({ createdAt: -1 })
+      .skip((req.query.page - 1) * 10)
+      .limit(10)
+      .populate("sender", "name pic email")
+      .populate("chat");
+
+    // console.log("total message", { ...message2, ...message });
+
+    res.json({ message, message2 });
   } else {
     const message = await Message.find({
       chat: req.params.chatId,
       _id: { $lte: req.query.msgId },
     })
       .sort({ createdAt: -1 })
-      // .skip((req.query.page - 1) * 10)
-      // .limit(10)
+      .skip((req.query.page - 1) * 10)
+      .limit(10)
       .populate("sender", "name pic email")
       .populate("chat");
     res.json(message);
