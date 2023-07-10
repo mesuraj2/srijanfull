@@ -6,6 +6,7 @@ import NavbarT2 from "../../components/NavbarT2";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { ChatState } from "../../Context/ChatProvider";
+// import Form from
 import {
   GoogleMap,
   LoadScript,
@@ -368,7 +369,7 @@ const Radar = ({ data }) => {
           {/* <button className="btn btn-error text-white secondary_font bg-red-500 mt-5 mx-auto text-[1.2rem]  w-[10rem]">
               Search
             </button> */}
-          {chatoption ? (
+          {/* {chatoption ? (
             <JoinChatPanel
               setchatoption={setchatoption}
               chatdata={data}
@@ -376,7 +377,7 @@ const Radar = ({ data }) => {
             />
           ) : (
             <Form setchatoption={setchatoption} router={router} />
-          )}
+          )} */}
         </div>
       </div>
     </div>
