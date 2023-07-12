@@ -633,6 +633,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
                 chatId: createofferchat._id,
                 expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
                 user: users.user._id.toString(),
+                message: req.body.description
               });
 
               await User.findByIdAndUpdate(users.user._id.toString(), {
