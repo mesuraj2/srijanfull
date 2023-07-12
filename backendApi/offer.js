@@ -626,7 +626,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
         console.log("reached point after senfing message");
         user.forEach(async (users) => {
           try {
-            if (users.user != req.user.id && users.user) {
+            if (users.user._id != req.user.id && users.user) {
               console.log("create notificationion backend");
               const notifi = await notification.create({
                 chatName: req.body.offerName,

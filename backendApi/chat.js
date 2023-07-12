@@ -190,7 +190,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
 
     user.forEach(async (users) => {
       try {
-        if (users.user != req.user.id) {
+        if (users.user._id != req.user.id) {
           const notifi = await notification.create({
             chatName: "Cab share",
             chatId: cabsharechat._id,
