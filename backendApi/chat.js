@@ -214,30 +214,29 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   }
 });
 
-router.post("/cntUnsenMsg", async (req, res) => {
+router.get("/cntUnsenMsg",fetchuser, async (req, res) => {
+
   try {
     var cnt = 0;
     const result = await Chat.find(
       {
-        users: { $elemMatch: { $eq: req.body.id } },
+        users: { $elemMatch: { $eq: req.user.id } },
       },
       { _id: 1 }
     );
-    result.forEach(async (resu) => {
+    console.log(result);
+    for (const resu of result) {
       const lstMsgId = await Chat.findOne(
-        { _id: resu._id.toString(), "lastSeen.userId": req.body.id },
+        { _id: resu._id.toString(), "lastSeen.userId": req.user.id },
         { "lastSeen.$": 1 }
       );
-      // console.log(lstMsgId.lastSeen[0].lastMsgId.toString());
-      // res.send(lstMsgId.users[0].lastMsgId.toString());
       const CountUnseen = await Message.find({
         chat: resu._id.toString(),
         _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
       }).count();
       cnt = cnt + parseInt(CountUnseen);
-    });
+    };
 
-    // console.log(result)
     res.send({ message: "working", number: cnt });
   } catch (error) {
     res.send("some error from background");
