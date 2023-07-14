@@ -214,7 +214,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   }
 });
 
-router.get("/cntUnsenMsg",fetchuser, async (req, res) => {
+router.get("/cntUnsenMsg", fetchuser, async (req, res) => {
 
   try {
     var cnt = 0;
@@ -388,6 +388,16 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
   // //console.log(ischat)
   res.send(ischat[0]);
 });
+
+router.post("/getofferdetails", fetchuser, async (req, res) => {
+  const { chatId } = req.body;
+  var chatdetails = await Chat.find({
+    _id: chatId
+  }).populate("offerid")
+    .populate("admin")
+  res.send(chatdetails[0])
+
+})
 
 //@description     Create New Group Chat
 router.post("/group", fetchuser, async (req, res) => {
