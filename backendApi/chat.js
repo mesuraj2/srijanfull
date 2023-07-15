@@ -230,11 +230,16 @@ router.get("/cntUnsenMsg", fetchuser, async (req, res) => {
         { _id: resu._id.toString(), "lastSeen.userId": req.user.id },
         { "lastSeen.$": 1 }
       );
+      try{
       const CountUnseen = await Message.find({
         chat: resu._id.toString(),
         _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
       }).count();
       cnt = cnt + parseInt(CountUnseen);
+    }catch(e){
+      console.log('new chat')
+      continue
+    }
     };
 
     res.send({ message: "working", number: cnt });
