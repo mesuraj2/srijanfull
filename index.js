@@ -23,10 +23,21 @@ app
     const server = Express();
 
     connectDB();
+    const allowedOrigins = ['https://script.google.com', 'https://google.com'];
 
+    const corsOptions = {
+      origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+    };
     // server.use(cors({origin:'http://localhost:3000'}))
-
+    
     server.use(Express.json());
+    server.use(cors({corsOptions}))
     // server.use(fileupload());
 
     server.use("/api/auth", User);
