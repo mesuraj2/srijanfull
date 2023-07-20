@@ -3,7 +3,7 @@ import Carousel from '../../components/Carousel';
 import axios from 'axios'
 import { useToast } from '@chakra-ui/toast';
 
-const deletePage = () => {
+const DeletePage = () => {
   const [email, setemail] = useState('')
   const [unsub, setunsub] = useState(false)
   const [sure, setsure] = useState(false)
@@ -65,4 +65,4 @@ const deletePage = () => {
   );
 };
 
-export default deletePage;
+export default DeletePage;
