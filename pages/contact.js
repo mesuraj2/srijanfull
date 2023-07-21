@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const faqs = () => {
+const Faqs = () => {
   const router = useRouter();
   return (
     <div className="w-screen bg-[#B9E9FC]">
@@ -26,4 +26,4 @@ const faqs = () => {
   );
 };
 
-export default faqs;
+export default Faqs;

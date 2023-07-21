@@ -51,7 +51,7 @@ const privacy = () => {
           Privacy Policy
         </h1>
         {data.map((item, index) => (
-          <div className="flex flex-col gap-5 items-center">
+          <div key={index} className="flex flex-col gap-5 items-center">
             <p className="font-bold underline text-[1.15rem] text-justify">
               {item.title}
             </p>
