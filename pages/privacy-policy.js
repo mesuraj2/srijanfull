@@ -7,14 +7,34 @@ const data = [
   },
   {
     title: 'What type of Information We Collect',
-    disc: 'a. Personal Data: When you use the Picapool App, we may collect certain personal data, such as your email address, device location, and unique identifiers. These are necessary to provide you with accurate notifications of offers created by creators within your specified radius. Rest assured, your location data will be anonymized to protect your privacy.',
+    disc: "The app uses background location with the - allow all time setting to send accurate offer notifications to users based on their locality.  Our app offers a unique feature that allows users to avail special offers by creating a pool within a specific radius. Here's how it works:"
   },
   {
-    title: '',
-    disc: "b. App Permissions: The App may request access to certain device features, including sending notifications and accessing your device's location at all times. Granting these permissions is essential for the proper functioning of the App and to offer you a personalized experience.",
+    title: "",
+    disc: "Offer Pool Creation: If a user wishes to take advantage of an offer but requires more participants, they can create an offer pool within a certain radius."
   },
   {
-    title: 'Purpose of Data Collection',
+    title: "",
+    disc: "Proximity-Based Notifications: Other users of our app, whose latest location falls within the specified radius of the created offer pool, may receive a notification regarding the available offer. This ensures that users receive relevant offer notifications based on their proximity to the pool and the opportunity to participate in the offer."
+  },
+  {
+    title: "",
+    disc: "Location Data Usage: In order to facilitate the proximity-based notification system, our app collects and utilizes location data from users."
+  },
+  {
+    title: "",
+    disc: "Rest assured, your location data will be anonymized to protect your privacy."
+  },
+  {
+    title: "",
+    disc: " we may also collect certain personal data, such as your email address, and unique identifiers. These are necessary to authenticate and secure your data."
+  },
+  {
+    title: "",
+    disc: "The App may request access to certain device features, including sending notifications and accessing your device's location at all times. Granting these permissions is essential for the proper functioning of the App and to offer you a personalized experience.."
+  },
+  {
+    title: 'Purpose of Data Collection,
     disc: 'Facilitate accurate notifications of offers within your specified radius. Improve the performance and user experience of the App. Monitor the number of users logging in using Google Firebase analytics.',
   },
   {
