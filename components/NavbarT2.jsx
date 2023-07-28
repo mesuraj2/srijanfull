@@ -11,7 +11,7 @@ const NavbarT2 = () => {
   const links = {
     HOME: '/',
     ABOUT: '/about',
-    'PRIVACY POLICY': '/privacy',
+    'PRIVACY POLICY': '/privacy-policy',
     // CATEGORIES: '/categories',
     FAQs: '/faqs',
     // 'CONTACT US': '/contact',
