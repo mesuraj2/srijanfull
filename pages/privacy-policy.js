@@ -34,7 +34,7 @@ const data = [
     disc: "The App may request access to certain device features, including sending notifications and accessing your device's location at all times. Granting these permissions is essential for the proper functioning of the App and to offer you a personalized experience.."
   },
   {
-    title: 'Purpose of Data Collection,
+    title: 'Purpose of Data Collection',
     disc: 'Facilitate accurate notifications of offers within your specified radius. Improve the performance and user experience of the App. Monitor the number of users logging in using Google Firebase analytics.',
   },
   {
