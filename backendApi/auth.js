@@ -12,7 +12,9 @@ const setCookie = require("cookies-next").setCookie;
 const { OAuth2Client } = require("google-auth-library");
 
 const GoogleClientId =
-  "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com";
+  "371654252490-6eevc28leevep4vh3t1updnk0g0idnp6.apps.googleusercontent.com";
+//  "186522437348-31qgumsa05chts41arit264jqfhd7e6f.apps.googleusercontent.com"; // firebase 
+// "105287248693-sikcvtd0ucchi4r7g2gbceoophnmadjr.apps.googleusercontent.com";
 // "84972645868-0amqg2uookcfd4ed1jd171hjn2hrf6cu.apps.googleusercontent.com";
 
 const client = new OAuth2Client(GoogleClientId);
@@ -260,11 +262,11 @@ router.post("/login", async (req, res) => {
 router.get("/searchUser", fetchuser, async (req, res) => {
   const keyword = req.query.search
     ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
+      $or: [
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
+      ],
+    }
     : {};
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
@@ -378,6 +380,6 @@ router.post("/updatelocation", fetchuser, async (req, res) => {
   res.json({ message: "Updated Successfully", success: true });
 });
 
-router.post("/helper", async (req, res) => {});
+router.post("/helper", async (req, res) => { });
 
 module.exports = router;
