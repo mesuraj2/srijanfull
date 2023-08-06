@@ -230,16 +230,16 @@ router.get("/cntUnsenMsg", fetchuser, async (req, res) => {
         { _id: resu._id.toString(), "lastSeen.userId": req.user.id },
         { "lastSeen.$": 1 }
       );
-      try{
-      const CountUnseen = await Message.find({
-        chat: resu._id.toString(),
-        _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
-      }).count();
-      cnt = cnt + parseInt(CountUnseen);
-    }catch(e){
-      console.log('new chat')
-      continue
-    }
+      try {
+        const CountUnseen = await Message.find({
+          chat: resu._id.toString(),
+          _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
+        }).count();
+        cnt = cnt + parseInt(CountUnseen);
+      } catch (e) {
+        console.log('new chat')
+        continue
+      }
     };
 
     res.send({ message: "working", number: cnt });
@@ -406,30 +406,48 @@ router.post("/getofferdetails", fetchuser, async (req, res) => {
 
 //@description     Create New Group Chat
 router.post("/group", fetchuser, async (req, res) => {
-  // const {user,chatName}=req.body;
-  // console.log("suraj");
-
   try {
     var users = JSON.parse(req.body.users);
   } catch (error) {
     res.send(error);
   }
-  // console.log(users.length);
-  // if (users.length < 2) {
-  //   return res.send({
-  //     success: false,
-  //     message: "More than 2 users are required to form a private chat",
-  //   });
-  // }
   users.push(req.user.id);
   console.log(users);
+  // Get place and to for cabshare  (private chat)
+  const place = req.body.place ? req.body.place : false
+  const offerid = req.body.offerid ? req.body.offerid : false
+
   try {
-    const groupChat = await Chat.create({
-      admin: req.user.id,
-      chatName: req.body.name,
-      users: users,
-      isGroupChat: true,
-    });
+    if (place) {
+      const cabsharechat = await Chat.create({
+        chatName: req.body.name,
+        users: users,
+        isGroupChat: true,
+        isOfferChat: true,
+        isCabChat: true,
+        admin: req.user.id,
+        lastSeen: { userId: req.user.id },
+        place: place,
+      });
+    }
+    else {
+      // const groupChat = await Chat.create({
+      //   admin: req.user.id,
+      //   chatName: req.body.name,
+      //   users: users,
+      //   isGroupChat: true,
+      // });
+      const groupChat = await Chat.create({
+        chatName: req.body.name,
+        users: users,
+        isOfferChat: true,
+        isGroupChat: true,
+        admin: req.user.id,
+        lastSeen: { userId: req.user.id },
+        offerid: offerid,
+      });
+
+    }
 
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
       "users",
