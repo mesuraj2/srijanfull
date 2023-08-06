@@ -141,7 +141,6 @@ router.get("/allUnseenMessageApp/:chatId", async (req, res) => {
       .populate("sender", "name pic email")
       .populate("chat");
 
-    // console.log("total message", { ...message2, ...message });
 
     res.json({ message, message2 });
   } else {

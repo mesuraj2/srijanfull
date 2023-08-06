@@ -24,7 +24,7 @@ export default function CropperImg() {
         const form = new FormData();
         form.append("file", file);
         const { data } = await axios.post("/api/upload", form);
-        //console.log(data);
+        console.log(data);
         // setimageurl(data);
         setNewAvatarUrl("");
         setloading(false);
