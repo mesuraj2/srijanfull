@@ -178,7 +178,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       .filter((lolo) => {
         return lolo != "";
       });
-    nearusertoken = [...new Set(nearusertoken)] 
+    nearusertoken = [...new Set(nearusertoken)]
     // console.log(newuserdata);
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
@@ -429,6 +429,11 @@ router.post("/group", fetchuser, async (req, res) => {
         lastSeen: { userId: req.user.id },
         place: place,
       });
+      const fullGroupChat = await Chat.findOne({ _id: cabsharechat._id }).populate(
+        "users",
+        "-password"
+      );
+      res.status(200).json({ success: true, fullGroupChat });
     }
     else {
       // const groupChat = await Chat.create({
@@ -446,15 +451,14 @@ router.post("/group", fetchuser, async (req, res) => {
         lastSeen: { userId: req.user.id },
         offerid: offerid,
       });
-
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+        "users",
+        "-password"
+      );
+      res.status(200).json({ success: true, fullGroupChat });
     }
 
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-      "users",
-      "-password"
-    );
 
-    res.status(200).json({ success: true, fullGroupChat });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
