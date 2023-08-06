@@ -147,20 +147,20 @@ router.get("/categoryoffers", async (req, res) => {
     let location =
       radius > 0
         ? {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-                $maxDistance: radius,
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
+              $maxDistance: radius,
             },
-          }
+          },
+        }
         : {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
             },
-          };
+          },
+        };
     let searchquery = {
       description: {
         $text: {
@@ -605,6 +605,8 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
           .filter((lolo) => {
             return lolo != "";
           });
+        nearusertoken = [...new Set(nearusertoken)]
+
         // let new_near = []
         // user.forEach((item, index)=>{
         //   if(item.user != null){

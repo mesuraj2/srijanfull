@@ -178,7 +178,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       .filter((lolo) => {
         return lolo != "";
       });
-
+    nearusertoken = [...new Set(nearusertoken)] 
     // console.log(newuserdata);
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
