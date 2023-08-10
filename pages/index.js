@@ -98,10 +98,10 @@ const Home = () => {
           </ul>
         </div> */}
       <div className="flex items-center justify-center mx-auto mt-10 lg:mb-[8rem] lg:mt-10">
-        <SearchBar
+        {/* <SearchBar
           globalClassName={''}
           inputClassName={'w-[100%] md:w-[35rem]'}
-        />
+        /> */}
       </div>
       <Header />
       <About />

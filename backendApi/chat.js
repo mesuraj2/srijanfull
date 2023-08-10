@@ -178,7 +178,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
       .filter((lolo) => {
         return lolo != "";
       });
-
+    nearusertoken = [...new Set(nearusertoken)];
     // console.log(newuserdata);
     // console.log(user,nearusers, JSON.stringify(user))
     // console.log(JSON.stringify(user))
@@ -190,7 +190,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
 
     user.forEach(async (users) => {
       try {
-        if (users.user != req.user.id) {
+        if (users.user._id != req.user.id) {
           const notifi = await notification.create({
             chatName: "Cab share",
             chatId: cabsharechat._id,
@@ -214,30 +214,33 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
   }
 });
 
-router.post("/cntUnsenMsg", async (req, res) => {
+router.get("/cntUnsenMsg", fetchuser, async (req, res) => {
   try {
     var cnt = 0;
     const result = await Chat.find(
       {
-        users: { $elemMatch: { $eq: req.body.id } },
+        users: { $elemMatch: { $eq: req.user.id } },
       },
       { _id: 1 }
     );
-    result.forEach(async (resu) => {
+    console.log(result);
+    for (const resu of result) {
       const lstMsgId = await Chat.findOne(
-        { _id: resu._id.toString(), "lastSeen.userId": req.body.id },
+        { _id: resu._id.toString(), "lastSeen.userId": req.user.id },
         { "lastSeen.$": 1 }
       );
-      // console.log(lstMsgId.lastSeen[0].lastMsgId.toString());
-      // res.send(lstMsgId.users[0].lastMsgId.toString());
-      const CountUnseen = await Message.find({
-        chat: resu._id.toString(),
-        _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
-      }).count();
-      cnt = cnt + parseInt(CountUnseen);
-    });
+      try {
+        const CountUnseen = await Message.find({
+          chat: resu._id.toString(),
+          _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
+        }).count();
+        cnt = cnt + parseInt(CountUnseen);
+      } catch (e) {
+        console.log("new chat");
+        continue;
+      }
+    }
 
-    // console.log(result)
     res.send({ message: "working", number: cnt });
   } catch (error) {
     res.send("some error from background");
@@ -390,39 +393,67 @@ router.post("/fetchgroupChat", fetchuser, async (req, res) => {
   res.send(ischat[0]);
 });
 
+router.post("/getofferdetails", fetchuser, async (req, res) => {
+  const { chatId } = req.body;
+  var chatdetails = await Chat.find({
+    _id: chatId,
+  })
+    .populate("offerid")
+    .populate("admin");
+  res.send(chatdetails[0]);
+});
+
 //@description     Create New Group Chat
 router.post("/group", fetchuser, async (req, res) => {
-  // const {user,chatName}=req.body;
-  // console.log("suraj");
-
   try {
     var users = JSON.parse(req.body.users);
   } catch (error) {
     res.send(error);
   }
-  // console.log(users.length);
-  // if (users.length < 2) {
-  //   return res.send({
-  //     success: false,
-  //     message: "More than 2 users are required to form a private chat",
-  //   });
-  // }
   users.push(req.user.id);
   console.log(users);
+  // Get place and to for cabshare  (private chat)
+  const place = req.body.place ? req.body.place : false;
+  const offerid = req.body.offerid ? req.body.offerid : false;
+
   try {
-    const groupChat = await Chat.create({
-      admin: req.user.id,
-      chatName: req.body.name,
-      users: users,
-      isGroupChat: true,
-    });
-
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
-      "users",
-      "-password"
-    );
-
-    res.status(200).json({ success: true, fullGroupChat });
+    if (place) {
+      const cabsharechat = await Chat.create({
+        chatName: req.body.name,
+        users: users,
+        isGroupChat: true,
+        isOfferChat: true,
+        isCabChat: true,
+        admin: req.user.id,
+        lastSeen: { userId: req.user.id },
+        place: place,
+      });
+      const fullGroupChat = await Chat.findOne({
+        _id: cabsharechat._id,
+      }).populate("users", "-password");
+      res.status(200).json({ success: true, fullGroupChat });
+    } else {
+      // const groupChat = await Chat.create({
+      //   admin: req.user.id,
+      //   chatName: req.body.name,
+      //   users: users,
+      //   isGroupChat: true,
+      // });
+      const groupChat = await Chat.create({
+        chatName: req.body.name,
+        users: users,
+        isOfferChat: true,
+        isGroupChat: true,
+        admin: req.user.id,
+        lastSeen: { userId: req.user.id },
+        offerid: offerid,
+      });
+      const fullGroupChat = await Chat.findOne({ _id: groupChat._id }).populate(
+        "users",
+        "-password"
+      );
+      res.status(200).json({ success: true, fullGroupChat });
+    }
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -590,6 +621,12 @@ router.put("/groupadd", async (req, res) => {
 router.put("/groupaddOffer", fetchuser, async (req, res) => {
   const { chatId } = req.body;
 
+  let chat = Chat.find({ _id: chatId });
+
+  if (!chat) {
+    res.send({ message: "no chat exits here" });
+  }
+
   let check = await Chat.find({
     _id: chatId,
     users: { $elemMatch: { $eq: req.user.id } },
@@ -600,6 +637,7 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
     return res.send({ exits: true });
   }
   // check if the requester is admin
+
   const added = await Chat.findByIdAndUpdate(
     chatId,
     {

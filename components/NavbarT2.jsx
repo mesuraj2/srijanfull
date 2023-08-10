@@ -11,8 +11,9 @@ const NavbarT2 = () => {
   const links = {
     HOME: '/',
     ABOUT: '/about',
+    'PRIVACY POLICY': '/privacy-policy',
     // CATEGORIES: '/categories',
-    // FAQs: '/faqs',
+    FAQs: '/faqs',
     // 'CONTACT US': '/contact',
   };
   const router = useRouter();

@@ -143,7 +143,7 @@ router.get("/categoryoffers", async (req, res) => {
     let coordinte =
       req.query.lat && req.query.long
         ? [parseFloat(req.query.lat), parseFloat(req.query.long)]
-        : [17.42, 78.41];
+        : [17.59, 78.12];
     let location =
       radius > 0
         ? {
@@ -192,17 +192,18 @@ router.get("/categoryoffers", async (req, res) => {
     }
     let query;
     let limit = req.query.limit ? req.query.limit : 16;
-    // //console.log("query", queryObject);
+    // console.log("query", queryObject);
     // //console.log("final query")
-    if (Array.isArray(req.query.sort)) {
-      let obj = {};
-      req.query.sort.forEach((element) => {
-        obj[element] = 1;
-      });
-      query = await offer.find(queryObject).sort(obj).limit(limit).skip(skip);
-    } else {
-      query = await offer.find(queryObject).limit(limit).skip(skip);
-    }
+    // if (Array.isArray(req.query.sort)) {
+    //   let obj = {};
+    //   req.query.sort.forEach((element) => {
+    //     obj[element] = 1;
+    //   });
+    //   query = await offer.find(queryObject).sort(obj).limit(limit).skip(skip);
+    // } else {
+    //   query = await offer.find(queryObject).limit(limit).skip(skip);
+    // }
+    query = await offer.find(queryObject);
     res.status(200).json(query);
   } catch (error) {
     res.send(error);
@@ -605,6 +606,8 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
           .filter((lolo) => {
             return lolo != "";
           });
+        nearusertoken = [...new Set(nearusertoken)];
+
         // let new_near = []
         // user.forEach((item, index)=>{
         //   if(item.user != null){
@@ -626,13 +629,14 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
         console.log("reached point after senfing message");
         user.forEach(async (users) => {
           try {
-            if (users.user != req.user.id && users.user) {
+            if (users.user._id != req.user.id && users.user) {
               console.log("create notificationion backend");
               const notifi = await notification.create({
                 chatName: req.body.offerName,
                 chatId: createofferchat._id,
                 expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
                 user: users.user._id.toString(),
+                message: req.body.description,
               });
 
               await User.findByIdAndUpdate(users.user._id.toString(), {

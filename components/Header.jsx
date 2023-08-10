@@ -32,6 +32,10 @@ const Header = () => {
               Explore
             </button> */}
           </div>
+          {/* <a href='https://play.google.com/store/apps/details?id=com.picapool'> */}
+          <a href='/picapool.apk'>
+            <img className=' h-24' alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' />
+          </a>
         </div>
         {/* 14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] */}
         {/* <Carousel imageLinks={imageLinks} /> */}
