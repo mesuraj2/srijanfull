@@ -624,6 +624,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
           notification: {
             title: `New Offer Chat: ${req.body.offerName}`,
             body: "Click here to join chat",
+            type: 'new_offer',
           },
         });
         console.log("reached point after senfing message");
