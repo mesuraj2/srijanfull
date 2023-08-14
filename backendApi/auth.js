@@ -178,10 +178,10 @@ router.post("/google", async (req, res) => {
               });
               console.log("new google signup");
               let locationRes = await location.create({
-                Location: {
-                  type: "Point",
-                  coordinates: JSON.parse(locationdata),
-                },
+                // Location: {
+                //   type: "Point",
+                //   coordinates: JSON.parse(locationdata),
+                // },
                 user: result._id,
               });
               console.log("new google signup 2");
