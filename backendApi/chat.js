@@ -185,7 +185,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
     // console.log("near usertoken", nearusertoken)
     sendMessage({
       tokens: nearusertoken,
-      notification: { title: "New Cab Share", body: "Click here to join chat", type: 'new_offer' },
+      notification: { title: "New Cab Share", body: "Click here to join chat", type: 'new_cab' },
     });
 
     user.forEach(async (users) => {
