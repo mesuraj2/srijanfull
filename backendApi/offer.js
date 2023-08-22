@@ -23,7 +23,7 @@ const admin = require("firebase-admin");
 // });
 // console.log(firebase.getApp())
 
-async function sendMessage({ tokens, notification }) {
+async function sendMessage({ tokens, notification,type }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
   console.log("sending message to ", tokens);
@@ -45,7 +45,7 @@ async function sendMessage({ tokens, notification }) {
         .messaging()
         .send({
           token: tokens[i], // ['token_1', 'token_2', ...]
-          data: { hello: "world" },
+          type: type,
           notification: notification,
           android: {
             priority: "high", // Here goes priority
@@ -624,8 +624,8 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
           notification: {
             title: `New Offer Chat: ${req.body.offerName}`,
             body: "Click here to join chat",
-            type: 'new_offer',
           },
+          type: 'new_offer',
         });
         console.log("reached point after senfing message");
         user.forEach(async (users) => {
