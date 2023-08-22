@@ -622,7 +622,7 @@ router.put("/groupadd", async (req, res) => {
 router.put("/groupaddOffer", fetchuser, async (req, res) => {
   const { chatId } = req.body;
 
-  let chat = await Chat.find({ _id: chatId });
+  let chat = await Chat.find({ _id: chatId }).populate("users");
 
   if (!chat) {
     res.send({ message: "no chat exits here" });
@@ -635,9 +635,9 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
   // //console.log(req.user.id)
   console.log(chat.users)
   console.log(chat)
-  if(chat.users.length == 1){
+  if(chat[0].users.length == 1){
     sendMessage({
-      tokens: nearusertoken,
+      tokens: [chat[0].users[0].fcmtoken],
       notification: { title: "New user joined the Chat", body: "Click here to join chat" },
       type: 'new_chat'
     });
