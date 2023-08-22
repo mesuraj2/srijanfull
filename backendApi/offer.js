@@ -45,7 +45,7 @@ async function sendMessage({ tokens, notification,type }) {
         .messaging()
         .send({
           token: tokens[i], // ['token_1', 'token_2', ...]
-          type: type,
+          // type: type,
           notification: notification,
           android: {
             priority: "high", // Here goes priority
