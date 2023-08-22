@@ -6,11 +6,11 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const { v4: uuidv4 } = require("uuid");
 
-const spacesEndpoint = new aws.Endpoint("nyc3.digitaloceanspaces.com");
+const spacesEndpoint = new aws.Endpoint("blr1.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
-  accessKeyId: "DO00XANWZAYBMX9X2VEH",
-  secretAccessKey: "PIKP0JOdEvlBUBzs4kHZx6an/OztJd11ACFgMaVyZaU",
+  accessKeyId: "DO006GKWVFFHZWCYWJWJ",
+  secretAccessKey: "num2svoEpHfUeICX8U8dNKeFjYf4r09mahdd7EmTZx0",
 });
 
 const upload = multer({
