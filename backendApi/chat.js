@@ -633,9 +633,9 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
     users: { $elemMatch: { $eq: req.user.id } },
   });
   // //console.log(req.user.id)
-  console.log(check.users)
-  console.log(check)
-  if(check.users.length == 1){
+  console.log(chat.users)
+  console.log(chat)
+  if(chat.users.length == 1){
     sendMessage({
       tokens: nearusertoken,
       notification: { title: "New user joined the Chat", body: "Click here to join chat" },
