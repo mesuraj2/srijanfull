@@ -81,7 +81,7 @@ router.post("/udteLstMsg", fetchuser, async (req, res) => {
     // console.log("from chat", chat);
     const result = await Chat.updateOne(
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
-      { $set: { "lastSeen.$.lastMsgId": chat.latestMessage } }
+      { $set: { "lastSeen.$.lastMsgId": chat.latestMessage, "notification": false } }
     );
     // console.log("result", result);
     res.send("Ok");
