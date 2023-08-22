@@ -622,7 +622,7 @@ router.put("/groupadd", async (req, res) => {
 router.put("/groupaddOffer", fetchuser, async (req, res) => {
   const { chatId } = req.body;
 
-  let chat = Chat.find({ _id: chatId });
+  let chat = await Chat.find({ _id: chatId });
 
   if (!chat) {
     res.send({ message: "no chat exits here" });
