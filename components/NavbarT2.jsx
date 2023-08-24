@@ -10,8 +10,8 @@ import { ChatState } from '../Context/ChatProvider';
 const NavbarT2 = () => {
   const links = {
     HOME: '/',
-    // ABOUT: '/about',
-    'PRIVACY POLICY': '/privacy',
+    ABOUT: '/about',
+    'PRIVACY POLICY': '/privacy-policy',
     // CATEGORIES: '/categories',
     FAQs: '/faqs',
     // 'CONTACT US': '/contact',

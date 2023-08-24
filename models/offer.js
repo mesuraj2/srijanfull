@@ -50,6 +50,7 @@ const Offerschema = mongoose.Schema(
   { timestamps: true }
 );
 
+Offerschema.index({ Location: "2dsphere" });
 module.exports = mongoose.model("offers", Offerschema);
 
 

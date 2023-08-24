@@ -23,7 +23,7 @@ const admin = require("firebase-admin");
 // });
 // console.log(firebase.getApp())
 
-async function sendMessage({ tokens, notification }) {
+async function sendMessage({ tokens, notification,type }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
   console.log("sending message to ", tokens);
@@ -45,7 +45,7 @@ async function sendMessage({ tokens, notification }) {
         .messaging()
         .send({
           token: tokens[i], // ['token_1', 'token_2', ...]
-          data: { hello: "world" },
+          // type: type,
           notification: notification,
           android: {
             priority: "high", // Here goes priority
@@ -143,7 +143,7 @@ router.get("/categoryoffers", async (req, res) => {
     let coordinte =
       req.query.lat && req.query.long
         ? [parseFloat(req.query.lat), parseFloat(req.query.long)]
-        : [17.42, 78.41];
+        : [17.59, 78.12];
     let location =
       radius > 0
         ? {
@@ -192,17 +192,18 @@ router.get("/categoryoffers", async (req, res) => {
     }
     let query;
     let limit = req.query.limit ? req.query.limit : 16;
-    // //console.log("query", queryObject);
+    // console.log("query", queryObject);
     // //console.log("final query")
-    if (Array.isArray(req.query.sort)) {
-      let obj = {};
-      req.query.sort.forEach((element) => {
-        obj[element] = 1;
-      });
-      query = await offer.find(queryObject).sort(obj).limit(limit).skip(skip);
-    } else {
-      query = await offer.find(queryObject).limit(limit).skip(skip);
-    }
+    // if (Array.isArray(req.query.sort)) {
+    //   let obj = {};
+    //   req.query.sort.forEach((element) => {
+    //     obj[element] = 1;
+    //   });
+    //   query = await offer.find(queryObject).sort(obj).limit(limit).skip(skip);
+    // } else {
+    //   query = await offer.find(queryObject).limit(limit).skip(skip);
+    // }
+    query = await offer.find(queryObject);
     res.status(200).json(query);
   } catch (error) {
     res.send(error);
@@ -605,6 +606,8 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
           .filter((lolo) => {
             return lolo != "";
           });
+        nearusertoken = [...new Set(nearusertoken)];
+
         // let new_near = []
         // user.forEach((item, index)=>{
         //   if(item.user != null){
@@ -622,6 +625,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
             title: `New Offer Chat: ${req.body.offerName}`,
             body: "Click here to join chat",
           },
+          type: 'new_offer',
         });
         console.log("reached point after senfing message");
         user.forEach(async (users) => {
@@ -633,7 +637,7 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
                 chatId: createofferchat._id,
                 expireAt: new Date(new Date().getTime() + 1000 * 60 * expiry),
                 user: users.user._id.toString(),
-                message: req.body.description
+                message: req.body.description,
               });
 
               await User.findByIdAndUpdate(users.user._id.toString(), {
