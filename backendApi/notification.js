@@ -28,7 +28,7 @@ router.get("/all", fetchuser, async (req, res) => {
     .find({ user: req.user.id })
     .populate("chatId")
     .populate("user", "-password")
-    .sort({ "createdAt": 1 });
+    .sort({ "createdAt": -1 });
 
   updatedChat = await users.populate(updatedChat, {
     path: "chatId.admin",
