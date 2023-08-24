@@ -17,17 +17,17 @@ const Categories = () => {
         `/categories/${catigoryName}?lat=${coordinate[0]}&long=${coordinate[1]}`
       );
     } else {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          let coordinate = [
-            position.coords.latitude,
-            position.coords.longitude,
-          ];
-          localStorage.setItem('coordinates', JSON.stringify(coordinate));
-          window.location.reload();
-        },
-        (err) => console.log(err)
-      );
+      // navigator.geolocation.getCurrentPosition(
+      //   (position) => {
+      //     let coordinate = [
+      //       position.coords.latitude,
+      //       position.coords.longitude,
+      //     ];
+      //     localStorage.setItem('coordinates', JSON.stringify(coordinate));
+      //     window.location.reload();
+      //   },
+      //   (err) => console.log(err)
+      // );
     }
   };
 

@@ -37,19 +37,19 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  const saveLocaion = () => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let coordinate = [position.coords.latitude, position.coords.longitude];
-        localStorage.setItem('coordinates', JSON.stringify(coordinate));
-      },
-      (err) => console.log(err)
-    );
-  };
+  // const saveLocaion = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       let coordinate = [position.coords.latitude, position.coords.longitude];
+  //       localStorage.setItem('coordinates', JSON.stringify(coordinate));
+  //     },
+  //     (err) => console.log(err)
+  //   );
+  // };
 
-  useEffect(() => {
-    // saveLocaion();
-  }, []);
+  // useEffect(() => {
+  //   // saveLocaion();
+  // }, []);
 
   return (
     <div className="bg-[#B9E9FC]">

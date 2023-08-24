@@ -15,29 +15,29 @@ const ChatProvider = ({ children }) => {
   const [latitude, setlatitude] = useState()
   const [longitude, setlongitude] = useState()
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("user"));
-    setUser(userInfo);
+  // useEffect(() => {
+  //   const userInfo = JSON.parse(localStorage.getItem("user"));
+  //   setUser(userInfo);
 
     
-    if(localStorage.getItem("coordinates")){
-      let coordinate=JSON.parse(localStorage.getItem("coordinates"))
-      setlatitude(coordinate[0])  
-      setlongitude(coordinate[1])
-    }
-    else{
-      navigator.geolocation.getCurrentPosition(
-        position => { 
-          setlatitude(position.coords.latitude)
-          setlongitude(position.coords.longitude)
-          let coordinate=[position.coords.latitude,position.coords.longitude]
-          localStorage.setItem("coordinates",JSON.stringify(coordinate))
-        }, 
-        err => console.log(err)
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]);
+  //   if(localStorage.getItem("coordinates")){
+  //     let coordinate=JSON.parse(localStorage.getItem("coordinates"))
+  //     setlatitude(coordinate[0])  
+  //     setlongitude(coordinate[1])
+  //   }
+  //   else{
+  //     navigator.geolocation.getCurrentPosition(
+  //       position => { 
+  //         setlatitude(position.coords.latitude)
+  //         setlongitude(position.coords.longitude)
+  //         let coordinate=[position.coords.latitude,position.coords.longitude]
+  //         localStorage.setItem("coordinates",JSON.stringify(coordinate))
+  //       }, 
+  //       err => console.log(err)
+  //     );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [router]);
 
   return (
     <ChatContext.Provider
