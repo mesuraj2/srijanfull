@@ -29,6 +29,7 @@ const Header = () => {
           <a
             target="_blank"
             href="https://play.google.com/store/apps/details?id=com.picapool"
+            rel="noreferrer"
           >
             <img
               className=" h-24"
