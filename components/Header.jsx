@@ -26,7 +26,10 @@ const Header = () => {
 
           <div className="flex flex-row gap-10 mt-5 mr-auto"></div>
           {/* <a href='https://play.google.com/store/apps/details?id=com.picapool'> */}
-          <a href="/picapool.apk">
+          <a
+            target="_blank"
+            href="https://play.google.com/store/apps/details?id=com.picapool"
+          >
             <img
               className=" h-24"
               alt="Get it on Google Play"
