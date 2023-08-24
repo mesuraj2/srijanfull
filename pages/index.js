@@ -48,7 +48,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    saveLocaion();
+    // saveLocaion();
   }, []);
 
   return (
