@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Button } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { Box, Button, Heading, Text } from '@chakra-ui/react';
 import { NextSeo } from "next-seo";
+import { useRouter } from 'next/router';
 
 export default function NotFound() {
 

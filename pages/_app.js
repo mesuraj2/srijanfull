@@ -1,17 +1,16 @@
 import "../styles/globals.css";
 
-import Head from "next/head";
 import { ChakraProvider } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
-import FooterT2 from "../components/FooterT2";
-import ChatProvider from "../Context/ChatProvider";
-import { useRouter } from "next/router";
-import NextNProgress from "nextjs-progressbar";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { Provider } from "react-redux";
-import { store } from "../redux/store";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import Script from "next/script";
+import NextNProgress from "nextjs-progressbar";
+import { Provider } from "react-redux";
+import ChatProvider from "../Context/ChatProvider";
+import FooterT2 from "../components/FooterT2";
 import NavbarT2 from "../components/NavbarT2";
+import { store } from "../redux/store";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
