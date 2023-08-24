@@ -16,28 +16,19 @@ const Header = () => {
           </h1>
 
           <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify">
-            At <span className="font-[600]">Pica Pool</span>, we believe in the
+            At <span className="font-[600]">Picapool</span>, we believe in the
             power of collaboration for bigger savings. Our platform connects
             people looking for the similar products, allowing them to pool their
             orders and access exclusive discounts. Join our community of smart
             shoppers and discover a new way to save. Start maximizing your
-            savings with <span className="font-[600]">Pica Pool</span> today.
+            savings with <span className="font-[600]">Picapool</span> today.
           </p>
 
-          <div className="flex flex-row gap-10 mt-5 mr-auto">
-            {/* <button className="btn btn- tracking-wider text-[1.1rem] secondary_font font-normal bg-black/90">
-              Download
-            </button> */}
-            {/* <button className="hidden lg:flex btn btn-outline tracking-wider text-[1.1rem] secondary_font font-normal">
-              Explore
-            </button> */}
-          </div>
+          <div className="flex flex-row gap-10 mt-5 mr-auto"></div>
         </div>
-        {/* 14xl:w-[28rem] 14xl:h-[28rem] w-[20rem] h-[20rem] md:w-[24rem] md:h-[24rem] */}
-        {/* <Carousel imageLinks={imageLinks} /> */}
         <div className="w-[16rem] md:w-[30%] mx-auto hidden lg:block">
           <img
-            src="https://picapool.nyc3.cdn.digitaloceanspaces.com/logo/IMG_3340__1_-removebg-preview%20(1)%20(1).png"
+            src="assets/pp_logo.png"
             alt="pica-pool-logo"
             className="w-[16rem] md:w-[16rem] mx-auto"
           />

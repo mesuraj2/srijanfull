@@ -15,22 +15,22 @@ const CatigoryDisplay = () => {
       <div className="w-[90%] md:w-[80%] flex flex-col mx-auto items-center">
         <div className="grid lg:grid-cols-2 grid-cols-2 gap-3 md:gap-10">
           <img
-            src="https://picapool.nyc3.cdn.digitaloceanspaces.com/home-catigory/food%203.png"
+            src="assets/categories/Food.png"
             alt=""
             className="6xl:w-[20rem] w-[13rem]  xl:w-[28rem] rounded-md shadow-md "
           />
           <img
-            src="https://picapool.nyc3.cdn.digitaloceanspaces.com/home-catigory/Grocery%202.png"
+            src="assets/categories/Cab.png"
             alt=""
             className="6xl:w-[20rem] w-[13rem]  xl:w-[28rem] rounded-md shadow-md"
           />
           <img
-            src="https://picapool.nyc3.cdn.digitaloceanspaces.com/home-catigory/Cab%20sharing%202.png"
+            src="assets/categories/Grocery.png"
             alt=""
             className="6xl:w-[20rem] w-[13rem]  xl:w-[28rem] rounded-md shadow-md"
           />
           <img
-            src="https://picapool.nyc3.cdn.digitaloceanspaces.com/home-catigory/clothing%202.png"
+            src="assets/categories/Clothing.png"
             alt=""
             className="6xl:w-[20rem] w-[13rem]  xl:w-[28rem] rounded-md shadow-md"
           />

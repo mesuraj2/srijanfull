@@ -10,7 +10,7 @@ import { ChatState } from '../Context/ChatProvider';
 const NavbarT2 = () => {
   const links = {
     HOME: '/',
-    ABOUT: '/about',
+    // ABOUT: '/about',
     'PRIVACY POLICY': '/privacy',
     // CATEGORIES: '/categories',
     FAQs: '/faqs',
@@ -74,7 +74,7 @@ const NavbarT2 = () => {
             href="/"
             className="btn btn-ghost normal-case text-[1.2rem] md:text-[1.5rem] main__font tracking-wider font-bold"
           >
-            Pica Pool
+            Picapool
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -93,9 +93,7 @@ const NavbarT2 = () => {
             ))}
           </ul>
         </div>
-        <div className="navbar-end">
-          {signedin ? <UserPanel setsignedin={setsignedin} /> : <GetStarted />}
-        </div>
+        <div className="navbar-end"></div>
       </div>
     </div>
   );
