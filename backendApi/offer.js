@@ -23,7 +23,7 @@ const admin = require("firebase-admin");
 // });
 // console.log(firebase.getApp())
 
-async function sendMessage({ tokens, notification,type }) {
+async function sendMessage({ tokens, notification, data }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
   console.log("sending message to ", tokens);
@@ -45,7 +45,7 @@ async function sendMessage({ tokens, notification,type }) {
         .messaging()
         .send({
           token: tokens[i], // ['token_1', 'token_2', ...]
-          // type: type,
+          data: data,
           notification: notification,
           android: {
             priority: "high", // Here goes priority
@@ -147,20 +147,20 @@ router.get("/categoryoffers", async (req, res) => {
     let location =
       radius > 0
         ? {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-                $maxDistance: radius,
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
+              $maxDistance: radius,
             },
-          }
+          },
+        }
         : {
-            Location: {
-              $near: {
-                $geometry: { type: "Point", coordinates: coordinte },
-              },
+          Location: {
+            $near: {
+              $geometry: { type: "Point", coordinates: coordinte },
             },
-          };
+          },
+        };
     let searchquery = {
       description: {
         $text: {
@@ -621,11 +621,11 @@ router.post("/createappoffer", fetchuser, async (req, res) => {
         // console.log("near usertoken", nearusertoken)
         sendMessage({
           tokens: nearusertoken,
-          notification: {
+          data: {
             title: `New Offer Chat: ${req.body.offerName}`,
             body: "Click here to join chat",
+            type: 'new_offer'
           },
-          type: 'new_offer',
         });
         console.log("reached point after senfing message");
         user.forEach(async (users) => {

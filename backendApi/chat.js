@@ -22,7 +22,7 @@ firebase.initializeApp({
 });
 // console.log(firebase.getApp())
 
-async function sendMessage({ tokens, notification, type }) {
+async function sendMessage({ tokens, notification, data }) {
   // Fetch the tokens from an external datastore (e.g. database)
   // const tokens = await getTokensFromDatastore();
   console.log("sending message to ", tokens);
@@ -43,7 +43,7 @@ async function sendMessage({ tokens, notification, type }) {
         .messaging()
         .send({
           token: tokens[i], // ['token_1', 'token_2', ...]
-          // type: type,
+          data: data,
           notification: notification,
           android: {
             priority: "high", // Here goes priority
@@ -185,7 +185,7 @@ router.post("/cabsharechat", fetchuser, async (req, res) => {
     // console.log("near usertoken", nearusertoken)
     sendMessage({
       tokens: nearusertoken,
-      notification: { title: "New Cab Share", body: "Click here to join chat" },
+      data: { title: "New Cab Share", body: "Click here to join chat" },
       type: 'new_cab'
     });
 
@@ -635,11 +635,10 @@ router.put("/groupaddOffer", fetchuser, async (req, res) => {
   // //console.log(req.user.id)
   console.log(chat.users)
   console.log(chat)
-  if(chat[0].users.length == 1){
+  if (chat[0].users.length == 1) {
     sendMessage({
       tokens: [chat[0].users[0].fcmtoken],
-      notification: { title: "New user joined the Chat", body: "Click here to join chat" },
-      type: 'new_chat'
+      data: { title: "New user joined the Chat", body: "Click here to join chat", type: 'new_chat' },
     });
   }
   if (check.length == 1) {
