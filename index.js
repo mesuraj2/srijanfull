@@ -11,6 +11,7 @@ const Feedback = require("./backendApi/feedback");
 // let fileupload = require("express-fileupload");
 const next = require("next");
 const { v4 } = require("uuid");
+const notification = require("./models/notification");
 
 const PORT = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -35,11 +36,13 @@ app
     server.use("/api/message", Message);
     server.use("/api/noti", Notification);
     server.use("/api/offer", Offer);
-    server.use("/api/feedback",Feedback)
+    server.use("/api/feedback", Feedback)
 
     server.get("*", (req, res) => {
       return handle(req, res);
     });
+
+
 
     const server2 = server.listen(
       PORT,
@@ -54,48 +57,19 @@ app
       },
     });
 
+    const changeStream = notification.watch();
+
     io.on("connection", (socket) => {
       // //console.log("Connected to via locally");
-      socket.on("setup", (userData) => {
-        // //console.log(userData);
-        socket.join(userData);
-        socket.emit("connected");
+
+      changeStream.on('change', (change) => {
+        if (change.operationType === 'insert') {
+          socket.emit('data', change.fullDocument);
+        }
       });
 
-      socket.on("join chat", (room) => {
-        socket.join(room);
-        // //console.log("User Joined Room: " + room);
-      });
-      socket.on("typing", (room) => socket.in(room).emit("typing"));
-      socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
-
-      socket.on("new offerchat", (newMessageRecieved, userId) => {
-        newMessageRecieved.forEach((user) => {
-          if (user.user) {
-            if (user.user._id == userId) return;
-            socket
-              .in(user.user._id)
-              .emit("newChatNotification", user.user.latestNotif);
-          }
-        });
-      });
-
-      socket.on("new message", (newMessageRecieved) => {
-        // //console.log(newMessageRecieved)
-        var chat = newMessageRecieved.chat;
-        if (!chat.users) return //console.log("chat.users not defined");
-        chat.users.forEach((user) => {
-          // //console.log(user._id);
-          if (user._id == newMessageRecieved.sender._id) return;
-          // //console.log("suraj")
-          socket.in(user._id).emit("message recieved", newMessageRecieved);
-          // socket.emit("message recieved", newMessageRecieved);
-        });
-      });
-
-      socket.off("setup", () => {
-        // //console.log("USER DISCONNECTED");
-        socket.leave(userData._id);
+      socket.on('disconnect', () => {
+        console.log('Client disconnected');
       });
     });
   })
