@@ -66,27 +66,33 @@ app
       },
     });
 
-    const changeStream = notification.watch();
+    // const changeStream = notification.watch();
 
-    io.on("connection", (socket) => {
-      // //console.log("Connected to via locally");
-      socket.on('setup', (room) => {
-        console.log(`${socket.id} joined ${room}`);
-        socket.join(room)
-        socket.emit("connected");
-      })
+    // io.on("connection", (socket) => {
+    //   console.log("Connected to via locally");
+    //   socket.on('setup', (room) => {
+    //     console.log(`${socket.id} joined ${room}`);
+    //     socket.join(room)
+    //     socket.emit("connected");
+    //   })
 
-      changeStream.on('change', (change) => {
-        console.log(change.fullDocument);
-        if (change.operationType === 'insert') {
-          socket.emit('data', change.fullDocument);
-        }
-      });
+    //   changeStream.on('change', (change) => {
+    //     console.log("Change from socket", change);
+    //     if (change.operationType === 'insert') {
+    //       socket.emit('data', change.fullDocument);
+    //       // socket.to(change.fullDocument.user).emit("badgecount", change.fullDocument)
+    //     }
+    //   });
 
-      socket.on('disconnect', () => {
-        console.log('Client disconnected');
-      });
-    });
+    //   changeStream.on('error', error => {
+    //     console.error('Error in ChangeStream:', error);
+    //   });      
+
+    //   socket.on('disconnect', () => {
+    //     console.log('Client disconnected');
+    //   });
+    // });
+
   })
   .catch((ex) => {
     console.error(ex.stack);
