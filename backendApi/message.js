@@ -4,6 +4,39 @@ const Chat = require("../models/chat");
 const User = require("../models/users");
 const fetchuser = require("./fetchuser");
 const Message = require("../models/Message");
+const admin = require("firebase-admin");
+
+async function sendMessage({ token, notification, data }) {
+  console.log("sending message to ", token, {
+    token: token, // ['token_1', 'token_2', ...]
+    data: data,
+    notification: notification ? notification : null,
+    android: {
+      priority: "high", // Here goes priority
+    },
+  });
+  // for (var i = 0; i < tokens.length; i++) {
+  try {
+    await admin
+      .messaging()
+      .send({
+        token: token, // ['token_1', 'token_2', ...]
+        data: data,
+        android: {
+          priority: "high", // Here goes priority
+        },
+      })
+      .then((response) => {
+        console.log("Successfully sent message:", response);
+      })
+      .catch((error) => {
+        console.log("Error sending message:", error);
+      });
+  } catch (error) {
+    console.log("Error sending message to :", token, error);
+  }
+}
+// }
 
 router.post("/", fetchuser, async (req, res) => {
   const { content, chatId } = req.body;
@@ -22,7 +55,7 @@ router.post("/", fetchuser, async (req, res) => {
     message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",
-      select: "name pic email",
+      select: "name pic email fcmtoken",
     });
     await Chat.updateOne(
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
@@ -32,6 +65,48 @@ router.post("/", fetchuser, async (req, res) => {
     await Chat.findByIdAndUpdate(req.body.chatId, {
       latestMessage: message,
     });
+
+
+    // const result = await Chat.find(
+    //   {
+    //     users: { $elemMatch: { $eq: req.user.id } },
+    //   },
+    //   { _id: 1 }
+    // );
+    // console.log("CHAT LIST", result);
+    // for (const resu of result) {
+    // console.log(message, message.chat)
+    for (const user of message.chat.users) {
+      var data = {}
+      var cnt = 0;
+      const lstMsgId = await Chat.findOne(
+        { _id: chatId, "lastSeen.userId": user._id },
+        { "lastSeen.$": 1 }
+      );
+      try {
+        const CountUnseen = await Message.find({
+          chat: chatId,
+          _id: { $gt: lstMsgId.lastSeen[0].lastMsgId.toString() },
+        }).count();
+        cnt = cnt + parseInt(CountUnseen);
+      } catch (e) {
+        console.log("Error sending to ", e, user.email);
+        continue;
+      }
+      if(count === 1) {
+        data.count = cnt.toString()+" unread message";
+      }else{
+        data.count = cnt.toString()+" unread messages";
+      }
+      data.chatId = chatId.toString();
+      data.chatName = message.chat.chatName;
+      data.type = "unread_message_count"
+      console.log("USER NOTIFICATION DETAILS", user, data)
+      sendMessage({ token: user.fcmtoken, data: data, })
+    }
+    // }
+
+
     res.json(message);
   } catch (error) {
     res.send(error);
