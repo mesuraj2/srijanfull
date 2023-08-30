@@ -27,7 +27,14 @@ router.get("/all", fetchuser, async (req, res) => {
   let updatedChat = await notification
     .find({ user: req.user.id })
     .populate("chatId")
-    .populate("users", "-password")
+    .populate("user", "-password")
+    .populate({
+      path: 'chatId',
+      populate: {
+        path: 'users',
+        model: 'users'
+      }
+    })
     .sort({ "createdAt": -1 });
 
   updatedChat = await users.populate(updatedChat, {
