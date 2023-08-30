@@ -511,11 +511,11 @@ router.put("/groupremove", fetchuser, async (req, res) => {
 
   // check if the requester is admin
   const chatData = await Chat.findOne({ _id: chatId });
-  if (chatData.isCabChat) {
-    await Chat.findByIdAndUpdate(chatId, {
-      admin: null,
-    });
-  }
+  // if (chatData.isCabChat) {
+  //   await Chat.findByIdAndUpdate(chatId, {
+  //     admin: null,
+  //   });
+  // }
 
   const removed = await Chat.findByIdAndUpdate(
     chatId,
