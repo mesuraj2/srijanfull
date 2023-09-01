@@ -93,11 +93,12 @@ router.post("/", fetchuser, async (req, res) => {
         console.log("Error sending to ", e, user.email);
         continue;
       }
-      if(count === 1) {
-        data.count = cnt.toString()+" unread message";
+      if(cnt === 1) {
+        data.body = cnt.toString()+" unread message";
       }else{
-        data.count = cnt.toString()+" unread messages";
+        data.body = cnt.toString()+" unread messages";
       }
+      data.count = cnt;
       data.chatId = chatId.toString();
       data.chatName = message.chat.chatName;
       data.type = "unread_message_count"
