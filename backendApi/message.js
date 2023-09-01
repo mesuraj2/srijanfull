@@ -98,7 +98,7 @@ router.post("/", fetchuser, async (req, res) => {
       }else{
         data.body = cnt.toString()+" unread messages";
       }
-      data.count = cnt;
+      data.count = cnt.toString();
       data.chatId = chatId.toString();
       data.chatName = message.chat.chatName;
       data.type = "unread_message_count"
