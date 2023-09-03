@@ -470,7 +470,7 @@ router.get("/fetchChat", fetchuser, async (req, res) => {
       .populate("users", "-password")
       .populate("latestMessage")
       .populate("admin")
-      .sort({ "latestMessage.createdAt": -1 })
+      .sort({ updatedAt: -1 })
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",
