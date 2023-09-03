@@ -468,11 +468,7 @@ router.get("/fetchChat", fetchuser, async (req, res) => {
   try {
     await Chat.find({ users: { $elemMatch: { $eq: req.user.id } } })
       .populate("users", "-password")
-      .populate({
-        path: 'latestMessage',
-        model: 'Messages',
-        // options: { sort: { 'createdAt': -1 } }
-      })
+      .populate("latestMessage")
       .populate("admin")
       .sort({ "latestMessage.createdAt": -1 })
       .then(async (results) => {
