@@ -103,7 +103,9 @@ router.post("/", fetchuser, async (req, res) => {
       data.chatName = message.chat.chatName;
       data.type = "unread_message_count"
       console.log("USER NOTIFICATION DETAILS", user, data)
-      sendMessage({ token: user.fcmtoken, data: data, })
+      if (cnt > 0) {
+        sendMessage({ token: user.fcmtoken, data: data, })
+      }
     }
     // }
 
