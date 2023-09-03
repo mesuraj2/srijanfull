@@ -471,9 +471,10 @@ router.get("/fetchChat", fetchuser, async (req, res) => {
       .populate({
         path: 'latestMessage',
         model: 'Messages',
-        options: { sort: { 'createdAt': -1 } }
+        // options: { sort: { 'createdAt': -1 } }
       })
       .populate("admin")
+      .sort({"latestMessage.createdAt":-1})
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",
