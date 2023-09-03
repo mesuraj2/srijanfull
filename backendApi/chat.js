@@ -224,7 +224,7 @@ router.get("/cntUnsenMsg", fetchuser, async (req, res) => {
       },
       { _id: 1 }
     );
-    console.log(result);
+    // console.log(result);
     for (const resu of result) {
       const lstMsgId = await Chat.findOne(
         { _id: resu._id.toString(), "lastSeen.userId": req.user.id },
@@ -474,7 +474,7 @@ router.get("/fetchChat", fetchuser, async (req, res) => {
         // options: { sort: { 'createdAt': -1 } }
       })
       .populate("admin")
-      .sort({"latestMessage.createdAt":-1})
+      .sort({ "latestMessage.createdAt": -1 })
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",

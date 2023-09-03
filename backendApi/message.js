@@ -93,10 +93,10 @@ router.post("/", fetchuser, async (req, res) => {
         console.log("Error sending to ", e, user.email);
         continue;
       }
-      if(cnt === 1) {
-        data.body = cnt.toString()+" unread message";
-      }else{
-        data.body = cnt.toString()+" unread messages";
+      if (cnt === 1) {
+        data.body = cnt.toString() + " unread message";
+      } else {
+        data.body = cnt.toString() + " unread messages";
       }
       data.count = cnt.toString();
       data.chatId = chatId.toString();
@@ -117,9 +117,10 @@ router.post("/", fetchuser, async (req, res) => {
 router.post("/updtelstMsgSn", fetchuser, async (req, res) => {
   try {
     // console.log("started");
+    const chat = await Chat.findOne({ _id: req.body.chatId });
     const result = await Chat.updateOne(
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
-      { $set: { "lastSeen.$.lastMsgId": req.body.MsgId } }
+      { $set: { "lastSeen.$.lastMsgId": req.body.MsgId, "updatedAt": chat.updatedAt } }
     );
     // console.log("result", result);
     res.send("Ok");
@@ -157,7 +158,7 @@ router.post("/udteLstMsg", fetchuser, async (req, res) => {
     // console.log("from chat", chat);
     const result = await Chat.updateOne(
       { _id: req.body.chatId, "lastSeen.userId": req.user.id },
-      { $set: { "lastSeen.$.lastMsgId": chat.latestMessage, "notification": false } }
+      { $set: { "lastSeen.$.lastMsgId": chat.latestMessage, "notification": false, "updatedAt": chat.updatedAt } }
     );
     // console.log("result", result);
     res.send("Ok");
