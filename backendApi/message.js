@@ -77,6 +77,9 @@ router.post("/", fetchuser, async (req, res) => {
     // for (const resu of result) {
     // console.log(message, message.chat)
     for (const user of message.chat.users) {
+      if (user._id == req.user.id){
+        continue;
+      }
       var data = {}
       var cnt = 0;
       const lstMsgId = await Chat.findOne(
