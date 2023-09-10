@@ -9,8 +9,8 @@ const { v4: uuidv4 } = require("uuid");
 const spacesEndpoint = new aws.Endpoint("blr1.digitaloceanspaces.com");
 const s3 = new aws.S3({
   endpoint: spacesEndpoint,
-  accessKeyId: "DO006GKWVFFHZWCYWJWJ",
-  secretAccessKey: "num2svoEpHfUeICX8U8dNKeFjYf4r09mahdd7EmTZx0",
+  accessKeyId: "DO00QPQ4XHGAFE3RAJTM",
+  secretAccessKey: "Ch+dorKSWIHuA//ChjS+MlZ60sDmlqCopeF7XlE7yl8",
 });
 
 const upload = multer({
