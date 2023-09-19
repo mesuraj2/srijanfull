@@ -4,10 +4,10 @@ import Carousel from "./Carousel";
 const About = () => {
   const [tabSelected, setTabSelected] = useState("Clothing");
   return (
-    <div className="w-[80vw] mx-auto bg-white py-10">
-      <h3 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-black/70 underline text-center">
+    <div className="w-[80vw] mx-auto bg-white py-16">
+      <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider">
         Our Story
-      </h3>
+      </h1>
       <div className="flex flex-col items-center justify-center">
         <p className="text-[1rem] md:text-[1.1rem] 14xl:text-[1.2rem] secondary_font tracking-wider text-justify my-5 w-full lg:w-[90%]">
           The inception of Pica Pool was sparked by a simple yet profound

@@ -4,8 +4,8 @@ import React from "react";
 const CatigoryDisplay = () => {
   const router = useRouter();
   return (
-    <div className="w-screen md:py-[4rem]  mb-[8rem] flex flex-col gap-10 bg-[#FFA500] text-white/90">
-      <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider mt-10">
+    <div className="w-screen py-[1rem] md:py-[4rem] flex flex-col gap-10 bg-[#FFA500] text-white/90">
+      <h1 className="text-center text-[3rem] md:text-[4rem] main__font tracking-wider">
         Categories
       </h1>
       <p className="text-[.9rem] xs:text-[1rem] md:text-[1.2rem] secondary_font tracking-wider text-center w-[90%] md:w-[75%] mx-auto ">

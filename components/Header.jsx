@@ -3,10 +3,10 @@ import Carousel from "./Carousel";
 
 const Header = () => {
   return (
-    <div className=" md:py-[4rem] bg-[#FFA500]">
+    <div className=" md:py-[4rem] bg-[#FFA500] mt-5">
       <div className="flex flex-col lg:flex-row gap-[2rem]  justify-center mt-5 items-center w-[90%] 14xl:w-[80%] mx-auto">
         <div className="w-[95%] md:w-[80%] lg:w-[60%] xl:w-[45%] 14xl:w-[50%] flex flex-col gap-5 lg:items-start items-center justify-center lg:mb-auto mx-auto mb-5 md:mb-0 md:mt-[1rem] mt-[3rem]">
-          <h1 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] secondary_font font-[600] tracking-wider text-white/95 ">
+          <h1 className="text-[1.8rem] md:text-[2.3rem] 14xl:text-[2.3rem] main__font font-[500] tracking-wider text-white/95 ">
             Redefining the Art of Saving
           </h1>
 
