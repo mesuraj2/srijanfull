@@ -1,39 +1,31 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
-import GetStarted from './GetStarted';
-import UserPanel from './UserPanel';
-import { getCookie } from 'cookies-next';
-import axios from 'axios';
-import { ChatState } from '../Context/ChatProvider';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import GetStarted from "./GetStarted";
+import UserPanel from "./UserPanel";
+import { getCookie } from "cookies-next";
+import axios from "axios";
+import { ChatState } from "../Context/ChatProvider";
 
 const NavbarT2 = () => {
   const links = {
-    HOME: '/',
+    HOME: "/",
     // ABOUT: '/about',
-    'PRIVACY POLICY': '/privacy-policy',
+    "PRIVACY POLICY": "/privacy-policy",
     // CATEGORIES: '/categories',
-    FAQs: '/faqs',
+    // FAQs: "/faqs",
     // 'CONTACT US': '/contact',
   };
   const router = useRouter();
   const [signedin, setsignedin] = useState(false);
   const { user, setUser, notification } = ChatState();
 
-  useEffect(() => {
-    // axios.get('')
-    if (getCookie('authtoken')) {
-      setsignedin(true);
-    } else {
-      setsignedin(false);
-    }
-  }, [user]);
   return (
-    <div>
+    <div className="flex flex-row justify-center">
       {/* <h1 className="text-center text-[3rem] lg:text-[4rem] 14xl:text-[4rem]  main__font tracking-wider">
         Pica Pool
       </h1> */}
-      <div className="navbar bg-transparent w-[90%] mx-auto">
+      <div className="navbar w-[90%] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -61,8 +53,8 @@ const NavbarT2 = () => {
                   key={index}
                   className={`${
                     `${links[linkKey].toLowerCase()}` === router.pathname
-                      ? ' font-[600] text-black/70 bg-black/10 rounded-md'
-                      : ''
+                      ? " font-[600] text-black/70 bg-black/10 rounded-md"
+                      : ""
                   } cursor-pointer hover:-translate-y-1 transition-all`}
                 >
                   <Link href={links[linkKey]}>{linkKey}</Link>
@@ -74,7 +66,11 @@ const NavbarT2 = () => {
             href="/"
             className="btn btn-ghost normal-case text-[1.2rem] md:text-[1.5rem] main__font tracking-wider font-bold"
           >
-            Picapool
+            <img
+              className=" h-10"
+              alt="Get it on Google Play"
+              src="assets/picapool_with_text.png"
+            />
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -84,8 +80,8 @@ const NavbarT2 = () => {
                 key={index}
                 className={`${
                   `${links[linkKey].toLowerCase()}` === router.pathname
-                    ? 'border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]'
-                    : ''
+                    ? "border-b-black/80 border-b-4 font-[600] text-black/70 -translate-y-[2px]"
+                    : ""
                 } cursor-pointer hover:-translate-y-1 transition-all`}
               >
                 <Link href={links[linkKey]}>{linkKey}</Link>

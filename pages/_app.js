@@ -44,7 +44,7 @@ page_path: window.location.pathname,
             </Head>
             <NextNProgress color={"#E0425C"} />
             <Provider store={store}>
-              <div className="w-screen bg-[#B9E9FC]">
+              <div className="w-screen bg-white">
                 <div className="mx-auto">
                   {router.pathname !== "/404" &&
                     router.pathname !== "/chat" &&
